@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230d0d0d%27/%3E%3Ctext x=%2716%27 y=%2724%27 font-family=%27Helvetica Neue,Arial,sans-serif%27 font-size=%2720%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23D4A800%27%3EL%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only dark">
+  <title>Redaction / Reveal System — Left in the Edit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    :root {
+      --bg:          #0a0a0a;
+      --surface:     #111111;
+      --surface-2:   #181818;
+      --thumb-bg:    #141414;
+      --border:      #1e1e1e;
+      --border-2:    #2a2a2a;
+
+      --gold:        #D4A800;
+      --gold-dim:    #3a2d00;
+      --gold-text:   #f0c840;
+      --crimson:     #C8102E;
+      --green:       #2E7D4F;
+
+      --text:        #e8e8e0;
+      --muted:       #888;
+      --faint:       #333;
+
+      --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --mono: 'SF Mono', 'Cascadia Code', 'Courier New', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      margin-top: 36px;
+      border-bottom: 1px solid var(--border);
+      padding: 48px 80px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .page-header-left { display: flex; flex-direction: column; gap: 8px; }
+    .page-eyebrow { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+    .page-title { font-size: 28px; font-weight: 700; letter-spacing: -0.4px; color: #fff; }
+    .page-title span { color: var(--gold); }
+    .page-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .page-meta { font-size: 11px; color: var(--faint); letter-spacing: 1px; text-align: right; line-height: 1.8; }
+
+    /* ── Layout ── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 80px 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 72px;
+    }
+
+    /* ── Section heading ── */
+    .section-num {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-num .num { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+    .section-num h2 { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
+    .section-num .note { font-size: 12px; color: var(--muted); margin-left: auto; }
+
+    .lead {
+      font-size: 14px; color: var(--text); line-height: 1.7;
+      max-width: 760px; margin-bottom: 28px;
+    }
+    .lead strong { color: var(--gold-text); font-weight: 600; }
+
+    /* ── Device cards ── */
+    .device-stack { display: flex; flex-direction: column; gap: 1px; }
+    .device {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .device-meta {
+      padding: 28px 28px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+    }
+    .device-num { font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
+    .device-name { font-size: 16px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
+    .device-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    .device-sample {
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        repeating-conic-gradient(#0f0f0f 0% 25%, #0a0a0a 0% 50%)
+        0 0 / 14px 14px;
+    }
+
+    /* ── Sample frame (thumbnail-ish canvas) ── */
+    .frame {
+      background: var(--thumb-bg);
+      border-radius: 2px;
+      padding: 22px 26px;
+      min-width: 340px;
+      max-width: 460px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .frame-label {
+      font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 14px; font-weight: 600;
+    }
+    .frame-body { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.35; }
+    .frame-source {
+      margin-top: 14px; font-size: 10px; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--gold);
+      font-family: var(--mono); font-weight: 600;
+    }
+
+    /* Device 1 — Amber reveal line */
+    .reveal-line-wrap { position: relative; display: inline-block; }
+    .reveal-line-wrap .hidden-text { color: rgba(232,232,224,0.18); }
+    .reveal-line-wrap .revealed { color: var(--gold); }
+    .reveal-line-wrap::after {
+      content: ""; position: absolute; left: -2px; right: -2px;
+      top: 50%; height: 2px; background: var(--gold);
+      box-shadow: 0 0 12px rgba(212,168,0,0.5);
+    }
+
+    /* Device 2 — Redaction bar */
+    .redact-bar {
+      display: inline-block; background: #0d0d0d;
+      color: #0d0d0d; padding: 0 4px; border-radius: 1px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Device 3 — Cut marker */
+    .cut-marker {
+      display: inline-block; width: 0; height: 1em;
+      vertical-align: middle; margin: 0 6px;
+      border-left: 2px solid var(--gold);
+      box-shadow: 0 0 8px rgba(212,168,0,0.6);
+    }
+    .cut-bracket {
+      color: var(--gold); font-weight: 800;
+      font-family: var(--mono); padding: 0 4px;
+    }
+
+    /* Device 4 — Before / after */
+    .ba-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .ba-cell { background: var(--thumb-bg); padding: 14px 16px; }
+    .ba-label {
+      font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+      font-weight: 700; margin-bottom: 8px;
+    }
+    .ba-cell.official .ba-label { color: var(--muted); }
+    .ba-cell.footage  .ba-label { color: var(--gold); }
+    .ba-text { font-size: 12.5px; line-height: 1.45; color: var(--text); }
+
+    /* Device 5 — Timestamp reveal */
+    .ts-reveal {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: -0.5px;
+      text-shadow: 0 0 18px rgba(212,168,0,0.35);
+    }
+    .ts-label {
+      font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--muted); font-weight: 600; margin-top: 6px;
+    }
+
+    /* Device 6 — Document highlight */
+    .doc-frame {
+      background: #f4f1e8; color: #1a1a1a;
+      padding: 18px 22px; font-family: 'Times New Roman', serif;
+      font-size: 13px; line-height: 1.6;
+      border-radius: 1px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+    }
+    .doc-frame .doc-hdr {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: #555; margin-bottom: 8px; font-weight: 700;
+      font-family: var(--font);
+    }
+    .doc-highlight {
+      background: rgba(212,168,0,0.25);
+      border-bottom: 2px solid var(--gold);
+      padding: 1px 2px;
+    }
+
+    /* ── Rules ── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .rules-col {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 24px;
+    }
+    .rules-col .col-label {
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      font-weight: 700; margin-bottom: 18px;
+    }
+    .rules-col.do-col .col-label { color: var(--green); }
+    .rules-col.dont-col .col-label { color: var(--crimson); }
+    .rules-list { display: flex; flex-direction: column; gap: 8px; }
+    .rules-item {
+      font-size: 12.5px; color: var(--text); line-height: 1.55;
+      padding-left: 14px; position: relative;
+    }
+    .rules-item::before {
+      content: ""; position: absolute; left: 0; top: 9px;
+      width: 4px; height: 4px; border-radius: 50%;
+    }
+    .do-col   .rules-item::before { background: var(--green);   }
+    .dont-col .rules-item::before { background: var(--crimson); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .page-header { padding: 40px 24px 32px; flex-direction: column; gap: 12px; align-items: flex-start; }
+      .content { padding: 40px 24px 80px; }
+      .device { grid-template-columns: 1fr; }
+      .device-meta { border-right: none; border-bottom: 1px solid var(--border); }
+      .device-sample { padding: 24px; }
+      .frame { min-width: 0; }
+      .rules-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Hub nav ── */
+    .hub-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      height: 36px; background: rgba(10,10,10,0.95);
+      border-bottom: 1px solid #1e1e1e;
+      display: flex; align-items: center; padding: 0 28px;
+    }
+    .hub-nav a {
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #484848; text-decoration: none;
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 600; transition: color 0.15s;
+    }
+    .hub-nav a:hover { color: #e0e0e0; }
+  </style>
+</head>
+<body>
+<div class="hub-nav">
+  <a href="../hub.html">← Hub</a>
+</div>
+
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-eyebrow">Left in the Edit</div>
+    <h1 class="page-title">Redaction / <span>Reveal System</span></h1>
+    <p class="page-sub">A visual language for cuts, omissions, and reveal moments</p>
+  </div>
+  <div class="page-meta">
+    Version 1.0 · May 2026<br>
+    Source: Brand Review & Action Plan
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ── 01 Why this exists ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">01</span>
+      <h2>Why this exists</h2>
+      <span class="note">The visual idea behind the channel name</span>
+    </div>
+    <p class="lead">
+      The name <em>Left in the Edit</em> is about what gets cut, omitted, or hidden. The brand needs a visual
+      device that says the same thing: <strong>something was removed, something is being recovered, something
+      is being revealed</strong>. That's what this system is for.
+    </p>
+    <p class="lead">
+      Six devices. All work together. Amber is reserved for the reveal point — never the redaction itself.
+      That separation is what makes the system readable: charcoal hides, amber surfaces.
+    </p>
+  </div>
+
+  <!-- ── 02 The six devices ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">02</span>
+      <h2>The six devices</h2>
+      <span class="note">Each one shows a different kind of "left in the edit"</span>
+    </div>
+
+    <div class="device-stack">
+
+      <!-- 1. Amber reveal line -->
+      <div class="device">
+        <div class="device-meta">
+          <span class="device-num">01</span>
+          <span class="device-name">Amber Reveal Line</span>
+          <p class="device-desc">A thin amber line that slides across text or an image to reveal the missing detail underneath. The hero move — use it once per video.</p>
+        </div>
+        <div class="device-sample">
+          <div class="frame">
+            <div class="frame-label">Officer statement · page 4</div>
+            <div class="frame-body">
+              "I never <span class="reveal-line-wrap"><span class="revealed">drew my weapon</span></span> during the stop."
+            </div>
+            <div class="frame-source">Bodycam contradicts at 04:12</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Redaction bar -->
+      <div class="device">
+        <div class="device-meta">
+          <span class="device-num">02</span>
+          <span class="device-name">Redaction Bar</span>
+          <p class="device-desc">A solid charcoal/black bar covering a word, timestamp, face, or line of text. Treats the redaction as a real object on the page, not a graphic flourish.</p>
+        </div>
+        <div class="device-sample">
+          <div class="frame">
+            <div class="frame-label">Internal report · redacted</div>
+            <div class="frame-body">
+              Witness <span class="redact-bar">█████████</span> stated the suspect "appeared <span class="redact-bar">██████████</span>" before officers arrived.
+            </div>
+            <div class="frame-source">Released under FOIA 02-2026</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Cut marker -->
+      <div class="device">
+        <div class="device-meta">
+          <span class="device-num">03</span>
+          <span class="device-name">Cut Marker</span>
+          <p class="device-desc">A small amber vertical slash or bracket showing exactly where the official edit cut. Use it when calling attention to where the recording stopped, the report ended, or the page broke.</p>
+        </div>
+        <div class="device-sample">
+          <div class="frame">
+            <div class="frame-label">Bodycam timeline · 04:11 → 04:13</div>
+            <div class="frame-body">
+              "Sir, I need you to step out of the<span class="cut-marker"></span><span class="cut-bracket">]</span>
+            </div>
+            <div class="frame-source">Camera stops · 2-second gap</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Before / after -->
+      <div class="device">
+        <div class="device-meta">
+          <span class="device-num">04</span>
+          <span class="device-name">Before / After Frame</span>
+          <p class="device-desc">A split between the official narrative and what the footage actually shows. The structural workhorse — use it whenever the case turns on a contradiction.</p>
+        </div>
+        <div class="device-sample">
+          <div class="frame" style="padding: 18px;">
+            <div class="ba-grid">
+              <div class="ba-cell official">
+                <div class="ba-label">Official report</div>
+                <div class="ba-text">"Suspect was non-compliant from initial contact."</div>
+              </div>
+              <div class="ba-cell footage">
+                <div class="ba-label">Footage</div>
+                <div class="ba-text">Suspect complies with commands for 14 seconds before contact.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Timestamp reveal -->
+      <div class="device">
+        <div class="device-meta">
+          <span class="device-num">05</span>
+          <span class="device-name">Timestamp Reveal</span>
+          <p class="device-desc">A specific moment as the hook: <em>04:12</em>, <em>11 minutes</em>, <em>400 days</em>. Single number, oversized, amber. Works as a thumbnail device and as an act break.</p>
+        </div>
+        <div class="device-sample">
+          <div class="frame" style="text-align:center;">
+            <div class="ts-reveal">04:12</div>
+            <div class="ts-label">The moment the camera cut</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Document highlight -->
+      <div class="device">
+        <div class="device-meta">
+          <span class="device-num">06</span>
+          <span class="device-name">Document Highlight</span>
+          <p class="device-desc">An amber underline or box around the exact phrase from a report, court filing, or court record. The "show, don't tell" device — let the source speak.</p>
+        </div>
+        <div class="device-sample">
+          <div class="frame" style="padding:0; background:transparent; box-shadow:none;">
+            <div class="doc-frame">
+              <div class="doc-hdr">Incident Report · 26-04827</div>
+              At approximately 19:42 hrs the reporting officer arrived on scene
+              and observed <span class="doc-highlight">the subject already in handcuffs</span>
+              prior to the arrival of unit 4-Tom-12. Subject was transported without further incident.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 03 Rules ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">03</span>
+      <h2>Usage Rules</h2>
+      <span class="note">Used wrong, the system turns the channel into a tabloid</span>
+    </div>
+
+    <p class="lead">
+      The system only works if every redaction and every reveal corresponds to something real in the case file.
+      The moment we start redacting random words because it looks dramatic, the credibility goes.
+    </p>
+
+    <div class="rules-grid">
+      <div class="rules-col do-col">
+        <div class="col-label">Do</div>
+        <div class="rules-list">
+          <div class="rules-item">Use redaction and reveal graphics to show missing context.</div>
+          <div class="rules-item">Reveal one key detail at a time.</div>
+          <div class="rules-item">Reserve amber for the reveal point — never the redaction.</div>
+          <div class="rules-item">Pair every reveal with a source label or timestamp where possible.</div>
+          <div class="rules-item">Use it for contradictions, omissions, timeline gaps, and official-report conflicts.</div>
+          <div class="rules-item">Match the device to what was actually cut: bar for redaction, line for hidden text, cut marker for stopped recording, before/after for narrative conflict.</div>
+        </div>
+      </div>
+      <div class="rules-col dont-col">
+        <div class="col-label">Don't</div>
+        <div class="rules-list">
+          <div class="rules-item">Don't redact random words just to look mysterious.</div>
+          <div class="rules-item">Don't imply secret information where there is none.</div>
+          <div class="rules-item">Don't use amber on the redaction — it should hide, not glow.</div>
+          <div class="rules-item">Don't use more than one reveal device per moment.</div>
+          <div class="rules-item">Don't manufacture a "gap" the record doesn't actually contain.</div>
+          <div class="rules-item">Don't reveal something the viewer would also need to see in full context — that goes in the body of the video, not as a graphic device.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="../sidebar.js"></script>
+</body>
+</html>

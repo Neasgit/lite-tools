@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230d0d0d%27/%3E%3Ctext x=%2716%27 y=%2724%27 font-family=%27Helvetica Neue,Arial,sans-serif%27 font-size=%2720%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23D4A800%27%3EL%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only dark">
+  <title>Editorial Standards — Left in the Edit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    :root {
+      --bg:          #0a0a0a;
+      --surface:     #111111;
+      --surface-2:   #181818;
+      --border:      #1e1e1e;
+      --border-2:    #2a2a2a;
+
+      --gold:        #D4A800;
+      --gold-dim:    #3a2d00;
+      --gold-text:   #f0c840;
+      --crimson:     #C8102E;
+      --crimson-dim: #2d0009;
+      --green:       #2E7D4F;
+      --green-dim:   #0d2018;
+
+      --text:        #e8e8e0;
+      --muted:       #888;
+      --faint:       #333;
+
+      --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      margin-top: 36px;
+      border-bottom: 1px solid var(--border);
+      padding: 48px 80px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .page-header-left { display: flex; flex-direction: column; gap: 8px; }
+    .page-eyebrow {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--muted); font-weight: 500;
+    }
+    .page-title { font-size: 28px; font-weight: 700; letter-spacing: -0.4px; color: #fff; }
+    .page-title span { color: var(--gold); }
+    .page-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .page-meta { font-size: 11px; color: var(--faint); letter-spacing: 1px; text-align: right; line-height: 1.8; }
+
+    /* ── Layout ── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 80px 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 72px;
+    }
+
+    /* ── Section heading ── */
+    .section-num {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-num .num { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+    .section-num h2 { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
+    .section-num .note { font-size: 12px; color: var(--muted); margin-left: auto; }
+
+    /* ── Lead paragraph ── */
+    .lead {
+      font-size: 14px; color: var(--text); line-height: 1.7;
+      max-width: 760px; margin-bottom: 28px;
+    }
+    .lead strong { color: var(--gold-text); font-weight: 600; }
+
+    /* ── Rule rows ── */
+    .rules { display: flex; flex-direction: column; gap: 1px; }
+    .rule {
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 24px;
+      align-items: center;
+      padding: 18px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+    .rule-num {
+      font-size: 11px; font-weight: 700; color: var(--gold);
+      letter-spacing: 2px; font-family: 'SF Mono', 'Cascadia Code', monospace;
+    }
+    .rule-text { font-size: 13.5px; color: var(--text); line-height: 1.55; }
+    .rule-text em {
+      font-style: normal; color: var(--gold-text);
+      font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 12.5px;
+    }
+
+    /* ── Do / Don't language pair ── */
+    .lang-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .lang-col {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 24px;
+    }
+    .lang-col .col-label {
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      font-weight: 700; margin-bottom: 18px;
+    }
+    .lang-col.do-col .col-label { color: var(--green); }
+    .lang-col.dont-col .col-label { color: var(--crimson); }
+    .lang-list { display: flex; flex-direction: column; gap: 8px; }
+    .lang-item {
+      font-size: 12.5px; color: var(--text); line-height: 1.55;
+      padding-left: 14px; position: relative;
+    }
+    .lang-item::before {
+      content: ""; position: absolute; left: 0; top: 9px;
+      width: 4px; height: 4px; border-radius: 50%;
+    }
+    .do-col .lang-item::before  { background: var(--green); }
+    .dont-col .lang-item::before { background: var(--crimson); }
+    .lang-item code {
+      font-family: 'SF Mono', 'Cascadia Code', monospace;
+      font-size: 11.5px; color: var(--gold-text);
+      background: rgba(212,168,0,0.07); padding: 1px 6px;
+      border: 1px solid var(--gold-dim); border-radius: 2px;
+    }
+
+    /* ── Pre-publish test ── */
+    .test-stack { display: flex; flex-direction: column; gap: 10px; }
+    .test-row {
+      display: grid;
+      grid-template-columns: 50px 1fr;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--gold);
+    }
+    .test-num {
+      font-size: 24px; font-weight: 700; color: var(--gold);
+      line-height: 1; letter-spacing: -1px;
+    }
+    .test-q { font-size: 14px; color: var(--text); line-height: 1.5; }
+
+    /* ── Callout ── */
+    .callout {
+      margin-top: 40px;
+      padding: 24px 28px;
+      background: var(--surface-2);
+      border: 1px solid var(--border-2);
+      border-left: 3px solid var(--crimson);
+      border-radius: 2px;
+    }
+    .callout-label {
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--crimson); font-weight: 700; margin-bottom: 10px;
+    }
+    .callout-text { font-size: 13px; color: var(--text); line-height: 1.7; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .page-header { padding: 40px 24px 32px; flex-direction: column; gap: 12px; align-items: flex-start; }
+      .content { padding: 40px 24px 80px; }
+      .lang-grid { grid-template-columns: 1fr; }
+      .rule { grid-template-columns: 1fr; gap: 6px; }
+    }
+
+    /* ── Hub nav ── */
+    .hub-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      height: 36px; background: rgba(10,10,10,0.95);
+      border-bottom: 1px solid #1e1e1e;
+      display: flex; align-items: center; padding: 0 28px;
+    }
+    .hub-nav a {
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #484848; text-decoration: none;
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 600; transition: color 0.15s;
+    }
+    .hub-nav a:hover { color: #e0e0e0; }
+  </style>
+</head>
+<body>
+<div class="hub-nav">
+  <a href="../hub.html">← Hub</a>
+</div>
+
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-eyebrow">Left in the Edit</div>
+    <h1 class="page-title">Editorial <span>Standards</span></h1>
+    <p class="page-sub">Evidence before narrative · The rules every claim must pass</p>
+  </div>
+  <div class="page-meta">
+    Version 1.0 · May 2026<br>
+    Source: Brand Review & Action Plan
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ── 01 Principle ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">01</span>
+      <h2>Principle</h2>
+      <span class="note">Evidence-led, not conclusion-led</span>
+    </div>
+
+    <p class="lead">
+      The channel is <strong>evidence-led, not conclusion-led</strong>. Every claim in a script, thumbnail, title,
+      or description must be supported by footage, court records, police statements, official documents, or
+      clearly attributed reporting. If a claim cannot be sourced, it gets rewritten or removed — not softened.
+    </p>
+    <p class="lead">
+      These standards exist so the channel stays trustworthy as it grows. Once trust is lost it does not come back.
+      Bake the rules into the pipeline and you stop having to make the same judgement call every week.
+    </p>
+  </div>
+
+  <!-- ── 02 The Rules ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">02</span>
+      <h2>The Rules</h2>
+      <span class="note">9 rules · enforced at script and review</span>
+    </div>
+
+    <div class="rules">
+      <div class="rule">
+        <span class="rule-num">01</span>
+        <div class="rule-text">Every claim must be supported by footage, court records, police statements, official documents, or clearly attributed reporting.</div>
+      </div>
+      <div class="rule">
+        <span class="rule-num">02</span>
+        <div class="rule-text">Do not imply guilt beyond what the footage or records support.</div>
+      </div>
+      <div class="rule">
+        <span class="rule-num">03</span>
+        <div class="rule-text">Do not use gore, grief, or distress as the hook.</div>
+      </div>
+      <div class="rule">
+        <span class="rule-num">04</span>
+        <div class="rule-text">Do not include graphic moments unless they materially change the viewer's understanding.</div>
+      </div>
+      <div class="rule">
+        <span class="rule-num">05</span>
+        <div class="rule-text">Use careful attribution: <em>allegedly</em>, <em>police say</em>, <em>court records state</em>, <em>the footage appears to show</em>, <em>according to the report</em>.</div>
+      </div>
+      <div class="rule">
+        <span class="rule-num">06</span>
+        <div class="rule-text">Correct errors visibly. A pinned comment, a card, or an on-screen note — not a quiet edit.</div>
+      </div>
+      <div class="rule">
+        <span class="rule-num">07</span>
+        <div class="rule-text">Do not frame real people as characters for entertainment.</div>
+      </div>
+      <div class="rule">
+        <span class="rule-num">08</span>
+        <div class="rule-text">Do not overstate certainty where the record is unclear.</div>
+      </div>
+      <div class="rule">
+        <span class="rule-num">09</span>
+        <div class="rule-text">If a claim cannot be sourced, rewrite it or remove it. There is no third option.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03 Language ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">03</span>
+      <h2>Attribution Language</h2>
+      <span class="note">The phrases that protect the channel and the viewer</span>
+    </div>
+
+    <p class="lead">
+      Attribution is what turns a serious claim into a defensible one. The exact wording matters.
+      These are the phrases to use, and the framings to avoid.
+    </p>
+
+    <div class="lang-grid">
+      <div class="lang-col do-col">
+        <div class="col-label">Use</div>
+        <div class="lang-list">
+          <div class="lang-item"><code>allegedly</code> for unresolved or contested claims</div>
+          <div class="lang-item"><code>police say</code> when citing an officer's account</div>
+          <div class="lang-item"><code>court records state</code> for documented filings</div>
+          <div class="lang-item"><code>the footage appears to show</code> when visual evidence is ambiguous</div>
+          <div class="lang-item"><code>according to the report</code> for any specific report cited</div>
+          <div class="lang-item"><code>the witness told investigators</code> for statements in the file</div>
+        </div>
+      </div>
+      <div class="lang-col dont-col">
+        <div class="col-label">Avoid</div>
+        <div class="lang-list">
+          <div class="lang-item">Stating contested events as fact</div>
+          <div class="lang-item">Calling someone a murderer, abuser, or criminal before a conviction</div>
+          <div class="lang-item">Implying motive that isn't in the record</div>
+          <div class="lang-item">Dramatising what someone was "thinking" or "feeling"</div>
+          <div class="lang-item">Using <em>obviously</em>, <em>clearly</em>, or <em>without a doubt</em> for inference</div>
+          <div class="lang-item">Mixing reporter speculation with documented fact</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 04 Pre-publish test ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">04</span>
+      <h2>Pre-publish Test</h2>
+      <span class="note">Four questions every script must pass before it ships</span>
+    </div>
+
+    <p class="lead">
+      Run the script through these four questions before it leaves Review. If any answer is "no" — or even "maybe" — fix it.
+    </p>
+
+    <div class="test-stack">
+      <div class="test-row">
+        <span class="test-num">1</span>
+        <div class="test-q">Is this supported by a source?</div>
+      </div>
+      <div class="test-row">
+        <span class="test-num">2</span>
+        <div class="test-q">Is this phrased with the right level of certainty?</div>
+      </div>
+      <div class="test-row">
+        <span class="test-num">3</span>
+        <div class="test-q">Would this still feel fair if the person involved watched it?</div>
+      </div>
+      <div class="test-row">
+        <span class="test-num">4</span>
+        <div class="test-q">Does this moment inform the case, or is it only here because it is intense?</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">The line</div>
+      <div class="callout-text">
+        If the answer to question 4 is "it's only here because it's intense" — cut it. Every time.
+        Intensity that doesn't inform the case is exactly the kind of content that erodes trust.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="../sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,630 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230d0d0d%27/%3E%3Ctext x=%2716%27 y=%2724%27 font-family=%27Helvetica Neue,Arial,sans-serif%27 font-size=%2720%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23D4A800%27%3EL%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only dark">
+  <title>Left in the Edit — Icon Exploration</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      color-scheme: only dark;
+      --bg:     #0a0a0a;
+      --s1:     #111111;
+      --s2:     #161616;
+      --border: #1e1e1e;
+      --b2:     #282828;
+      --gold:   #D4A800;
+      --text:   #e8e8e0;
+      --muted:  #666;
+      --faint:  #2e2e2e;
+      --font:   'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      padding: 0 0 100px;
+    }
+
+    /* Force SVG text fills so browser colour adjustments can't override them */
+    svg text { fill: currentColor; }
+    svg text[fill="#D4A800"] { fill: #D4A800 !important; }
+    svg text[fill="#e8e8e0"] { fill: #e8e8e0 !important; }
+    svg text[fill="#ffffff"]  { fill: #ffffff  !important; }
+    svg text[fill="#111111"]  { fill: #111111  !important; }
+    svg rect[fill="#111111"]  { fill: #111111  !important; }
+    svg rect[fill="#141414"]  { fill: #141414  !important; }
+    svg rect[fill="#0d0d0d"]  { fill: #0d0d0d  !important; }
+
+    /* ── Nav ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      height: 36px; background: rgba(10,10,10,0.96);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 28px;
+    }
+    .nav a {
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #484848; text-decoration: none; font-weight: 600;
+      transition: color 0.15s;
+    }
+    .nav a:hover { color: var(--text); }
+
+    /* ── Page header ── */
+    .page-header {
+      margin-top: 36px;
+      border-bottom: 1px solid var(--border);
+      padding: 48px 80px 40px;
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .page-header-left { display: flex; flex-direction: column; gap: 8px; }
+    .page-eyebrow {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--muted); font-weight: 500;
+    }
+    .page-title { font-size: 28px; font-weight: 700; letter-spacing: -0.4px; color: #fff; }
+    .page-title span { color: var(--gold); }
+    .page-sub { font-size: 13px; color: var(--muted); margin-top: 6px; }
+    .page-meta { font-size: 11px; color: #2e2e2e; text-align: right; line-height: 1.8; }
+
+    /* ── Content ── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 56px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    /* ── Section label ── */
+    .section-label {
+      font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--muted); padding: 28px 0 14px;
+      border-bottom: 1px solid var(--faint);
+      margin-bottom: 0;
+    }
+    .section-label:not(:first-child) { margin-top: 56px; }
+
+    /* ── Icon row ── */
+    .icon-row {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      border: 1px solid var(--border);
+      border-top: none;
+      background: var(--s1);
+    }
+
+    .icon-meta {
+      padding: 28px 28px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .icon-num {
+      font-size: 10px; font-weight: 700;
+      color: var(--gold); letter-spacing: 1px;
+    }
+
+    .icon-name {
+      font-size: 16px; font-weight: 700;
+      color: #fff; letter-spacing: -0.2px;
+    }
+
+    .icon-desc {
+      font-size: 12px; color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .icon-sizes {
+      padding: 28px 36px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+    }
+
+    .size-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 0 28px;
+      border-right: 1px solid var(--border);
+    }
+    .size-block:last-of-type { border-right: none; }
+
+    .size-label {
+      font-size: 9px; color: var(--muted);
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+
+    /* ── Verdict ── */
+    .verdict-col {
+      margin-left: auto;
+      padding: 0 0 0 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 8px;
+      min-width: 200px;
+      border-left: 1px solid var(--border);
+    }
+
+    .vbadge {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+    }
+    .vbadge.top    { background: var(--gold); color: #000; }
+    .vbadge.strong { background: #1c2e1c; color: #6abf6a; border: 1px solid #2a4a2a; }
+    .vbadge.medium { background: #2a2a1a; color: #c9a84c; border: 1px solid #3d3a1e; }
+    .vbadge.weak   { background: #2a1a1a; color: #c97070; border: 1px solid #3d2a2a; }
+
+    .vtext {
+      font-size: 11px; color: var(--muted);
+      line-height: 1.6; text-align: right;
+      max-width: 180px;
+    }
+
+    /* ── Checkered bg for icon display ── */
+    .icon-bg {
+      display: flex; align-items: center; justify-content: center;
+      background:
+        repeating-conic-gradient(#181818 0% 25%, #111111 0% 50%)
+        0 0 / 10px 10px;
+      padding: 8px;
+      border-radius: 2px;
+    }
+
+    svg text { font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+    @media (max-width: 900px) {
+      .page-header { padding: 40px 24px; flex-direction: column; gap: 12px; }
+      .content { padding: 40px 24px; }
+      .icon-row { grid-template-columns: 1fr; }
+      .icon-meta { border-right: none; border-bottom: 1px solid var(--border); }
+      .icon-sizes { flex-wrap: wrap; }
+      .verdict-col { border-left: none; border-top: 1px solid var(--border); margin-left: 0; align-items: flex-start; padding: 16px 28px; }
+      .vtext { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="../hub.html">← Hub</a>
+  <span style="font-size:10px;letter-spacing:2px;color:#2e2e2e;margin-left:16px">/ logo-sketches</span>
+</div>
+
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-eyebrow">Left in the Edit</div>
+    <h1 class="page-title">Icon <span>Exploration</span></h1>
+    <p class="page-sub">6 icon directions. All tested at 64px, 32px, and 16px. Wordmark stays as The Viewfinder.</p>
+  </div>
+  <div class="page-meta">6 concepts · May 2026<br>#D4A800 · #111111 · Documentary</div>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Geometric / Structural directions</div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- A — FILLED CORNERS                 -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="icon-row">
+    <div class="icon-meta">
+      <div class="icon-num">A</div>
+      <div class="icon-name">Filled Corners</div>
+      <div class="icon-desc">Solid amber triangles at each corner. Evolution of the Viewfinder — same concept, much heavier visual weight. Reads as a framing device or evidence marker.</div>
+    </div>
+    <div class="icon-sizes">
+      <div class="size-block">
+        <div class="size-label">64px</div>
+        <div class="icon-bg">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111"/>
+            <polygon points="0,0 26,0 0,26" fill="#D4A800"/>
+            <polygon points="64,0 38,0 64,26" fill="#D4A800"/>
+            <polygon points="0,64 26,64 0,38" fill="#D4A800"/>
+            <polygon points="64,64 38,64 64,38" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">32px</div>
+        <div class="icon-bg">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111"/>
+            <polygon points="0,0 26,0 0,26" fill="#D4A800"/>
+            <polygon points="64,0 38,0 64,26" fill="#D4A800"/>
+            <polygon points="0,64 26,64 0,38" fill="#D4A800"/>
+            <polygon points="64,64 38,64 64,38" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">16px</div>
+        <div class="icon-bg">
+          <svg width="16" height="16" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111"/>
+            <polygon points="0,0 26,0 0,26" fill="#D4A800"/>
+            <polygon points="64,0 38,0 64,26" fill="#D4A800"/>
+            <polygon points="0,64 26,64 0,38" fill="#D4A800"/>
+            <polygon points="64,64 38,64 64,38" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="verdict-col">
+        <span class="vbadge top">Strong pick</span>
+        <div class="vtext">Much more impact than line-only corners. Amber fills are bold at every size. Pattern stays readable at 16px.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- B — CROSSHAIR                      -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="icon-row">
+    <div class="icon-meta">
+      <div class="icon-num">B</div>
+      <div class="icon-name">Crosshair</div>
+      <div class="icon-desc">Target/scope sight. References police firearms, surveillance, "in the crosshairs." Used in bodycam and tactical footage contexts. Clean and geometric.</div>
+    </div>
+    <div class="icon-sizes">
+      <div class="size-block">
+        <div class="size-label">64px</div>
+        <div class="icon-bg">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <circle cx="32" cy="32" r="18" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <circle cx="32" cy="32" r="3" fill="#D4A800"/>
+            <line x1="32" y1="6"  x2="32" y2="14" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="32" y1="50" x2="32" y2="58" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="6"  y1="32" x2="14" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="50" y1="32" x2="58" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">32px</div>
+        <div class="icon-bg">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <circle cx="32" cy="32" r="18" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <circle cx="32" cy="32" r="3" fill="#D4A800"/>
+            <line x1="32" y1="6"  x2="32" y2="14" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="32" y1="50" x2="32" y2="58" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="6"  y1="32" x2="14" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="50" y1="32" x2="58" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">16px</div>
+        <div class="icon-bg">
+          <svg width="16" height="16" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <circle cx="32" cy="32" r="18" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <circle cx="32" cy="32" r="3" fill="#D4A800"/>
+            <line x1="32" y1="6"  x2="32" y2="14" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="32" y1="50" x2="32" y2="58" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="6"  y1="32" x2="14" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="50" y1="32" x2="58" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="verdict-col">
+        <span class="vbadge strong">Strong concept</span>
+        <div class="vtext">Reads clearly at all sizes. Circle + cross is recognizable even at 16px. Feels tactical and documentary.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- C — CIRCLE EMBLEM                  -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="icon-row">
+    <div class="icon-meta">
+      <div class="icon-num">C</div>
+      <div class="icon-name">Circle Emblem</div>
+      <div class="icon-desc">Thin amber ring, bold amber initial inside. Expedition/documentary badge aesthetic — the Overland reference. Timeless, legible, and highly versatile.</div>
+    </div>
+    <div class="icon-sizes">
+      <div class="size-block">
+        <div class="size-label">64px</div>
+        <div class="icon-bg">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <circle cx="32" cy="32" r="23" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <text x="32" y="44" font-size="30" font-weight="700" fill="#D4A800" text-anchor="middle">L</text>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">32px</div>
+        <div class="icon-bg">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <circle cx="32" cy="32" r="23" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <text x="32" y="44" font-size="30" font-weight="700" fill="#D4A800" text-anchor="middle">L</text>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">16px</div>
+        <div class="icon-bg">
+          <svg width="16" height="16" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <circle cx="32" cy="32" r="23" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <text x="32" y="44" font-size="30" font-weight="700" fill="#D4A800" text-anchor="middle">L</text>
+          </svg>
+        </div>
+      </div>
+      <div class="verdict-col">
+        <span class="vbadge strong">Clean & versatile</span>
+        <div class="vtext">Expedition badge feel. Works as a profile pic, watermark, favicon. The circle frames the letter without feeling like "just a monogram."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:56px">Footage / Recording directions</div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- D — RECORD DOT                     -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="icon-row">
+    <div class="icon-meta">
+      <div class="icon-num">D</div>
+      <div class="icon-name">Record</div>
+      <div class="icon-desc">Large amber recording dot with thin outer ring. Directly references bodycam HUD / "REC" indicator. No ambiguity about what this channel does.</div>
+    </div>
+    <div class="icon-sizes">
+      <div class="size-block">
+        <div class="size-label">64px</div>
+        <div class="icon-bg">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <circle cx="32" cy="32" r="24" fill="none" stroke="#D4A800" stroke-width="1.5" opacity="0.35"/>
+            <circle cx="32" cy="32" r="15" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">32px</div>
+        <div class="icon-bg">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <circle cx="32" cy="32" r="24" fill="none" stroke="#D4A800" stroke-width="1.5" opacity="0.35"/>
+            <circle cx="32" cy="32" r="15" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">16px</div>
+        <div class="icon-bg">
+          <svg width="16" height="16" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <circle cx="32" cy="32" r="24" fill="none" stroke="#D4A800" stroke-width="1.5" opacity="0.35"/>
+            <circle cx="32" cy="32" r="15" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="verdict-col">
+        <span class="vbadge medium">High concept, generic shape</span>
+        <div class="vtext">Amber dot reads instantly as "recording." But a filled circle is the most generic possible shape — could be anyone. Only works if the brand colour is well-known.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- E — PLAY + FRAME                   -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="icon-row">
+    <div class="icon-meta">
+      <div class="icon-num">E</div>
+      <div class="icon-name">Play Frame</div>
+      <div class="icon-desc">Play triangle (amber) framed by thin corner marks (dark). Combines the footage/editing reference with the surveillance frame. Two concepts, one icon.</div>
+    </div>
+    <div class="icon-sizes">
+      <div class="size-block">
+        <div class="size-label">64px</div>
+        <div class="icon-bg">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <path d="M10,22 L10,10 L22,10" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <polygon points="23,18 23,46 48,32" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">32px</div>
+        <div class="icon-bg">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <path d="M10,22 L10,10 L22,10" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <polygon points="23,18 23,46 48,32" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">16px</div>
+        <div class="icon-bg">
+          <svg width="16" height="16" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <path d="M10,22 L10,10 L22,10" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <polygon points="23,18 23,46 48,32" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="verdict-col">
+        <span class="vbadge strong">Good combo</span>
+        <div class="vtext">Play triangle dominates at every size. Corners are supporting detail — disappear at 16px but that's fine; triangle alone is the mark.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- F — BRACKETS ONLY                  -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="icon-row">
+    <div class="icon-meta">
+      <div class="icon-num">F</div>
+      <div class="icon-name">Open Brackets</div>
+      <div class="icon-desc">Just [ and ] in amber. Nothing inside — the empty space is the content that was "left in." Most conceptually pure interpretation of the channel name.</div>
+    </div>
+    <div class="icon-sizes">
+      <div class="size-block">
+        <div class="size-label">64px</div>
+        <div class="icon-bg">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <text x="5" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central">&#91;</text>
+            <text x="46" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central">&#93;</text>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">32px</div>
+        <div class="icon-bg">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <text x="5" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central">&#91;</text>
+            <text x="46" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central">&#93;</text>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">16px</div>
+        <div class="icon-bg">
+          <svg width="16" height="16" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <text x="5" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central">&#91;</text>
+            <text x="46" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central">&#93;</text>
+          </svg>
+        </div>
+      </div>
+      <div class="verdict-col">
+        <span class="vbadge medium">Conceptually strong, visually sparse</span>
+        <div class="vtext">The idea is sharp — empty brackets = the thing left in, unseen. But two vertical strokes at 16px reads as "||" not brackets. Loses the concept at small sizes.</div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="section-label" style="margin-top:56px">Hybrid — square crosshair (your suggestion)</div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- G — SQUARE CROSSHAIR               -->
+  <!-- ═══════════════════════════════════ -->
+  <div class="icon-row">
+    <div class="icon-meta">
+      <div class="icon-num">G</div>
+      <div class="icon-name">Square Crosshair</div>
+      <div class="icon-desc">The Viewfinder's corner marks + crosshair lines meeting at a centre dot. Square geometry throughout — no circle. Looks like a bodycam HUD or police tactical sight.</div>
+    </div>
+    <div class="icon-sizes">
+      <div class="size-block">
+        <div class="size-label">64px</div>
+        <div class="icon-bg">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <!-- Corner L-marks -->
+            <path d="M10,22 L10,10 L22,10" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <!-- Crosshair lines (thin, stopping short of centre) -->
+            <line x1="32" y1="14" x2="32" y2="27" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="32" y1="37" x2="32" y2="50" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="14" y1="32" x2="27" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="37" y1="32" x2="50" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- Centre dot -->
+            <circle cx="32" cy="32" r="2.5" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">32px</div>
+        <div class="icon-bg">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <path d="M10,22 L10,10 L22,10" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <line x1="32" y1="14" x2="32" y2="27" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="32" y1="37" x2="32" y2="50" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="14" y1="32" x2="27" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="37" y1="32" x2="50" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="2.5" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="size-block">
+        <div class="size-label">16px</div>
+        <div class="icon-bg">
+          <svg width="16" height="16" viewBox="0 0 64 64">
+            <rect width="64" height="64" fill="#111111" rx="6"/>
+            <path d="M10,22 L10,10 L22,10" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <line x1="32" y1="14" x2="32" y2="27" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="32" y1="37" x2="32" y2="50" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="14" y1="32" x2="27" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="37" y1="32" x2="50" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="2.5" fill="#D4A800"/>
+          </svg>
+        </div>
+      </div>
+      <div class="verdict-col">
+        <span class="vbadge top">Best of both</span>
+        <div class="vtext">Same corner geometry as the wordmark. Crosshair lines add a targeting/HUD layer without a circle. Centre dot anchors it. Cohesive with the full brand.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════ -->
+  <!-- Comparison note                    -->
+  <!-- ═══════════════════════════════════ -->
+  <div style="background:var(--s1);border:1px solid var(--border);border-top:none;padding:32px 32px">
+    <div style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:20px">Where things stand</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Strongest picks</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">A — Filled Corners</strong> evolves the Viewfinder wordmark directly. Same language, much more weight. <strong style="color:var(--text)">B — Crosshair</strong> is more aggressive and tactical — works for true crime. Both hold at 16px.</div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">The square crosshair hybrid</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">G — Square Crosshair</strong> combines both: corner marks + crosshair lines in pure square geometry. Bridges the Viewfinder and Crosshair concepts. Cohesive with the wordmark but can feel busy at small sizes.</div>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Set aside</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.7"><strong style="color:var(--text)">E — Play Frame</strong> feels generic unless paired with corner marks. <strong style="color:var(--text)">C, D, F</strong> are reference points, not live options.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+  <script src="../sidebar.js"></script>
+</body>
+</html>

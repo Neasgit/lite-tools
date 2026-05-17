@@ -1,0 +1,337 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230d0d0d%27/%3E%3Ctext x=%2716%27 y=%2724%27 font-family=%27Helvetica Neue,Arial,sans-serif%27 font-size=%2720%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23D4A800%27%3EL%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only dark">
+<title>Claude Skills Cheatsheet</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #0a0a0a;
+    color: #c8c8c8;
+    min-height: 100vh;
+    padding: 0 0 32px;
+  }
+
+  .page-header {
+    margin-top: 36px;
+    border-bottom: 1px solid #1e1e1e;
+    padding: 48px 80px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .page-header-left { display: flex; flex-direction: column; gap: 8px; }
+  .page-eyebrow {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #555;
+    font-weight: 500;
+  }
+  .page-title {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    color: #fff;
+  }
+  .page-title span { color: #D4A800; }
+  .page-sub {
+    font-size: 13px;
+    color: #555;
+    margin-top: 2px;
+  }
+
+  .search-bar {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+    padding: 0 80px;
+  }
+
+  .search-bar input {
+    width: 100%;
+    padding: 10px 14px;
+    background: #111111;
+    border: 1px solid #1e1e1e;
+    border-radius: 4px;
+    color: #c8c8c8;
+    font-size: 13px;
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-bar input:focus {
+    border-color: #D4A800;
+  }
+
+  .search-bar input::placeholder {
+    color: #3a3a3a;
+  }
+
+  .sections {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .section h2 {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #1e1e1e;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section h2 .badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .badge-marketing  { background: #111e11; color: #5aaa72; border: 1px solid #1e3a1e; }
+  .badge-uiux       { background: #161120; color: #8b74c4; border: 1px solid #2a1e48; }
+  .badge-context    { background: #0e1c26; color: #5ba8c4; border: 1px solid #1a3040; }
+  .badge-writing    { background: #201610; color: #c48b40; border: 1px solid #3a2210; }
+
+  .color-marketing  { color: #5aaa72; }
+  .color-uiux       { color: #8b74c4; }
+  .color-context    { color: #5ba8c4; }
+  .color-writing    { color: #c48b40; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px;
+  }
+
+  .skill-card {
+    background: #111111;
+    border: 1px solid #1e1e1e;
+    border-radius: 4px;
+    padding: 12px 14px;
+    transition: border-color 0.15s;
+    cursor: default;
+  }
+
+  .skill-card:hover {
+    border-color: #2a2a2a;
+  }
+
+  .skill-card.hidden {
+    display: none;
+  }
+
+  .skill-card .cmd {
+    font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+
+  .skill-card .desc {
+    font-size: 12px;
+    color: #6a6a6a;
+    line-height: 1.5;
+  }
+
+  .no-results {
+    color: #484848;
+    font-size: 13px;
+    padding: 20px 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: none;
+  }
+
+  .count-label {
+    color: #484848;
+    font-size: 11px;
+    margin-left: auto;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+</style>
+</head>
+<body>
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;height:36px;background:rgba(10,10,10,0.95);border-bottom:1px solid #1e1e1e;display:flex;align-items:center;padding:0 28px"><a href="../hub.html" style="font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#484848;text-decoration:none;font-family:'Inter', 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600" onmouseover="this.style.color='#e0e0e0'" onmouseout="this.style.color='#484848'">← Hub</a></div>
+
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-eyebrow">Left in the Edit</div>
+    <h1 class="page-title">Claude Skills <span>Cheatsheet</span></h1>
+    <div class="page-sub">63 installed skills — invoke with /skill-name in any Claude Code conversation</div>
+  </div>
+  <div class="page-meta">
+    Utility · May 2026<br>
+    Internal reference
+  </div>
+</div>
+
+<div class="search-bar">
+  <input type="text" id="search" placeholder="Filter skills... (e.g. email, seo, design)" oninput="filterSkills()">
+</div>
+
+<div class="sections" id="sections">
+
+  <!-- UI/UX -->
+  <div class="section" id="section-uiux">
+    <h2 class="color-uiux">
+      UI / UX
+      <span class="badge badge-uiux">nextlevelbuilder/ui-ux-pro-max-skill</span>
+      <span class="count-label" id="count-uiux">7 skills</span>
+    </h2>
+    <div class="grid" id="grid-uiux">
+      <div class="skill-card" data-search="banner-design design banners social media ads website heroes print"><div class="cmd color-uiux">/banner-design</div><div class="desc">Design banners for social media, ads, website heroes, and print.</div></div>
+      <div class="skill-card" data-search="brand define brand voice visual identity messaging consistency"><div class="cmd color-uiux">/brand</div><div class="desc">Define brand voice, visual identity, messaging, and ensure consistency.</div></div>
+      <div class="skill-card" data-search="design create brand identity logos design systems cip slides banners icons"><div class="cmd color-uiux">/design</div><div class="desc">Create brand identity, logos, design systems, slides, banners, and icons.</div></div>
+      <div class="skill-card" data-search="design-system build token architecture component specs css variable systems"><div class="cmd color-uiux">/design-system</div><div class="desc">Build token architecture, component specs, and CSS variable systems.</div></div>
+      <div class="skill-card" data-search="slides create strategic html presentations data visualization copywriting"><div class="cmd color-uiux">/slides</div><div class="desc">Create strategic HTML presentations with data visualization and copywriting.</div></div>
+      <div class="skill-card" data-search="ui-styling build accessible uis shadcn tailwind css responsive layouts"><div class="cmd color-uiux">/ui-styling</div><div class="desc">Build accessible UIs with shadcn/ui, Tailwind CSS, and responsive layouts.</div></div>
+      <div class="skill-card" data-search="ui-ux-pro-max apply design intelligence 50 styles palettes ux guidelines"><div class="cmd color-uiux">/ui-ux-pro-max</div><div class="desc">Apply design intelligence with 50+ styles, palettes, and UX guidelines.</div></div>
+    </div>
+  </div>
+
+  <!-- CONTEXT ENGINEERING -->
+  <div class="section" id="section-context">
+    <h2 class="color-context">
+      Context Engineering
+      <span class="badge badge-context">muratcankoylan/agent-skills-for-context-engineering</span>
+      <span class="count-label" id="count-context">15 skills</span>
+    </h2>
+    <div class="grid" id="grid-context">
+      <div class="skill-card" data-search="context-engineering build production agent systems effective context management"><div class="cmd color-context">/context-engineering</div><div class="desc">Build production agent systems with effective context management.</div></div>
+      <div class="skill-card" data-search="advanced-evaluation evaluate score ai outputs rubrics reliability metrics"><div class="cmd color-context">/advanced-evaluation</div><div class="desc">Evaluate and score AI outputs using rubrics and reliability metrics.</div></div>
+      <div class="skill-card" data-search="bdi-mental-states model user mental states behavioral intent engagement strategy"><div class="cmd color-context">/bdi-mental-states</div><div class="desc">Model user mental states and behavioral intent for engagement strategy.</div></div>
+      <div class="skill-card" data-search="context-compression compress long conversation histories preserving critical information"><div class="cmd color-context">/context-compression</div><div class="desc">Compress long conversation histories while preserving critical information.</div></div>
+      <div class="skill-card" data-search="context-degradation understand mitigate attention loss context grows longer"><div class="cmd color-context">/context-degradation</div><div class="desc">Understand and mitigate attention loss as context grows longer.</div></div>
+      <div class="skill-card" data-search="context-fundamentals understand how context windows work what information matters"><div class="cmd color-context">/context-fundamentals</div><div class="desc">Understand how context windows work and what information matters.</div></div>
+      <div class="skill-card" data-search="context-optimization curate optimize context maximum signal-to-noise ratio"><div class="cmd color-context">/context-optimization</div><div class="desc">Curate and optimize context for maximum signal-to-noise ratio.</div></div>
+      <div class="skill-card" data-search="evaluation evaluate ai outputs models agents quality standards"><div class="cmd color-context">/evaluation</div><div class="desc">Evaluate AI outputs, models, and agents against quality standards.</div></div>
+      <div class="skill-card" data-search="filesystem-context use filesystem memory context management system agents"><div class="cmd color-context">/filesystem-context</div><div class="desc">Use the filesystem as a memory and context management system for agents.</div></div>
+      <div class="skill-card" data-search="hosted-agents deploy run agents hosted platforms proper scaling"><div class="cmd color-context">/hosted-agents</div><div class="desc">Deploy and run agents on hosted platforms with proper scaling.</div></div>
+      <div class="skill-card" data-search="latent-briefing extract latent requirements unspoken goals vague briefs"><div class="cmd color-context">/latent-briefing</div><div class="desc">Extract latent requirements and unspoken goals from vague briefs.</div></div>
+      <div class="skill-card" data-search="memory-systems implement persistent memory architectures knowledge retention"><div class="cmd color-context">/memory-systems</div><div class="desc">Implement persistent memory architectures for knowledge retention.</div></div>
+      <div class="skill-card" data-search="multi-agent-patterns design architectures coordinating multiple specialized agents"><div class="cmd color-context">/multi-agent-patterns</div><div class="desc">Design architectures for coordinating multiple specialized agents.</div></div>
+      <div class="skill-card" data-search="project-development structure manage complex projects conception launch"><div class="cmd color-context">/project-development</div><div class="desc">Structure and manage complex projects from conception to launch.</div></div>
+      <div class="skill-card" data-search="tool-design design tools apis proper affordances discoverable interfaces"><div class="cmd color-context">/tool-design</div><div class="desc">Design tools and APIs with proper affordances and discoverable interfaces.</div></div>
+    </div>
+  </div>
+
+  <!-- MARKETING -->
+  <div class="section" id="section-marketing">
+    <h2 class="color-marketing">
+      Marketing
+      <span class="badge badge-marketing">coreyhaines31/marketingskills</span>
+      <span class="count-label" id="count-marketing">40 skills</span>
+    </h2>
+    <div class="grid" id="grid-marketing">
+      <div class="skill-card" data-search="ab-testing design run statistically valid a/b tests growth experimentation"><div class="cmd color-marketing">/ab-testing</div><div class="desc">Design and run statistically valid A/B tests and growth experimentation programs.</div></div>
+      <div class="skill-card" data-search="ad-creative generate iterate ad copy visuals scale paid platforms"><div class="cmd color-marketing">/ad-creative</div><div class="desc">Generate and iterate ad copy and visuals at scale for paid platforms.</div></div>
+      <div class="skill-card" data-search="ads plan execute optimize paid advertising campaigns google meta linkedin twitter"><div class="cmd color-marketing">/ads</div><div class="desc">Plan, execute, and optimize paid advertising campaigns across Google, Meta, LinkedIn, Twitter.</div></div>
+      <div class="skill-card" data-search="ai-seo optimize content cited ai search engines llms chatgpt claude"><div class="cmd color-marketing">/ai-seo</div><div class="desc">Optimize content to be cited by AI search engines and LLMs like ChatGPT/Claude.</div></div>
+      <div class="skill-card" data-search="analytics set up implement audit conversion event tracking systems"><div class="cmd color-marketing">/analytics</div><div class="desc">Set up, implement, and audit conversion and event tracking systems.</div></div>
+      <div class="skill-card" data-search="aso audit optimize app store listings discovery conversion"><div class="cmd color-marketing">/aso</div><div class="desc">Audit and optimize app store listings for discovery and conversion.</div></div>
+      <div class="skill-card" data-search="churn-prevention design cancel flows save offers payment recovery reduce customer churn"><div class="cmd color-marketing">/churn-prevention</div><div class="desc">Design cancel flows, save offers, and payment recovery to reduce customer churn.</div></div>
+      <div class="skill-card" data-search="co-marketing identify plan joint marketing campaigns complementary partner companies"><div class="cmd color-marketing">/co-marketing</div><div class="desc">Identify and plan joint marketing campaigns with complementary partner companies.</div></div>
+      <div class="skill-card" data-search="cold-email write prospecting emails multi-touch follow-up sequences replies"><div class="cmd color-marketing">/cold-email</div><div class="desc">Write prospecting emails and multi-touch follow-up sequences that get replies.</div></div>
+      <div class="skill-card" data-search="community-marketing build grow online communities retention word-of-mouth"><div class="cmd color-marketing">/community-marketing</div><div class="desc">Build and grow online communities to drive retention and word-of-mouth.</div></div>
+      <div class="skill-card" data-search="competitor-profiling research profile competitors site scraping seo intelligence"><div class="cmd color-marketing">/competitor-profiling</div><div class="desc">Research and profile competitors using site scraping and SEO intelligence data.</div></div>
+      <div class="skill-card" data-search="competitors create comparison alternative pages competitor-related search terms"><div class="cmd color-marketing">/competitors</div><div class="desc">Create comparison and alternative pages targeting competitor-related search terms.</div></div>
+      <div class="skill-card" data-search="content-strategy plan content topics pillars calendars audience research seo"><div class="cmd color-marketing">/content-strategy</div><div class="desc">Plan content topics, pillars, and calendars based on audience research and SEO.</div></div>
+      <div class="skill-card" data-search="copy-editing edit polish existing marketing copy systematic seven-sweep framework"><div class="cmd color-marketing">/copy-editing</div><div class="desc">Edit and polish existing marketing copy through a systematic seven-sweep framework.</div></div>
+      <div class="skill-card" data-search="copywriting write persuasive marketing copy pages landing pages conversion"><div class="cmd color-marketing">/copywriting</div><div class="desc">Write persuasive marketing copy for pages, landing pages, and conversion moments.</div></div>
+      <div class="skill-card" data-search="cro optimize marketing pages forms increase conversion rates reduce friction"><div class="cmd color-marketing">/cro</div><div class="desc">Optimize marketing pages and forms to increase conversion rates and reduce friction.</div></div>
+      <div class="skill-card" data-search="customer-research mine transcripts reviews online communities customer insights voice"><div class="cmd color-marketing">/customer-research</div><div class="desc">Mine transcripts, reviews, and online communities for customer insights and voice.</div></div>
+      <div class="skill-card" data-search="directory-submissions submit products startup directories backlinks discovery"><div class="cmd color-marketing">/directory-submissions</div><div class="desc">Submit products to startup directories for backlinks and discovery.</div></div>
+      <div class="skill-card" data-search="emails create automated email sequences onboarding nurture lifecycle marketing"><div class="cmd color-marketing">/emails</div><div class="desc">Create automated email sequences for onboarding, nurture, and lifecycle marketing.</div></div>
+      <div class="skill-card" data-search="free-tools build distribute free tools lead magnets seo assets"><div class="cmd color-marketing">/free-tools</div><div class="desc">Build and distribute free tools as lead magnets and SEO assets.</div></div>
+      <div class="skill-card" data-search="image create generate optimize marketing images ai design tools"><div class="cmd color-marketing">/image</div><div class="desc">Create, generate, and optimize marketing images using AI and design tools.</div></div>
+      <div class="skill-card" data-search="launch plan product launches feature releases orb framework"><div class="cmd color-marketing">/launch</div><div class="desc">Plan product launches and feature releases using the ORB framework.</div></div>
+      <div class="skill-card" data-search="lead-magnets design downloadable content offers capture emails build lists"><div class="cmd color-marketing">/lead-magnets</div><div class="desc">Design downloadable content offers to capture emails and build lists.</div></div>
+      <div class="skill-card" data-search="marketing-ideas brainstorm prioritize marketing strategies 139 proven growth tactics"><div class="cmd color-marketing">/marketing-ideas</div><div class="desc">Brainstorm and prioritize marketing strategies from 139 proven growth tactics.</div></div>
+      <div class="skill-card" data-search="marketing-psychology apply behavioral psychology persuasion principles to marketing copy"><div class="cmd color-marketing">/marketing-psychology</div><div class="desc">Apply behavioral psychology and persuasion principles to marketing copy and design.</div></div>
+      <div class="skill-card" data-search="onboarding optimize post-signup user activation time-to-value"><div class="cmd color-marketing">/onboarding</div><div class="desc">Optimize post-signup user activation and time-to-value.</div></div>
+      <div class="skill-card" data-search="paywalls design in-app upgrade screens feature gates convert free paid users"><div class="cmd color-marketing">/paywalls</div><div class="desc">Design in-app upgrade screens and feature gates to convert free to paid users.</div></div>
+      <div class="skill-card" data-search="popups create optimize popups modals overlays email offer capture"><div class="cmd color-marketing">/popups</div><div class="desc">Create and optimize popups, modals, and overlays for email and offer capture.</div></div>
+      <div class="skill-card" data-search="pricing design pricing tiers packaging value metrics"><div class="cmd color-marketing">/pricing</div><div class="desc">Design pricing tiers, packaging, and value metrics.</div></div>
+      <div class="skill-card" data-search="product-marketing create maintain foundational product audience positioning context document"><div class="cmd color-marketing">/product-marketing</div><div class="desc">Create and maintain foundational product, audience, and positioning context documents.</div></div>
+      <div class="skill-card" data-search="programmatic-seo build seo pages scale templates data high-volume keywords"><div class="cmd color-marketing">/programmatic-seo</div><div class="desc">Build SEO pages at scale using templates and data for high-volume keywords.</div></div>
+      <div class="skill-card" data-search="referrals design referral affiliate programs leverage customer networks"><div class="cmd color-marketing">/referrals</div><div class="desc">Design referral and affiliate programs to leverage customer networks.</div></div>
+      <div class="skill-card" data-search="revops set up lead lifecycle management scoring routing marketing sales handoff"><div class="cmd color-marketing">/revops</div><div class="desc">Set up lead lifecycle management, scoring, routing, and marketing-to-sales handoff.</div></div>
+      <div class="skill-card" data-search="sales-enablement create sales collateral decks one-pagers demos objection handling"><div class="cmd color-marketing">/sales-enablement</div><div class="desc">Create sales collateral: decks, one-pagers, demos, and objection handling docs.</div></div>
+      <div class="skill-card" data-search="schema add structured data json-ld markup rich results search"><div class="cmd color-marketing">/schema</div><div class="desc">Add structured data and JSON-LD markup for rich results in search.</div></div>
+      <div class="skill-card" data-search="seo-audit audit technical on-page seo issues ranking improvement recommendations"><div class="cmd color-marketing">/seo-audit</div><div class="desc">Audit technical and on-page SEO issues and provide ranking improvement recommendations.</div></div>
+      <div class="skill-card" data-search="signup optimize signup registration flows reduce abandonment increase completion"><div class="cmd color-marketing">/signup</div><div class="desc">Optimize signup and registration flows to reduce abandonment and increase completion.</div></div>
+      <div class="skill-card" data-search="site-architecture plan site structure navigation url patterns internal linking"><div class="cmd color-marketing">/site-architecture</div><div class="desc">Plan site structure, navigation, URL patterns, and internal linking.</div></div>
+      <div class="skill-card" data-search="social create optimize social media content linkedin twitter instagram tiktok"><div class="cmd color-marketing">/social</div><div class="desc">Create and optimize social media content for LinkedIn, Twitter, Instagram, TikTok.</div></div>
+      <div class="skill-card" data-search="video generate produce program video content ai code-based frameworks"><div class="cmd color-marketing">/video</div><div class="desc">Generate, produce, and program video content using AI and code-based frameworks.</div></div>
+    </div>
+  </div>
+
+  <!-- WRITING -->
+  <div class="section" id="section-writing">
+    <h2 class="color-writing">
+      Writing
+      <span class="badge badge-writing">hardikpandya/stop-slop</span>
+      <span class="count-label" id="count-writing">1 skill</span>
+    </h2>
+    <div class="grid" id="grid-writing">
+      <div class="skill-card" data-search="stop-slop remove ai writing patterns filler prose sound more human"><div class="cmd color-writing">/stop-slop</div><div class="desc">Remove AI writing patterns and filler from prose to sound more human.</div></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="no-results" id="no-results">No skills match your search.</div>
+
+<script>
+  function filterSkills() {
+    const query = document.getElementById('search').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.skill-card');
+    const sections = document.querySelectorAll('.section');
+    let totalVisible = 0;
+
+    sections.forEach(section => {
+      const grid = section.querySelector('.grid');
+      const sectionCards = grid.querySelectorAll('.skill-card');
+      let visible = 0;
+
+      sectionCards.forEach(card => {
+        const matches = !query || card.dataset.search.includes(query) || card.querySelector('.cmd').textContent.includes(query);
+        card.classList.toggle('hidden', !matches);
+        if (matches) visible++;
+      });
+
+      section.style.display = visible === 0 ? 'none' : '';
+      const countEl = section.querySelector('.count-label');
+      if (countEl) {
+        const total = sectionCards.length;
+        countEl.textContent = query ? `${visible} / ${total} skills` : `${total} skills`;
+      }
+      totalVisible += visible;
+    });
+
+    document.getElementById('no-results').style.display = totalVisible === 0 ? 'block' : 'none';
+  }
+</script>
+
+  <script src="../sidebar.js"></script>
+</body>
+</html>

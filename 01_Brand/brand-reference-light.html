@@ -1,0 +1,925 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230d0d0d%27/%3E%3Ctext x=%2716%27 y=%2724%27 font-family=%27Helvetica Neue,Arial,sans-serif%27 font-size=%2720%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23D4A800%27%3EL%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only light">
+  <title>Left in the Edit — Brand Reference (Light)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    :root {
+      --bg:          #f4f4f0;
+      --surface:     #ffffff;
+      --surface-2:   #ebebE6;
+      --border:      #ddddd8;
+      --border-2:    #ccccC7;
+      --gold:        #D4A800;
+      --gold-dim:    #fef9de;
+      --gold-text:   #D4A800;
+      --crimson:     #C8102E;
+      --crimson-dim: #fde8ec;
+      --green:       #2E7D4F;
+      --green-dim:   #e8f5ee;
+      --text:        #1a1a18;
+      --muted:       #666;
+      --faint:       #aaa;
+      --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body { background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+
+    /* ── Page header ── */
+    .page-header { margin-top: 36px; border-bottom: 1px solid var(--border); padding: 48px 80px 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .page-header-left { display: flex; flex-direction: column; gap: 8px; }
+    .page-eyebrow { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+    .page-title { font-size: 28px; font-weight: 700; letter-spacing: -0.4px; color: var(--text); }
+    .page-title span { color: var(--gold); }
+    .page-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .page-meta { font-size: 11px; color: var(--faint); letter-spacing: 1px; text-align: right; line-height: 1.8; }
+
+    /* ── Layout ── */
+    .content { max-width: 1100px; margin: 0 auto; padding: 64px 80px 100px; display: flex; flex-direction: column; gap: 72px; }
+
+    /* ── Section heading ── */
+    .section-num { display: flex; align-items: baseline; gap: 18px; margin-bottom: 28px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .section-num .num { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+    .section-num h2 { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; }
+    .section-num .note { font-size: 12px; color: var(--muted); margin-left: auto; }
+
+    /* ── Colour palette ── */
+    .colour-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .colour-card { display: flex; flex-direction: column; }
+    .colour-swatch { height: 96px; border-radius: 2px 2px 0 0; position: relative; }
+    .colour-swatch .role-badge { position: absolute; top: 10px; left: 10px; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; background: rgba(0,0,0,0.4); color: rgba(255,255,255,0.9); }
+    .colour-info { flex: 1; background: var(--surface); border: 1px solid var(--border); border-top: none; border-radius: 0 0 2px 2px; padding: 12px 14px; display: flex; flex-direction: column; }
+    .colour-info .name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .colour-info .hex { font-family: 'SF Mono', 'Cascadia Code', monospace; font-size: 11px; color: var(--muted); }
+    .colour-info .usage { flex: 1; font-size: 11px; color: var(--faint); margin-top: 5px; line-height: 1.4; }
+    .contrast-bar { margin-top: 8px; display: flex; align-items: center; gap: 6px; }
+    .contrast-bar .bar-fill { height: 3px; border-radius: 2px; background: var(--gold); }
+    .contrast-bar .ratio { font-size: 10px; color: var(--muted); white-space: nowrap; }
+
+    /* ── Typography ── */
+    .type-stack { display: flex; flex-direction: column; gap: 12px; }
+    .type-row { display: grid; grid-template-columns: 200px 1fr auto; align-items: center; gap: 32px; padding: 20px 24px; background: var(--surface); border: 1px solid var(--border); }
+    .type-meta { display: flex; flex-direction: column; gap: 3px; }
+    .type-meta .type-name { font-size: 12px; font-weight: 700; color: var(--text); }
+    .type-meta .type-spec { font-size: 11px; color: var(--muted); font-family: 'SF Mono', monospace; }
+    .type-preview { color: var(--text); line-height: 1.1; }
+    .type-usage { font-size: 11px; color: var(--faint); text-align: right; max-width: 160px; line-height: 1.4; }
+
+    .font-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+    .font-col { background: var(--surface); border: 1px solid var(--border); padding: 24px; border-radius: 2px; }
+    .font-col .col-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; font-weight: 700; }
+    .font-col.do-col .col-label { color: var(--green); }
+    .font-col.dont-col .col-label { color: var(--crimson); }
+    .font-sample { font-size: 28px; color: var(--text); line-height: 1.1; margin-bottom: 8px; }
+    .font-name { font-size: 11px; color: var(--muted); font-family: monospace; }
+
+    /* ── Wordmark ── */
+    .wordmark-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .wordmark-card { background: var(--surface); border: 1px solid var(--border); padding: 40px 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
+    .wordmark-card.dark-bg  { background: #111; }
+    .wordmark-card.light-bg { background: #e8e8e0; }
+    .wordmark-card.gold-bg  { background: var(--gold); }
+    .wordmark-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+    .wordmark-light .wordmark-label { color: #888; }
+    .wordmark-gold  .wordmark-label { color: #000; opacity: 0.5; }
+    .wordmark { font-size: 22px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; line-height: 1.2; }
+    .wm-dark  .wordmark { color: #fff; }
+    .wm-dark  .wordmark span { color: var(--gold); }
+    .wm-light .wordmark { color: #111; }
+    .wm-light .wordmark span { color: var(--gold); }
+    .wm-gold  .wordmark { color: #fff; }
+    .wm-gold  .wordmark span { color: #000; }
+
+    /* ── Accent ── */
+    .accent-demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .accent-demo { background: var(--surface); border: 1px solid var(--border); padding: 32px; }
+    .accent-demo .demo-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .accent-bar-h { width: 48px; height: 3px; background: var(--gold); margin-bottom: 16px; }
+    .accent-demo h3 { font-size: 24px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+    .accent-demo p  { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    /* ── Do/Don't ── */
+    .do-dont-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .do-col-full, .dont-col-full { padding: 28px 32px; background: var(--surface); border: 1px solid var(--border); }
+    .do-col-full .col-label   { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); font-weight: 700; margin-bottom: 18px; }
+    .dont-col-full .col-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--crimson); font-weight: 700; margin-bottom: 18px; }
+    .rule-list { display: flex; flex-direction: column; gap: 10px; }
+    .rule-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .rule-item .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+    .do-col-full .dot   { background: var(--green); }
+    .dont-col-full .dot { background: var(--crimson); }
+
+    /* ── Thumbnail formula ── */
+    .thumb-preview { aspect-ratio: 16/9; background: #141414; border: 1px solid var(--border); padding: 32px; display: flex; flex-direction: column; justify-content: flex-end; max-width: 640px; position: relative; overflow: hidden; }
+    .thumb-preview .thumb-image-area { position: absolute; inset: 0; background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%); opacity: 0.6; }
+    .thumb-preview .thumb-amber-accent { width: 40px; height: 3px; background: var(--gold); margin-bottom: 12px; position: relative; z-index: 2; }
+    .thumb-preview .thumb-title { font-size: 28px; font-weight: 700; color: #fff; letter-spacing: -0.5px; line-height: 1.1; position: relative; z-index: 2; max-width: 60%; }
+    .thumb-preview .thumb-channel { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-top: 10px; position: relative; z-index: 2; }
+    .thumb-annotations { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+    .thumb-ann { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 8px 12px; background: var(--surface); border: 1px solid var(--border); }
+    .thumb-ann .elem { color: var(--muted); }
+    .thumb-ann .spec { font-family: monospace; font-size: 11px; color: var(--gold); }
+
+    /* ── Voice ── */
+    .voice-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .voice-card { background: var(--surface); border: 1px solid var(--border); padding: 24px; }
+    .voice-card h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .voice-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .voice-example { margin-top: 12px; padding: 12px; background: var(--bg); border-left: 2px solid var(--gold); font-size: 13px; color: var(--text); font-style: italic; line-height: 1.6; }
+
+    /* ── Dark island: preview containers that must stay dark ── */
+    /* Flip ALL inline colour:#fff to dark text */
+    [style*="color:#fff"]  { color: var(--text) !important; }
+    [style*="color: #fff"] { color: var(--text) !important; }
+    /* Restore white inside explicit dark-preview containers */
+    .dark-island [style*="color:#fff"],
+    .dark-island [style*="color: #fff"] { color: #fff !important; }
+    /* Keep amber inside dark islands */
+    .dark-island [style*="color:#D4A800"] { color: #D4A800 !important; }
+
+    /* ── Hub nav ── */
+    .hub-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; height: 36px; background: rgba(244,244,240,0.97); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 28px; }
+    .hub-nav a { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: #999; text-decoration: none; font-family: var(--font); font-weight: 600; transition: color 0.15s; }
+    .hub-nav a:hover { color: var(--text); }
+    .theme-toggle { background: none; border: 1px solid var(--border-2); color: #999; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; font-family: var(--font); font-weight: 600; padding: 3px 10px; border-radius: 2px; cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-flex; align-items: center; }
+    .theme-toggle:hover { border-color: var(--text); color: var(--text); }
+
+    @media (max-width: 900px) {
+      .page-header { padding: 40px 24px 32px; flex-direction: column; gap: 12px; }
+      .content { padding: 40px 24px 80px; }
+      .colour-grid { grid-template-columns: repeat(3, 1fr); }
+      .type-row { grid-template-columns: 1fr; gap: 12px; }
+      .wordmark-grid { grid-template-columns: 1fr; }
+      .voice-grid { grid-template-columns: 1fr; }
+      .font-comparison { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hub-nav">
+  <a href="../hub.html">← Hub</a>
+  <a href="brand-reference.html" class="theme-toggle" style="margin-left:auto">Dark</a>
+</div>
+
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-eyebrow">Left in the Edit</div>
+    <h1 class="page-title">Brand <span>Reference</span></h1>
+    <p class="page-sub">Colours · Typography · Wordmark · Voice · Thumbnail formula</p>
+  </div>
+  <div class="page-meta">Light view · Version 1.0 · May 2026<br>Source: Thumbnail Strategy Research</div>
+</div>
+
+<div class="content">
+
+  <!-- ── 01 Colour Palette ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">01</span>
+      <h2>Colour Palette</h2>
+      <span class="note">Primary accent: Documentary Amber — every asset, every time</span>
+    </div>
+
+    <div class="colour-grid">
+      <div class="colour-card">
+        <div class="colour-swatch" style="background:#D4A800;">
+          <span class="role-badge">Primary</span>
+        </div>
+        <div class="colour-info">
+          <div class="name">Documentary Amber</div>
+          <div class="hex">#D4A800</div>
+          <div class="usage">Main accent. Used every video, same position. The recognition element.</div>
+          <div class="contrast-bar">
+            <div class="bar-fill" style="width:88%"></div>
+            <span class="ratio">8.2:1 on #111</span>
+          </div>
+        </div>
+      </div>
+      <div class="colour-card">
+        <div class="colour-swatch" style="background:#111111; border: 1px solid #2a2a2a;">
+          <span class="role-badge">Background</span>
+        </div>
+        <div class="colour-info">
+          <div class="name">Deep Charcoal</div>
+          <div class="hex">#111111</div>
+          <div class="usage">Primary background. Warmer than pure black — more cinematic.</div>
+          <div class="contrast-bar">
+            <div class="bar-fill" style="width:100%; background:#111111"></div>
+            <span class="ratio">Baseline</span>
+          </div>
+        </div>
+      </div>
+      <div class="colour-card">
+        <div class="colour-swatch" style="background:#141414; border: 1px solid #2a2a2a;">
+          <span class="role-badge">Thumbnail BG</span>
+        </div>
+        <div class="colour-info">
+          <div class="name">Thumbnail Charcoal</div>
+          <div class="hex">#141414</div>
+          <div class="usage">Specifically for thumbnails. Slightly lighter than body bg — stops it looking like a flat square in feed.</div>
+          <div class="contrast-bar">
+            <div class="bar-fill" style="width:76%; background:#141414"></div>
+            <span class="ratio">~16:1 with text</span>
+          </div>
+        </div>
+      </div>
+      <div class="colour-card">
+        <div class="colour-swatch" style="background:#C8102E;">
+          <span class="role-badge">Accent only</span>
+        </div>
+        <div class="colour-info">
+          <div class="name">Deep Crimson</div>
+          <div class="hex">#C8102E</div>
+          <div class="usage">One element per thumbnail maximum. Never dominant. Case-specific — only when it earns it.</div>
+          <div class="contrast-bar">
+            <div class="bar-fill" style="width:55%; background:#C8102E"></div>
+            <span class="ratio">4.9:1 on #111</span>
+          </div>
+        </div>
+      </div>
+      <div class="colour-card">
+        <div class="colour-swatch" style="background:#e8e8e0; border:1px solid #ccc;">
+          <span class="role-badge">Text</span>
+        </div>
+        <div class="colour-info">
+          <div class="name">Off-White</div>
+          <div class="hex">#e8e8e0</div>
+          <div class="usage">Body text and headings on dark. Slightly warm — less harsh than pure white. Use #ffffff for hero headlines only.</div>
+          <div class="contrast-bar">
+            <div class="bar-fill" style="width:80%; background:#e8e8e0; border:1px solid #ccc"></div>
+            <span class="ratio">16:1 on #111</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 20px; background: var(--surface); border: 1px solid var(--border); padding: 20px 24px;">
+      <div style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--crimson); font-weight: 700; margin-bottom: 16px;">Never use as primary</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px">
+          <div style="width:32px;height:32px;background:#1B5FA8;border-radius:3px;flex-shrink:0"></div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:3px">#1B5FA8 Police Blue</div>
+            <div style="font-size:11px;color:var(--faint);line-height:1.4">Blends into YouTube's grey interface</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px">
+          <div style="width:32px;height:32px;background:#FF0000;border-radius:3px;flex-shrink:0"></div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:3px">#FF0000 YouTube Red</div>
+            <div style="font-size:11px;color:var(--faint);line-height:1.4">Clashes with YouTube UI — creates visual noise confusion</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px">
+          <div style="width:32px;height:32px;background:#FFDD00;border-radius:3px;flex-shrink:0"></div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:3px">#FFDD00 Police Tape Yellow</div>
+            <div style="font-size:11px;color:var(--faint);line-height:1.4">Generic — signals the subgenre, not your channel specifically</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--surface-2);border:1px solid var(--border);border-radius:4px">
+          <div style="width:32px;height:32px;background:#000000;border:1px solid #ccc;border-radius:3px;flex-shrink:0"></div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:3px">#000000 Pure Black</div>
+            <div style="font-size:11px;color:var(--faint);line-height:1.4">Too flat for thumbnails — use #141414 instead</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 02 Typography ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">02</span>
+      <h2>Typography</h2>
+      <span class="note">Inter Bold — editorial weight, not condensed-heavy</span>
+    </div>
+    <p style="margin:8px 0 20px;font-size:12px;color:var(--faint);max-width:640px">Windows fallback: Arial Bold when Inter isn't installed (e.g., for editors who haven't installed the font yet).</p>
+
+    <div class="type-stack">
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Channel Title / Hero</span>
+          <span class="type-spec">Inter Bold · 80–112px · -2px tracking</span>
+        </div>
+        <div class="type-preview" style="font-size:56px;font-weight:700;letter-spacing:-2px;line-height:0.95">Left in the Edit</div>
+        <div class="type-usage">Page hero, large callouts</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Thumbnail Text</span>
+          <span class="type-spec">Inter Bold · 28–40px · -0.5px tracking · 3–5 words max</span>
+        </div>
+        <div class="type-preview" style="font-size:34px;font-weight:700;letter-spacing:-0.5px">Case Name Here</div>
+        <div class="type-usage">Thumbnail headlines only. Short.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Section Heading</span>
+          <span class="type-spec">Inter Bold · 20–28px · -0.3px tracking</span>
+        </div>
+        <div class="type-preview" style="font-size:24px;font-weight:700;letter-spacing:-0.3px">The Evidence</div>
+        <div class="type-usage">Document and web headings</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Eyebrow / Label</span>
+          <span class="type-spec">Inter Medium · 10–11px · 4–5px tracking · ALL CAPS · Amber</span>
+        </div>
+        <div class="type-preview" style="font-size:10px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold)">True Crime · Bodycam Footage</div>
+        <div class="type-usage">Section labels, categories, metadata</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-name">Body Copy</span>
+          <span class="type-spec">Inter Regular · 14–16px · 1.7 line-height</span>
+        </div>
+        <div class="type-preview" style="font-size:14px;font-weight:400;line-height:1.7;color:var(--muted);max-width:500px">The footage tells the story. Documentary-level breakdowns — not a reaction, not a recap.</div>
+        <div class="type-usage">Descriptions, captions, body text</div>
+      </div>
+    </div>
+
+    <div class="font-comparison">
+      <div class="font-col do-col">
+        <div class="col-label">Use these</div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div>
+            <div class="font-sample" style="font-family:'Inter', 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:700">Inter Bold</div>
+            <div class="font-name">Primary — editorial, authoritative</div>
+          </div>
+          <div>
+            <div class="font-sample" style="font-family:'Oswald','Inter', 'Helvetica Neue',sans-serif;font-weight:600">Oswald SemiBold</div>
+            <div class="font-name">Alternative — strong, journalistic</div>
+          </div>
+          <div>
+            <div class="font-sample" style="font-family:'League Gothic','Arial Narrow',sans-serif;font-weight:400">League Gothic</div>
+            <div class="font-name">Alternative — tall, editorial</div>
+          </div>
+        </div>
+      </div>
+      <div class="font-col dont-col">
+        <div class="col-label">Never use</div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div>
+            <div class="font-sample" style="font-family:Impact,Arial Black,sans-serif;font-weight:900;letter-spacing:-1px">IMPACT</div>
+            <div class="font-name">Reads as 2016. Every mid-tier channel.</div>
+          </div>
+          <div>
+            <div class="font-sample" style="font-family:'Arial Black',Arial,sans-serif;font-weight:900">Bebas Neue</div>
+            <div class="font-name">True crime channel default — invisible.</div>
+          </div>
+          <div>
+            <div class="font-sample" style="font-family:serif;font-style:italic;opacity:0.5">Distressed / Horror</div>
+            <div class="font-name">Signals low production value immediately.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03 Wordmark ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">03</span>
+      <h2>Wordmark</h2>
+      <span class="note">Inter Bold · All caps · 3px letter-spacing · Amber highlight on "the Edit"</span>
+    </div>
+
+    <div class="wordmark-grid">
+      <div class="wordmark-card dark-bg wm-dark">
+        <div class="wordmark-label" style="color:#555">On dark (primary use)</div>
+        <div class="wordmark">LEFT IN <span>THE EDIT</span></div>
+      </div>
+      <div class="wordmark-card light-bg wm-light">
+        <div class="wordmark-label" style="color:#555">On light (secondary use)</div>
+        <div class="wordmark">LEFT IN <span>THE EDIT</span></div>
+      </div>
+      <div class="wordmark-card gold-bg wm-gold">
+        <div class="wordmark-label">On amber (avoid)</div>
+        <div class="wordmark">LEFT IN <span>THE EDIT</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;background:var(--surface);border:1px solid var(--border);padding:16px 20px;font-size:13px;color:var(--muted)">
+      <span style="font-weight:700;margin-right:8px">Files:</span>
+      <code style="font-family:monospace;color:var(--gold)">Branding/logo-yellow-on-black.svg</code> — white + amber on charcoal (primary use) &nbsp;·&nbsp;
+      <code style="font-family:monospace;color:var(--gold)">Branding/logo-black-on-yellow.svg</code> — all black on amber (avoid except special use)
+    </div>
+  </div>
+
+  <!-- ── 04 Amber Accent ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">04</span>
+      <h2>Amber Accent — The Recognition Element</h2>
+      <span class="note">One amber element · Same position · Every asset · Every time</span>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px;margin-bottom:16px;font-size:13px;color:var(--muted);line-height:1.7">
+      Consistent colour placement earns 25% more CTR at zero design cost. Put the amber bar in the same position on every asset. Viewers pattern-match it within a few videos and click on recognition alone.
+    </div>
+
+    <div class="accent-demo-grid">
+      <div class="accent-demo">
+        <div class="demo-label">Horizontal bar (thumbnails · hero sections)</div>
+        <div class="accent-bar-h"></div>
+        <h3>Case Title Here</h3>
+        <p>48px wide · 3px tall · above headline</p>
+      </div>
+      <div class="accent-demo">
+        <div class="demo-label">Vertical rule (web · doc dividers)</div>
+        <div style="display:flex;align-items:flex-start;gap:16px;margin-top:4px">
+          <div style="width:3px;height:60px;background:var(--gold);flex-shrink:0"></div>
+          <div>
+            <h3>Section Heading</h3>
+            <p style="margin-top:6px">Used to mark key sections</p>
+          </div>
+        </div>
+      </div>
+      <div class="accent-demo">
+        <div class="demo-label">Text highlight (wordmark · labels)</div>
+        <div style="font-size:22px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:4px;color:var(--text)">LEFT IN <span style="color:var(--gold)">THE EDIT</span></div>
+        <p style="margin-top:8px">Amber on key phrase only — not entire text</p>
+      </div>
+      <div class="accent-demo">
+        <div class="demo-label">Bottom border (cards · thumbnails)</div>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-bottom:3px solid var(--gold);padding:16px;margin-top:4px">
+          <div style="font-size:13px;font-weight:600;color:var(--text)">Card or thumbnail element</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:4px">3px amber bottom border</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 05 Thumbnail Formula ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">05</span>
+      <h2>Thumbnail Formula</h2>
+      <span class="note">Every video · Same structure · Recognition through repetition</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start">
+      <div>
+        <div class="thumb-preview">
+          <div class="thumb-image-area"></div>
+          <div class="thumb-amber-accent"></div>
+          <div class="thumb-title">3–5 Word<br>Case Title</div>
+          <div class="thumb-channel">Left in the Edit</div>
+        </div>
+        <div class="thumb-annotations">
+          <div class="thumb-ann"><span class="elem">Background</span><span class="spec">#141414 — deep charcoal, not pure black</span></div>
+          <div class="thumb-ann"><span class="elem">Amber bar</span><span class="spec">48px × 3px · above headline · every video</span></div>
+          <div class="thumb-ann"><span class="elem">Headline</span><span class="spec">HN Bold · 3–5 words max · white</span></div>
+          <div class="thumb-ann"><span class="elem">Image treatment</span><span class="spec">Desaturated · slight grade · no raw screenshot</span></div>
+          <div class="thumb-ann"><span class="elem">Channel name</span><span class="spec">Amber · small caps · bottom left</span></div>
+          <div class="thumb-ann"><span class="elem">Red accent</span><span class="spec">One element max · only if case warrants it</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="do-dont-grid">
+          <div class="do-col-full">
+            <div class="col-label">DO</div>
+            <div class="rule-list">
+              <div class="rule-item"><div class="dot"></div>Amber accent, same position, every thumbnail</div>
+              <div class="rule-item"><div class="dot"></div>Deep charcoal background (#141414)</div>
+              <div class="rule-item"><div class="dot"></div>3–5 words, readable at mobile size</div>
+              <div class="rule-item"><div class="dot"></div>Desaturated, graded photography</div>
+              <div class="rule-item"><div class="dot"></div>Inter Bold — editorial weight</div>
+              <div class="rule-item"><div class="dot"></div>Include face only when expression is specific to the case</div>
+              <div class="rule-item"><div class="dot"></div>4.5:1 minimum contrast ratio on all text</div>
+            </div>
+          </div>
+          <div class="dont-col-full">
+            <div class="col-label">DON'T</div>
+            <div class="rule-list">
+              <div class="rule-item"><div class="dot"></div>Multiple colours competing — amber only</div>
+              <div class="rule-item"><div class="dot"></div>Impact, Bebas Neue, or any condensed-heavy font</div>
+              <div class="rule-item"><div class="dot"></div>Full-sentence text or small supporting text</div>
+              <div class="rule-item"><div class="dot"></div>Raw screenshot footage (always grade it)</div>
+              <div class="rule-item"><div class="dot"></div>Blood drips, explosion graphics, distressed effects</div>
+              <div class="rule-item"><div class="dot"></div>Generic shock face as default thumbnail</div>
+              <div class="rule-item"><div class="dot"></div>Pure #FF0000 red — use #C8102E crimson only</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 06 Tagline ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">06</span>
+      <h2>Tagline</h2>
+      <span class="note">One line · Every platform · Always lowercase · Always with period</span>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);padding:36px 40px;display:flex;flex-direction:column;gap:16px">
+      <div style="font-size:48px;font-weight:700;color:var(--text);letter-spacing:-1px">Nothing left out.</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.7;max-width:600px">The channel name is the promise: everything the official edit removed is here. The tagline makes it explicit. Use it in the YouTube About section, channel banner, Twitter/X header, and any one-line description field.</div>
+    </div>
+
+    <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:12px">DO</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)">
+          <div>Nothing left out. <span style="color:var(--faint)">(standard)</span></div>
+          <div>NOTHING LEFT OUT <span style="color:var(--faint)">(all-caps for spaced-tracking labels)</span></div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--crimson);font-weight:700;margin-bottom:12px">DON'T</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)">
+          <div>Nothing Left Out <span style="color:var(--faint)">(title case — looks like a product name)</span></div>
+          <div>nothing left out <span style="color:var(--faint)">(no period — the period is intentional, definitive)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 07 LITE Mark ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">07</span>
+      <h2>LITE — Abbreviation Mark</h2>
+      <span class="note">Left In The Edit → LITE · Use wherever the full wordmark won't scale</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:200px 200px 1fr;gap:12px;align-items:stretch">
+      <!-- dark-island: LITE on dark card -->
+      <div class="dark-island" style="background:#111;border:1px solid #2a2a2a;padding:32px;display:flex;flex-direction:column;align-items:center;gap:12px">
+        <div style="font-size:80px;font-weight:700;letter-spacing:-3px;line-height:1"><span style="color:#fff">LI</span><span style="color:#D4A800">TE</span></div>
+        <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#666">On dark (primary)</div>
+      </div>
+      <div style="background:var(--gold);border:1px solid var(--border);padding:32px;display:flex;flex-direction:column;align-items:center;gap:12px">
+        <div style="font-size:80px;font-weight:700;letter-spacing:-3px;line-height:1"><span style="color:#fff">LI</span><span style="color:#000">TE</span></div>
+        <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(0,0,0,0.5)">On amber (avoid)</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);padding:24px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--text)">Colour split — LI white, TE amber</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6">LI = Left In (white, like the first half of the wordmark). TE = The Edit (amber, like the highlighted half). The colour logic of the full wordmark, compressed into four letters.</div>
+        <div style="font-size:12px;font-weight:700;color:var(--text);margin-top:4px">When to use LITE instead of the full wordmark</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)">
+          <div>· <strong>Profile picture</strong> — chosen mark for YouTube, TikTok, Instagram, Reddit</div>
+          <div>· Video watermark (bottom-right corner of footage — small, unobtrusive)</div>
+          <div>· Favicon</div>
+          <div>· Merchandise</div>
+          <div>· Any context where horizontal space is limited</div>
+        </div>
+        <div style="margin-top:4px;font-size:12px;color:var(--faint)">Always Inter Bold · All caps · No additional tagline text alongside it</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 08 Lower Thirds ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">08</span>
+      <h2>Lower Thirds — Yellow vs White</h2>
+      <span class="note">One rule · Always consistent · Never mix within the same scene</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:var(--surface);border:1px solid var(--border);padding:28px 32px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:16px">Amber text — first appearance</div>
+        <div style="font-size:24px;font-weight:700;color:var(--gold);margin-bottom:12px">OFFICER HAYES</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">First time this person appears on screen in this video. Amber draws the eye — signals this is someone new the viewer needs to register.</div>
+      </div>
+      <!-- dark-island: white lower third must be seen on dark bg to make sense -->
+      <div class="dark-island" style="background:#1a1a18;border:1px solid #2a2a2a;padding:28px 32px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#666;font-weight:700;margin-bottom:16px">White text — repeat appearance</div>
+        <div style="font-size:24px;font-weight:700;color:#fff;margin-bottom:12px">OFFICER HAYES</div>
+        <div style="font-size:13px;color:#888;line-height:1.7">Second or later appearance in the same video. White is quieter — the viewer already knows who this is. Don't pull focus unnecessarily.</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;background:var(--surface);border:1px solid var(--border);padding:16px 20px;font-size:13px;color:var(--muted)">
+      <span style="font-weight:600;margin-right:8px">Edge case:</span>If a person reappears after a significant time gap (e.g. a different day of footage), treat it as a first appearance and use amber again.
+    </div>
+  </div>
+
+  <!-- ── 09 Brand Voice ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">09</span>
+      <h2>Brand Voice</h2>
+      <span class="note">Documentary register — evidence-first, not sensationalist</span>
+    </div>
+
+    <div class="voice-grid">
+      <div class="voice-card">
+        <h4>Tone</h4>
+        <p>Measured, serious, authoritative. The footage speaks — you provide context, not hype. Treat every case like a documentary, not a reaction video.</p>
+        <div class="voice-example">"The bodycam shows what happened. Here's what it means."</div>
+      </div>
+      <div class="voice-card">
+        <h4>What it is</h4>
+        <p>Evidence-first. Investigative. Specific. You respect the viewer enough to let them form opinions. You give them the material, not just the conclusion.</p>
+        <div class="voice-example">"At 4:12, the officer's account contradicts the footage."</div>
+      </div>
+      <div class="voice-card">
+        <h4>What it isn't</h4>
+        <p>Shock-first. Sensationalist. Vague or over-dramatic. No "YOU WON'T BELIEVE THIS." No gore as content. No commentary that treats real events as entertainment.</p>
+        <div class="voice-example">Not: "This is the CRAZIEST bodycam you'll EVER see!!"</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:var(--green-dim);border:1px solid var(--green);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:10px">DO</div>
+        <div style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:6px">JCS Criminal Psychology</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6">Almost no creator on camera. Cold and clinical. Minimal text. The editing carries the case. JCS built the most respected channel in the genre by trusting the footage.</div>
+      </div>
+      <div style="background:var(--crimson-dim);border:1px solid #f0c0c8;padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--crimson);font-weight:700;margin-bottom:10px">DON'T</div>
+        <div style="font-size:14px;color:var(--text);font-weight:600;margin-bottom:6px">Mid-tier bodycam channels</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6">Police-tape yellow, Impact font, shock-face thumbnail. It works at small scale. In the feed it looks like a hundred other channels. No viewer loyalty follows.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 10 Thumbnail Format Library ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">10</span>
+      <h2>Thumbnail Format Library</h2>
+      <span class="note">Six named formats — pick based on the story, not habit</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+
+      <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+        <div class="dark-island" style="aspect-ratio:16/9;background:#141414;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:14px">
+          <div style="position:absolute;top:8px;left:8px;background:#D4A800;padding:3px 8px;font-size:7px;font-weight:700;letter-spacing:2px;color:#000">LEFT IN THE EDIT</div>
+          <div style="width:20px;height:2px;background:#D4A800;margin-bottom:6px"></div>
+          <div style="font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.5px;line-height:1.1">Case Title</div>
+          <div style="font-size:9px;color:#D4A800;margin-top:4px;letter-spacing:1px">Subtitle here</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:4px;background:#D4A800"></div>
+        </div>
+        <div style="padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">Dark Standard</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">Default format. Case title + subtitle on deep charcoal. Use this unless another format earns it.</div>
+          <div style="margin-top:8px;font-size:10px;color:var(--faint);font-family:monospace">thumbnail-template-dark.svg</div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+        <div class="dark-island" style="aspect-ratio:16/9;background:#D4A800;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:14px">
+          <div style="position:absolute;top:8px;left:8px;background:#000;padding:3px 8px;font-size:7px;font-weight:700;letter-spacing:2px;color:#D4A800">LEFT IN THE EDIT</div>
+          <div style="font-size:14px;font-weight:700;color:#000;letter-spacing:-0.5px;line-height:1.1">Case Title</div>
+          <div style="font-size:9px;color:#333;margin-top:4px;letter-spacing:1px">Subtitle here</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;height:4px;background:#000"></div>
+        </div>
+        <div style="padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">Amber Inverted</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">High-contrast variation. Use sparingly — max 1 in every 5 videos or it loses impact.</div>
+          <div style="margin-top:8px;font-size:10px;color:var(--faint);font-family:monospace">thumbnail-template-yellow.svg</div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+        <div class="dark-island" style="aspect-ratio:16/9;background:#3a3a3a;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:14px">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.2) 100%)"></div>
+          <div style="position:relative;z-index:2;font-size:7px;color:#888;letter-spacing:2px;margin-bottom:4px">BODYCAM FOOTAGE</div>
+          <div style="position:relative;z-index:2;font-size:14px;font-weight:700;color:#fff;letter-spacing:-0.5px;line-height:1.1">She Called 911.</div>
+          <div style="position:relative;z-index:2;font-size:11px;font-weight:700;color:#D4A800;margin-top:3px">90 Minutes Later...</div>
+        </div>
+        <div style="padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">Photo Overlay</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">When a specific frame from the footage is striking and adds context. Always grade the still first — never use a raw screenshot.</div>
+          <div style="margin-top:8px;font-size:10px;color:var(--faint);font-family:monospace">thumbnail-template-with-photo.svg</div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+        <div class="dark-island" style="aspect-ratio:16/9;background:#141414;position:relative;display:flex;flex-direction:column;justify-content:center;padding:14px">
+          <div style="font-size:8px;color:#888;letter-spacing:4px;text-align:center;margin-bottom:4px">BODYCAM SHOWS</div>
+          <div style="font-size:52px;font-weight:700;color:#D4A800;letter-spacing:-2px;line-height:1;text-align:center">30</div>
+          <div style="font-size:14px;font-weight:700;color:#D4A800;text-align:center">SECONDS</div>
+          <div style="font-size:8px;color:#888;letter-spacing:3px;text-align:center;margin-top:4px">HE DIDN'T KNOW ABOUT</div>
+        </div>
+        <div style="padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">Stat / Number</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">When a number tells the story. Most distinctive format — hardest to copy. Only use when the stat genuinely earns it.</div>
+          <div style="margin-top:8px;font-size:10px;color:var(--faint);font-family:monospace">concept-stat-30-seconds.svg</div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+        <div class="dark-island" style="aspect-ratio:16/9;background:#141414;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:14px">
+          <div style="position:absolute;top:0;left:0;right:0;height:4px;background:#D4A800"></div>
+          <div style="position:absolute;top:8px;left:8px;background:#D4A800;padding:3px 8px;font-size:7px;font-weight:700;letter-spacing:2px;color:#000">LEFT IN THE EDIT</div>
+          <div style="font-size:12px;font-weight:700;color:#fff;letter-spacing:-0.3px;line-height:1.2;margin-bottom:8px">Why Did It Take<br>400 Days?</div>
+          <div style="width:16px;height:2px;background:#D4A800;margin-bottom:4px"></div>
+          <div style="font-size:8px;color:#D4A800">The answer is worse than the footage.</div>
+        </div>
+        <div style="padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">Question</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">When the hook is a question the viewer can't ignore. Keep the question under 10 words. The subline must pay it off.</div>
+          <div style="margin-top:8px;font-size:10px;color:var(--faint);font-family:monospace">concept-question-format.svg</div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);overflow:hidden">
+        <div class="dark-island" style="aspect-ratio:16/9;background:#141414;position:relative;display:flex;flex-direction:column;justify-content:center;padding:14px 14px 14px 22px">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:#D4A800"></div>
+          <div style="font-size:8px;font-weight:700;color:#D4A800;letter-spacing:3px;margin-bottom:6px">WHAT THEY CUT</div>
+          <div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:-0.3px;line-height:1.2">She Named Her<br>Victim Two<br>Years Earlier</div>
+        </div>
+        <div style="padding:14px 16px">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px">Left Bar</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.5">Secondary headline variant. Works well for multi-part series or when the eyebrow label carries weight.</div>
+          <div style="margin-top:8px;font-size:10px;color:var(--faint);font-family:monospace">concept-left-bar-dark.svg</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 11 Caption & Subtitle Styling ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">11</span>
+      <h2>Caption &amp; Subtitle Styling</h2>
+      <span class="note">Appears on every video — needs to be as consistent as any other graphic</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div class="dark-island" style="background:#141414;border:1px solid #2a2a2a;aspect-ratio:16/9;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;position:relative">
+        <div style="background:rgba(0,0,0,0.65);padding:8px 12px;border-radius:4px;display:inline-block;max-width:90%">
+          <div style="font-size:13px;font-weight:700;color:#fff;line-height:1.4">The footage shows what happened.</div>
+        </div>
+        <div style="margin-top:6px;background:rgba(0,0,0,0.65);padding:8px 12px;border-radius:4px;display:inline-block;max-width:90%">
+          <div style="font-size:11px;font-weight:700;color:#D4A800;letter-spacing:1px">OFFICER HAYES&nbsp;</div><span style="font-size:13px;font-weight:400;color:#fff">This is your last warning.</span>
+        </div>
+        <div style="position:absolute;top:10px;left:10px;font-size:9px;color:#555;letter-spacing:2px">NARRATION / DIALOGUE</div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);padding:24px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:12px">
+          <div style="color:var(--muted)">Font</div><div style="color:var(--text);font-family:monospace">Inter Bold</div>
+          <div style="color:var(--muted)">Size (1080p export)</div><div style="color:var(--text);font-family:monospace">52–60px</div>
+          <div style="color:var(--muted)">Narration colour</div><div style="color:var(--text);font-family:monospace">#FFFFFF (on dark footage)</div>
+          <div style="color:var(--muted)">Speaker label</div><div style="color:#D4A800;font-family:monospace">#D4A800 · ALL CAPS</div>
+          <div style="color:var(--muted)">Background</div><div style="color:var(--text);font-family:monospace">rgba(0,0,0,0.65) · 8px pad · 4px radius</div>
+          <div style="color:var(--muted)">Position</div><div style="color:var(--text);font-family:monospace">10% from bottom</div>
+          <div style="color:var(--muted)">Max line length</div><div style="color:var(--text);font-family:monospace">42 chars · 2 lines max</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:12px">DO</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)">
+          <div>Amber + ALL CAPS for speaker names — makes them scannable at speed</div>
+          <div>Semi-transparent pill background on every caption line — footage varies too much to go without</div>
+          <div>Position above any lower third graphic if both are on screen together</div>
+          <div>Use Resolve's subtitle track for burned-in captions if exporting them</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--crimson);font-weight:700;margin-bottom:12px">DON'T</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)">
+          <div>Use YouTube's auto-caption display style for burned captions — it doesn't match the brand</div>
+          <div>Put more than 2 lines of caption on screen at once</div>
+          <div>Use a solid black box — the semi-transparent pill is less intrusive on dark footage</div>
+          <div>Leave narration and dialogue the same colour — the amber speaker label is the signal to switch</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 12 Footage Treatment ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">12</span>
+      <h2>Footage Treatment</h2>
+      <span class="note">Consistent grade across every video — clinical, not punchy</span>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px;margin-bottom:12px;font-size:13px;color:var(--muted);line-height:1.7">
+      Apply the same grade to every bodycam and dashcam clip. Raw footage varies wildly in colour temperature, exposure, and saturation — a consistent grade ties it into a single channel. Target <strong>JCS Criminal Psychology</strong>'s register: clinical, slightly cool, grey. The footage should look like evidence.
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px">Saturation</div>
+        <div style="font-size:28px;font-weight:700;color:var(--text);margin-bottom:6px">–25 to –40%</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5">Partial desaturation — not B&amp;W, not raw colour. Uniform across all clips in the same video. Pick one value per project and stick to it.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px">Colour Temp</div>
+        <div style="font-size:28px;font-weight:700;color:var(--text);margin-bottom:6px">–150 to –200K</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5">Shift slightly cool in Resolve's Color Wheels. Counteracts the warm orange white-balance most bodycams default to.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px">Lift / Gain</div>
+        <div style="font-size:28px;font-weight:700;color:var(--text);margin-bottom:6px">+0.02 / –0.07</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.5">Lift shadows slightly (+0.02–0.04) to avoid crushing black body armour. Roll off highlights (–0.05–0.10) to prevent blown windows and sky.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-weight:700;margin-bottom:12px">DO</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)">
+          <div>Apply the same node stack to every clip — save it as a Resolve still or power grade</div>
+          <div>Grade thumbnails to match — what the viewer sees in the feed should match what's in the video</div>
+          <div>Slightly lift shadows on night footage — bodycams crush dark scenes badly without it</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--crimson);font-weight:700;margin-bottom:12px">DON'T</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--muted)">
+          <div>Orange-teal grade — the most overused colour treatment on the internet</div>
+          <div>Heavy vignette — makes documentary footage look like a music video</div>
+          <div>Film grain unless very subtle (under 5%) — adds noise without adding anything</div>
+          <div>Full desaturation (B&amp;W) — removes the realism that makes bodycam footage impactful</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 13 Graphics Overlay Hierarchy ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">13</span>
+      <h2>Graphics Overlay Hierarchy</h2>
+      <span class="note">Layer order for when multiple overlays appear on the same frame</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px">Layer order — top to bottom</div>
+        <div style="background:var(--surface);border:1px solid var(--gold);padding:14px 18px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--text)">1 — Corner Tag</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Top layer. Small, persistent. Stays on for full clip duration.</div>
+          </div>
+          <div style="font-size:10px;color:var(--gold);letter-spacing:1px;white-space:nowrap">V4</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:14px 18px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--text)">2 — Caption / Subtitle</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Above lower third. Appears above lower-third graphics when both are on screen.</div>
+          </div>
+          <div style="font-size:10px;color:var(--gold);letter-spacing:1px;white-space:nowrap">V3</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:14px 18px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--text)">3 — Lower Third</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Speaker ID. On for 2–3s then fades. Never show two lower thirds simultaneously.</div>
+          </div>
+          <div style="font-size:10px;color:var(--gold);letter-spacing:1px;white-space:nowrap">V2</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:14px 18px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--text)">4 — Footage</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Base layer. All graphics sit on top of this.</div>
+          </div>
+          <div style="font-size:10px;color:var(--muted);letter-spacing:1px;white-space:nowrap">V1</div>
+        </div>
+        <div style="margin-top:4px;background:var(--surface);border:1px solid #f0c0c8;padding:14px 18px">
+          <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px">Full Card — special case</div>
+          <div style="font-size:11px;color:var(--muted);line-height:1.6">Always full-screen. Always solo — clear all other overlays before cutting to a full card. Pair with a beat of silence or music sting. Duration: 1.5–2.5 seconds.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+          <div style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">Rules</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted)">
+            <div>Never show more than 2 overlay types simultaneously (e.g. corner tag + lower third is fine; corner tag + lower third + caption is the maximum)</div>
+            <div>Corner tag stays on for the full duration of a clip — it's a persistent identifier, not a callout</div>
+            <div>Lower third fades after 2–3 seconds — it introduces, then gets out of the way</div>
+            <div>Full cards replace the footage entirely — they are not overlaid on top of it</div>
+          </div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);padding:20px 24px">
+          <div style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">Timing reference</div>
+          <div style="display:grid;grid-template-columns:1fr auto;gap:6px 16px;font-size:12px">
+            <div style="color:var(--muted)">Lower third — fade in</div><div style="color:var(--text);font-family:monospace">4–6 frames</div>
+            <div style="color:var(--muted)">Lower third — on screen</div><div style="color:var(--text);font-family:monospace">2–3 seconds</div>
+            <div style="color:var(--muted)">Lower third — fade out</div><div style="color:var(--text);font-family:monospace">4–6 frames</div>
+            <div style="color:var(--muted)">Full card — on screen</div><div style="color:var(--text);font-family:monospace">1.5–2.5 seconds</div>
+            <div style="color:var(--muted)">Corner tag — on screen</div><div style="color:var(--text);font-family:monospace">Full clip duration</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="../sidebar.js"></script>
+</body>
+</html>

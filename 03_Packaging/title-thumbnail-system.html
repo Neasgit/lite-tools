@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230d0d0d%27/%3E%3Ctext x=%2716%27 y=%2724%27 font-family=%27Helvetica Neue,Arial,sans-serif%27 font-size=%2720%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23D4A800%27%3EL%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only dark">
+  <title>Title & Thumbnail System — Left in the Edit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    :root {
+      --bg:          #0a0a0a;
+      --surface:     #111111;
+      --surface-2:   #181818;
+      --thumb-bg:    #141414;
+      --border:      #1e1e1e;
+      --border-2:    #2a2a2a;
+
+      --gold:        #D4A800;
+      --gold-dim:    #3a2d00;
+      --gold-text:   #f0c840;
+      --crimson:     #C8102E;
+      --green:       #2E7D4F;
+
+      --text:        #e8e8e0;
+      --muted:       #888;
+      --faint:       #333;
+
+      --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --mono: 'SF Mono', 'Cascadia Code', 'Courier New', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      margin-top: 36px;
+      border-bottom: 1px solid var(--border);
+      padding: 48px 80px 40px;
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .page-header-left { display: flex; flex-direction: column; gap: 8px; }
+    .page-eyebrow { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+    .page-title { font-size: 28px; font-weight: 700; letter-spacing: -0.4px; color: #fff; }
+    .page-title span { color: var(--gold); }
+    .page-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .page-meta { font-size: 11px; color: var(--faint); letter-spacing: 1px; text-align: right; line-height: 1.8; }
+
+    /* ── Layout ── */
+    .content {
+      max-width: 1100px; margin: 0 auto;
+      padding: 64px 80px 100px;
+      display: flex; flex-direction: column; gap: 72px;
+    }
+
+    /* ── Section heading ── */
+    .section-num {
+      display: flex; align-items: baseline; gap: 18px;
+      margin-bottom: 28px; padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-num .num { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+    .section-num h2 { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
+    .section-num .note { font-size: 12px; color: var(--muted); margin-left: auto; }
+
+    .lead {
+      font-size: 14px; color: var(--text); line-height: 1.7;
+      max-width: 760px; margin-bottom: 28px;
+    }
+    .lead strong { color: var(--gold-text); font-weight: 600; }
+
+    /* ── Pair principle ── */
+    .pair-principle {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 12px;
+    }
+    .pair-cell {
+      background: var(--surface); padding: 28px 32px;
+    }
+    .pair-label {
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--gold); font-weight: 700; margin-bottom: 14px;
+    }
+    .pair-text { font-size: 15px; color: var(--text); line-height: 1.55; }
+
+    /* ── Pattern rows ── */
+    .pattern-stack { display: flex; flex-direction: column; gap: 1px; }
+    .pattern {
+      display: grid;
+      grid-template-columns: 200px 1fr 220px;
+      gap: 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      align-items: stretch;
+    }
+    .pattern-type {
+      padding: 22px 24px;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 6px;
+      justify-content: center;
+    }
+    .pattern-type .ptype-num {
+      font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: 2px;
+    }
+    .pattern-type .ptype-name {
+      font-size: 14px; font-weight: 700; color: #fff; letter-spacing: -0.2px;
+    }
+    .pattern-title {
+      padding: 22px 28px;
+      border-right: 1px solid var(--border);
+      display: flex; align-items: center;
+      font-size: 15px; color: var(--text); line-height: 1.5;
+      font-style: italic;
+    }
+    .pattern-format {
+      padding: 22px 24px;
+      display: flex; flex-direction: column; gap: 4px;
+      justify-content: center;
+    }
+    .pformat-label {
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); font-weight: 600;
+    }
+    .pformat-name {
+      font-size: 13px; font-weight: 700; color: var(--gold-text);
+      letter-spacing: -0.1px;
+    }
+
+    /* ── Title rules ── */
+    .rules-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+    .rules-col {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 24px;
+    }
+    .rules-col .col-label {
+      font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+      font-weight: 700; margin-bottom: 18px;
+    }
+    .rules-col.do-col .col-label { color: var(--green); }
+    .rules-col.dont-col .col-label { color: var(--crimson); }
+    .rules-list { display: flex; flex-direction: column; gap: 8px; }
+    .rules-item {
+      font-size: 12.5px; color: var(--text); line-height: 1.55;
+      padding-left: 14px; position: relative;
+    }
+    .rules-item::before {
+      content: ""; position: absolute; left: 0; top: 9px;
+      width: 4px; height: 4px; border-radius: 50%;
+    }
+    .do-col   .rules-item::before { background: var(--green);   }
+    .dont-col .rules-item::before { background: var(--crimson); }
+    .rules-item code {
+      font-family: var(--mono); font-size: 11.5px; color: var(--gold-text);
+      background: rgba(212,168,0,0.07); padding: 1px 6px;
+      border: 1px solid var(--gold-dim); border-radius: 2px;
+    }
+
+    /* ── Worked examples ── */
+    .ex-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .ex-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .ex-thumb {
+      aspect-ratio: 16 / 9;
+      background: var(--thumb-bg);
+      position: relative;
+      padding: 22px 28px;
+      display: flex; flex-direction: column; justify-content: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .ex-thumb-text {
+      font-size: 30px; font-weight: 900;
+      color: #fff; letter-spacing: -1px; line-height: 1;
+      text-transform: uppercase;
+      font-family: 'Arial Black', 'Helvetica Neue', Helvetica, sans-serif;
+    }
+    .ex-thumb-text .accent { color: var(--gold); }
+    .ex-thumb-num {
+      font-size: 78px; font-weight: 900;
+      color: var(--gold); letter-spacing: -3px; line-height: 0.9;
+      font-family: 'Arial Black', 'Helvetica Neue', Helvetica, sans-serif;
+    }
+
+    /* thumbnail mini-devices */
+    .mini-redact { display: inline-block; background: #000; color: #000; padding: 0 6px; border-radius: 1px; letter-spacing: 0.5px; }
+    .mini-reveal-line {
+      display: inline-block; position: relative;
+      color: var(--gold);
+    }
+    .mini-reveal-line::after {
+      content: ""; position: absolute; left: -2px; right: -2px; bottom: 0.18em;
+      height: 3px; background: var(--gold); opacity: 0.6;
+    }
+    .ex-left-bar {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 8px; background: var(--gold);
+    }
+
+    .ex-meta {
+      padding: 14px 18px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .ex-title {
+      font-size: 13px; font-weight: 700; color: #fff;
+      line-height: 1.4;
+    }
+    .ex-format {
+      font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted); font-weight: 600;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .page-header { padding: 40px 24px 32px; flex-direction: column; gap: 12px; align-items: flex-start; }
+      .content { padding: 40px 24px 80px; }
+      .pair-principle { grid-template-columns: 1fr; }
+      .pattern { grid-template-columns: 1fr; }
+      .pattern-type, .pattern-title { border-right: none; border-bottom: 1px solid var(--border); }
+      .rules-grid { grid-template-columns: 1fr; }
+      .ex-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Hub nav ── */
+    .hub-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      height: 36px; background: rgba(10,10,10,0.95);
+      border-bottom: 1px solid #1e1e1e;
+      display: flex; align-items: center; padding: 0 28px;
+    }
+    .hub-nav a {
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #484848; text-decoration: none;
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 600; transition: color 0.15s;
+    }
+    .hub-nav a:hover { color: #e0e0e0; }
+  </style>
+</head>
+<body>
+<div class="hub-nav">
+  <a href="../hub.html">← Hub</a>
+</div>
+
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-eyebrow">Left in the Edit</div>
+    <h1 class="page-title">Title & Thumbnail <span>System</span></h1>
+    <p class="page-sub">Treat the title and the thumbnail as one paired asset. Title creates the question. Thumbnail shows the evidence.</p>
+  </div>
+  <div class="page-meta">
+    Version 1.0 · May 2026<br>
+    Source: Brand Review & Action Plan
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- ── 01 The pair principle ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">01</span>
+      <h2>The pair principle</h2>
+      <span class="note">A title and a thumbnail do two different jobs</span>
+    </div>
+
+    <p class="lead">
+      The title and the thumbnail are <strong>one asset, not two</strong>. They have to be designed together.
+      When they repeat each other the listing feels weaker — the viewer reads the same thing twice. When they
+      complement each other, the title raises a question and the thumbnail answers it with a piece of evidence.
+    </p>
+
+    <div class="pair-principle">
+      <div class="pair-cell">
+        <div class="pair-label">Title</div>
+        <div class="pair-text">Creates the question. Names the specific document, footage, call, statement, officer, record, or interview.</div>
+      </div>
+      <div class="pair-cell">
+        <div class="pair-label">Thumbnail</div>
+        <div class="pair-text">Shows the evidence. One image, one phrase, one number — whatever the title points at.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 02 Seven patterns ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">02</span>
+      <h2>The seven patterns</h2>
+      <span class="note">Title type · sample · best-fit thumbnail format</span>
+    </div>
+
+    <div class="pattern-stack">
+
+      <div class="pattern">
+        <div class="pattern-type">
+          <span class="ptype-num">01</span>
+          <span class="ptype-name">Evidence contradiction</span>
+        </div>
+        <div class="pattern-title">"The Bodycam Didn't Match the Report"</div>
+        <div class="pattern-format">
+          <span class="pformat-label">Thumbnail</span>
+          <span class="pformat-name">Left Bar / Photo Overlay</span>
+        </div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-type">
+          <span class="ptype-num">02</span>
+          <span class="ptype-name">Timeline hook</span>
+        </div>
+        <div class="pattern-title">"What Happened in the Missing 11 Minutes"</div>
+        <div class="pattern-format">
+          <span class="pformat-label">Thumbnail</span>
+          <span class="pformat-name">Stat / Number</span>
+        </div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-type">
+          <span class="ptype-num">03</span>
+          <span class="ptype-name">Institutional delay</span>
+        </div>
+        <div class="pattern-title">"Why It Took 400 Days to Release This"</div>
+        <div class="pattern-format">
+          <span class="pformat-label">Thumbnail</span>
+          <span class="pformat-name">Stat / Number</span>
+        </div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-type">
+          <span class="ptype-num">04</span>
+          <span class="ptype-name">Hidden context</span>
+        </div>
+        <div class="pattern-title">"The Part They Cut Changes Everything"</div>
+        <div class="pattern-format">
+          <span class="pformat-label">Thumbnail</span>
+          <span class="pformat-name">Redaction / Reveal</span>
+        </div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-type">
+          <span class="ptype-num">05</span>
+          <span class="ptype-name">Case-specific</span>
+        </div>
+        <div class="pattern-title">"The 911 Call Was Only the Beginning"</div>
+        <div class="pattern-format">
+          <span class="pformat-label">Thumbnail</span>
+          <span class="pformat-name">Photo Overlay</span>
+        </div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-type">
+          <span class="ptype-num">06</span>
+          <span class="ptype-name">Report conflict</span>
+        </div>
+        <div class="pattern-title">"The Report Said One Thing. The Footage Showed Another."</div>
+        <div class="pattern-format">
+          <span class="pformat-label">Thumbnail</span>
+          <span class="pformat-name">Redaction / Reveal</span>
+        </div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-type">
+          <span class="ptype-num">07</span>
+          <span class="ptype-name">Source-led</span>
+        </div>
+        <div class="pattern-title">"Court Records Reveal What the Footage Didn't"</div>
+        <div class="pattern-format">
+          <span class="pformat-label">Thumbnail</span>
+          <span class="pformat-name">Document Highlight</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── 03 Title rules ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">03</span>
+      <h2>Title rules</h2>
+      <span class="note">Specific, sourced, restrained</span>
+    </div>
+
+    <div class="rules-grid">
+      <div class="rules-col do-col">
+        <div class="col-label">Do</div>
+        <div class="rules-list">
+          <div class="rules-item">Use one concrete noun: <code>report</code>, <code>footage</code>, <code>call</code>, <code>timeline</code>, <code>statement</code>, <code>officer</code>, <code>record</code>, <code>interview</code>.</div>
+          <div class="rules-item">Keep the title specific to this case — not a category headline.</div>
+          <div class="rules-item">Let the title <em>create the question</em>. The thumbnail will show the evidence.</div>
+          <div class="rules-item">Use uncertainty carefully when needed: <code>appears to</code>, <code>police say</code>, <code>records state</code>.</div>
+          <div class="rules-item">Sentence case, not title case. Reads like an editorial line, not a headline shouter.</div>
+        </div>
+      </div>
+      <div class="rules-col dont-col">
+        <div class="col-label">Don't</div>
+        <div class="rules-list">
+          <div class="rules-item">No all-caps titles.</div>
+          <div class="rules-item">No <code>INSANE</code>, <code>CRAZY</code>, <code>SHOCKING</code>, or <code>YOU WON'T BELIEVE</code>.</div>
+          <div class="rules-item">No guilt-implying phrasing beyond what the record supports.</div>
+          <div class="rules-item">No gore, grief, or panic as the hook.</div>
+          <div class="rules-item">No clickbait questions the video doesn't actually answer.</div>
+          <div class="rules-item">No title that just rephrases the thumbnail text — make them complement.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 04 Worked examples ── -->
+  <div>
+    <div class="section-num">
+      <span class="num">04</span>
+      <h2>Worked example packagings</h2>
+      <span class="note">Six pair tests — title meets thumbnail</span>
+    </div>
+
+    <p class="lead">
+      Each card below is the title and the thumbnail rendered as a unit. The title sets up the question; the
+      thumbnail picks one piece of evidence to deliver. Notice they never repeat each other word-for-word.
+    </p>
+
+    <div class="ex-grid">
+
+      <!-- Ex 1 -->
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <div class="ex-thumb-num">11</div>
+          <div class="ex-thumb-text" style="font-size:22px;margin-top:6px;">MISSING<br>MINUTES</div>
+        </div>
+        <div class="ex-meta">
+          <div class="ex-title">The Report Left Out 11 Minutes</div>
+          <div class="ex-format">Stat / Number</div>
+        </div>
+      </div>
+
+      <!-- Ex 2 -->
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <div class="ex-left-bar"></div>
+          <div class="ex-thumb-text" style="padding-left:14px;">She <span class="accent">called</span><br>twice</div>
+        </div>
+        <div class="ex-meta">
+          <div class="ex-title">The 911 Call Changed the Timeline</div>
+          <div class="ex-format">Photo Overlay</div>
+        </div>
+      </div>
+
+      <!-- Ex 3 -->
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <div class="ex-thumb-num">400</div>
+          <div class="ex-thumb-text" style="font-size:22px;margin-top:6px;">DAYS LATER</div>
+        </div>
+        <div class="ex-meta">
+          <div class="ex-title">Why the Footage Was Released 400 Days Later</div>
+          <div class="ex-format">Stat / Number</div>
+        </div>
+      </div>
+
+      <!-- Ex 4 -->
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <div class="ex-left-bar"></div>
+          <div class="ex-thumb-text" style="padding-left:14px;font-size:26px;">Before<br><span class="accent">it cut</span></div>
+        </div>
+        <div class="ex-meta">
+          <div class="ex-title">What the Officer Said Before the Camera Cut</div>
+          <div class="ex-format">Left Bar / Reveal</div>
+        </div>
+      </div>
+
+      <!-- Ex 5 -->
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <div class="ex-thumb-text" style="font-size:28px;">
+            <span class="mini-redact">██████</span><br>changed
+          </div>
+        </div>
+        <div class="ex-meta">
+          <div class="ex-title">The Statement Changed After the Video Surfaced</div>
+          <div class="ex-format">Redaction / Reveal</div>
+        </div>
+      </div>
+
+      <!-- Ex 6 -->
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <div class="ex-thumb-text" style="font-size:26px;">Still<br><span class="mini-reveal-line">recording</span></div>
+        </div>
+        <div class="ex-meta">
+          <div class="ex-title">The Camera Kept Rolling</div>
+          <div class="ex-format">Photo Overlay / Reveal</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="../sidebar.js"></script>
+</body>
+</html>

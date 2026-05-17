@@ -1,0 +1,431 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230d0d0d%27/%3E%3Ctext x=%2716%27 y=%2724%27 font-family=%27Helvetica Neue,Arial,sans-serif%27 font-size=%2720%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23D4A800%27%3EL%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only dark">
+  <title>Colour Comparison — Left in the Edit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0a;
+      color: #e8e8e0;
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      padding: 0 0 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 56px;
+    }
+
+    .page-header {
+      align-self: stretch;
+      margin-top: 36px;
+      border-bottom: 1px solid #1e1e1e;
+      padding: 48px 80px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .page-header-left { display: flex; flex-direction: column; gap: 8px; }
+    .page-eyebrow {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #555;
+      font-weight: 500;
+    }
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: #fff;
+    }
+    .page-title span { color: #D4A800; }
+    .page-sub {
+      font-size: 13px;
+      color: #555;
+      margin-top: 2px;
+    }
+
+    /* ── Section ── */
+    .section { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 1500px; padding: 0 48px; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-title {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #444;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .section-rule {
+      flex: 1;
+      height: 1px;
+      background: #1e1e1e;
+    }
+
+    /* ── Grid ── */
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); max-width: 1000px; margin: 0 auto; width: 100%; }
+
+    /* ── Card ── */
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #1a1a1a;
+      transition: border-color 0.2s;
+      position: relative;
+    }
+    .card:hover { border-color: #333; }
+    .card.recommended { border-color: #3a3000; }
+    .card.recommended:hover { border-color: #554800; }
+
+    .card canvas {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16/9;
+      height: auto;
+    }
+
+    .card-meta {
+      background: #111;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-top: 1px solid #1a1a1a;
+    }
+    .card.recommended .card-meta { background: #0f0d00; border-top-color: #2a2200; }
+
+    .card-name {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #ddd;
+    }
+    .card-hex {
+      font-size: 10px;
+      color: #383838;
+      letter-spacing: 1px;
+      font-family: 'Courier New', monospace;
+    }
+    .card-note {
+      font-size: 11px;
+      color: #555;
+      letter-spacing: 0.5px;
+      line-height: 1.5;
+      margin-top: 2px;
+    }
+
+    .card-left { display: flex; flex-direction: column; gap: 3px; }
+    .card-right { flex-shrink: 0; }
+
+    .tag {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: 2px;
+    }
+    .tag-current {
+      background: #1e1e1e;
+      color: #555;
+    }
+    .tag-rec {
+      background: #332800;
+      color: #D4A800;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+    }
+  </style>
+</head>
+<body>
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;height:36px;background:rgba(10,10,10,0.95);border-bottom:1px solid #1e1e1e;display:flex;align-items:center;padding:0 28px"><a href="../hub.html" style="font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#484848;text-decoration:none;font-family:'Inter', 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600" onmouseover="this.style.color='#e0e0e0'" onmouseout="this.style.color='#484848'">← Hub</a></div>
+
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="page-eyebrow">Left in the Edit</div>
+      <h1 class="page-title">Colour Direction <span>Comparison</span></h1>
+      <div class="page-sub">Nameplate shown over simulated mugshot footage</div>
+    </div>
+    <div class="page-meta">
+      Archived · May 2026<br>
+      Earlier colour exploration
+    </div>
+  </div>
+
+  <!-- Section 1: The Yellow Family -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">The Yellow Family</span>
+      <div class="section-rule"></div>
+      <span class="section-title">Stay in this direction?</span>
+    </div>
+    <div class="grid grid-3" id="grid-yellow"></div>
+  </div>
+
+  <!-- Section 2: Alternative Directions -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-title">Alternative Directions</span>
+      <div class="section-rule"></div>
+      <span class="section-title">Go somewhere different?</span>
+    </div>
+    <div class="grid grid-2" id="grid-alt"></div>
+  </div>
+
+  <script>
+    const FONT     = '"Inter", "Helvetica Neue", Helvetica, Arial, sans-serif';
+    const EXAMPLE_NAME  = 'ANGIE FROST';
+    const EXAMPLE_LABEL = 'SUSPECT';
+
+    const YELLOW_SCHEMES = [
+      {
+        name:    'Current',
+        tag:     'current',
+        tagLabel: 'What you have',
+        bar:     '#FFDD00',
+        label:   '#FFDD00',
+        canvasBg: '#000000',
+        hex:     '#FFDD00',
+        note:    'Loud, high-contrast. Reads caution tape.',
+      },
+      {
+        name:    'Amber',
+        tag:     'recommended',
+        tagLabel: 'Recommended',
+        bar:     '#D4A800',
+        label:   '#D4A800',
+        canvasBg: '#141414',
+        hex:     '#D4A800',
+        note:    'Warmer, richer. Case file over caution tape.',
+      },
+      {
+        name:    'Ochre',
+        tag:     null,
+        bar:     '#B8900A',
+        label:   '#B8900A',
+        canvasBg: '#141414',
+        hex:     '#B8900A',
+        note:    'Darker still. Very editorial, very controlled.',
+      },
+    ];
+
+    const ALT_SCHEMES = [
+      {
+        name:    'Ice',
+        tag:     null,
+        bar:     '#1B5FA8',
+        label:   '#2B7FD4',
+        canvasBg: '#141414',
+        hex:     '#1B5FA8',
+        note:    'Law enforcement energy. Cold, credible, authoritative.',
+      },
+      {
+        name:    'Mono',
+        tag:     null,
+        bar:     '#C8C4BC',
+        label:   '#888880',
+        canvasBg: '#141414',
+        hex:     '#C8C4BC',
+        note:    'Ultra-clean. Journalistic, almost clinical. Very underused in the genre.',
+      },
+    ];
+
+    // ── Simulated mugshot background ──────────────────────────────
+    function drawMugshotBg(ctx, w, h, canvasBg) {
+      // Base fill (the wall/bg colour)
+      ctx.fillStyle = canvasBg;
+      ctx.fillRect(0, 0, w, h);
+
+      // Simulate a subject: a soft elliptical lighter area in the upper centre
+      const subjectGrad = ctx.createRadialGradient(w * 0.5, h * 0.38, 0, w * 0.5, h * 0.38, h * 0.42);
+      subjectGrad.addColorStop(0,   'rgba(80,74,66, 0.55)');
+      subjectGrad.addColorStop(0.5, 'rgba(45,40,36, 0.35)');
+      subjectGrad.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.fillStyle = subjectGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      // Vignette
+      const vig = ctx.createRadialGradient(w * 0.5, h * 0.5, h * 0.2, w * 0.5, h * 0.5, h * 0.85);
+      vig.addColorStop(0, 'rgba(0,0,0,0)');
+      vig.addColorStop(1, 'rgba(0,0,0,0.72)');
+      ctx.fillStyle = vig;
+      ctx.fillRect(0, 0, w, h);
+
+      // Subtle film grain (just enough texture to stop it looking flat)
+      for (let i = 0; i < 3200; i++) {
+        const gx = Math.random() * w;
+        const gy = Math.random() * h;
+        const ga = Math.random() * 0.035;
+        ctx.fillStyle = `rgba(255,255,255,${ga})`;
+        ctx.fillRect(gx, gy, 1, 1);
+      }
+
+      // Faint height line in background (mugshot height ruler feel)
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 1;
+      for (let hy = h * 0.15; hy < h * 0.85; hy += h * 0.07) {
+        ctx.beginPath();
+        ctx.moveTo(w * 0.82, hy);
+        ctx.lineTo(w * 0.92, hy);
+        ctx.stroke();
+      }
+    }
+
+    // ── Draw nameplate ────────────────────────────────────────────
+    function drawNameplate(ctx, w, h, scheme) {
+      ctx.textBaseline = 'top';
+
+      const labelSpaced = EXAMPLE_LABEL.split('').join('  ');
+      const LABEL_SIZE  = Math.round(w * 0.0146);  // ~28px at 1920
+      const NAME_SIZE   = Math.round(w * 0.0438);  // ~84px at 1920
+
+      ctx.font = `500 ${LABEL_SIZE}px ${FONT}`;
+      const labelW = ctx.measureText(labelSpaced).width;
+      const labelH = Math.ceil(LABEL_SIZE * 1.3);
+
+      ctx.font = `700 ${NAME_SIZE}px ${FONT}`;
+      const nameW = ctx.measureText(EXAMPLE_NAME).width;
+      const nameH = Math.ceil(NAME_SIZE * 1.1);
+
+      const contentW = Math.max(labelW, nameW);
+
+      const edgeL   = Math.round(w * 0.042);
+      const edgeB   = Math.round(h * 0.067);
+      const barW    = Math.round(w * 0.0036);
+      const gapBar  = Math.round(w * 0.0156);
+      const padV    = Math.round(h * 0.026);
+      const padH    = Math.round(w * 0.021);
+      const lineGap = Math.round(h * 0.013);
+      const lineH   = Math.max(1, Math.round(h * 0.001));
+
+      const textX  = edgeL + barW + gapBar;
+      const blockH = padV + labelH + lineGap + lineH + lineGap + nameH + padV;
+      const blockW = barW + gapBar + contentW + padH;
+      const blockX = edgeL;
+      const blockY = h - edgeB - blockH;
+
+      // bg
+      ctx.fillStyle = 'rgba(6,6,6,0.91)';
+      ctx.fillRect(blockX, blockY, blockW, blockH);
+
+      // bar
+      ctx.fillStyle = scheme.bar;
+      ctx.fillRect(blockX, blockY, barW, blockH);
+
+      // label
+      const labelY = blockY + padV;
+      ctx.font = `500 ${LABEL_SIZE}px ${FONT}`;
+      ctx.fillStyle = scheme.label;
+      ctx.fillText(labelSpaced, textX, labelY);
+
+      // divider
+      const divY = labelY + labelH + lineGap;
+      ctx.fillStyle = 'rgba(255,255,255,0.28)';
+      ctx.fillRect(textX, divY, contentW, lineH);
+
+      // name
+      const nameY = divY + lineH + lineGap;
+      ctx.font = `700 ${NAME_SIZE}px ${FONT}`;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillText(EXAMPLE_NAME, textX, nameY);
+    }
+
+    // ── Build a card ──────────────────────────────────────────────
+    function buildCard(scheme) {
+      const W = 1920, H = 1080;
+
+      const cvs = document.createElement('canvas');
+      cvs.width  = W;
+      cvs.height = H;
+      const ctx  = cvs.getContext('2d');
+
+      drawMugshotBg(ctx, W, H, scheme.canvasBg);
+      drawNameplate(ctx, W, H, scheme);
+
+      const card = document.createElement('div');
+      card.className = 'card' + (scheme.tag === 'recommended' ? ' recommended' : '');
+
+      card.appendChild(cvs);
+
+      const meta = document.createElement('div');
+      meta.className = 'card-meta';
+
+      const left = document.createElement('div');
+      left.className = 'card-left';
+
+      const nameEl = document.createElement('div');
+      nameEl.className = 'card-name';
+      nameEl.innerHTML = `<span class="dot" style="background:${scheme.bar}"></span>${scheme.name}`;
+
+      const noteEl = document.createElement('div');
+      noteEl.className = 'card-note';
+      noteEl.textContent = scheme.note;
+
+      const hexEl = document.createElement('div');
+      hexEl.className = 'card-hex';
+      hexEl.textContent = scheme.hex;
+
+      left.appendChild(nameEl);
+      left.appendChild(noteEl);
+      left.appendChild(hexEl);
+
+      const right = document.createElement('div');
+      right.className = 'card-right';
+
+      if (scheme.tag === 'current') {
+        const tag = document.createElement('span');
+        tag.className = 'tag tag-current';
+        tag.textContent = scheme.tagLabel;
+        right.appendChild(tag);
+      } else if (scheme.tag === 'recommended') {
+        const tag = document.createElement('span');
+        tag.className = 'tag tag-rec';
+        tag.textContent = scheme.tagLabel;
+        right.appendChild(tag);
+      }
+
+      meta.appendChild(left);
+      meta.appendChild(right);
+      card.appendChild(meta);
+
+      return card;
+    }
+
+    // ── Render all ────────────────────────────────────────────────
+    const gridYellow = document.getElementById('grid-yellow');
+    YELLOW_SCHEMES.forEach(s => gridYellow.appendChild(buildCard(s)));
+
+    const gridAlt = document.getElementById('grid-alt');
+    ALT_SCHEMES.forEach(s => gridAlt.appendChild(buildCard(s)));
+  </script>
+<script src="../sidebar.js"></script>
+</body>
+</html>

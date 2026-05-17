@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230d0d0d%27/%3E%3Ctext x=%2716%27 y=%2724%27 font-family=%27Helvetica Neue,Arial,sans-serif%27 font-size=%2720%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23D4A800%27%3EL%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only dark">
+  <title>Corner Tag Generator — Left in the Edit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --amber: #D4A800;
+      --bg: #0a0a0a;
+      --surf: #141414;
+      --border: #222;
+      --muted: #555;
+      --font: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: #e8e8e0;
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 80px 60px;
+      gap: 32px;
+    }
+
+    .page-header {
+      align-self: stretch;
+      margin-top: 36px;
+      margin-left: -80px;
+      margin-right: -80px;
+      border-bottom: 1px solid #1e1e1e;
+      padding: 48px 80px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .page-header-left { display: flex; flex-direction: column; gap: 8px; }
+    .page-eyebrow { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+    .page-title { font-size: 28px; font-weight: 700; letter-spacing: -0.4px; color: #fff; }
+    .page-title span { color: var(--amber); }
+    .page-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--muted); font-weight: 500;
+    }
+    input[type="text"] {
+      background: #1c1c1c;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 10px 14px;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      border-radius: 3px;
+      outline: none;
+      width: 360px;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus { border-color: var(--amber); }
+
+    .btn {
+      border: 1px solid var(--border);
+      padding: 10px 20px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 500;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .btn-primary { background: var(--amber); color: #000; border-color: transparent; font-weight: 700; }
+    .btn-primary:hover { filter: brightness(1.15); }
+
+    .style-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .style-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #3a3a3a; margin-right: 4px; font-weight: 500; }
+    .preset-btn {
+      background: #1c1c1c;
+      border: 1px solid var(--border);
+      color: #888;
+      padding: 8px 18px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-family: inherit;
+      font-weight: 500;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .preset-btn:hover { color: #fff; border-color: #555; }
+    .preset-btn.active { color: #fff; border-color: var(--amber); }
+
+    /* Preview */
+    .preview-wrap {
+      width: 960px;
+      height: 540px;
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid #222;
+      background-color: #181818;
+      background-image:
+        linear-gradient(45deg, #222 25%, transparent 25%),
+        linear-gradient(-45deg, #222 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #222 75%),
+        linear-gradient(-45deg, transparent 75%, #222 75%);
+      background-size: 22px 22px;
+      background-position: 0 0, 0 11px, 11px -11px, -11px 0px;
+      position: relative;
+    }
+    canvas { display: block; width: 960px; height: 540px; position: absolute; top: 0; left: 0; }
+
+    .export-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .export-note {
+      font-size: 11px;
+      color: #333;
+      letter-spacing: 1px;
+      text-align: center;
+      line-height: 1.8;
+      max-width: 760px;
+    }
+    .export-note span { color: #555; }
+
+    footer { font-size: 11px; color: #2e2e2e; letter-spacing: 1px; text-align: center; line-height: 2; }
+    footer span { color: #444; }
+  </style>
+</head>
+<body>
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;height:36px;background:rgba(10,10,10,0.95);border-bottom:1px solid #1e1e1e;display:flex;align-items:center;padding:0 28px">
+  <a href="../hub.html" style="font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#484848;text-decoration:none;font-family:'Inter', 'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:600" onmouseover="this.style.color='#e0e0e0'" onmouseout="this.style.color='#484848'">← Hub</a>
+</div>
+
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-eyebrow">Left in the Edit</div>
+    <h1 class="page-title">Corner Tag <span>Generator</span></h1>
+    <div class="page-sub">Persistent POV identifier — transparent 1920 × 1080 PNG for V4</div>
+  </div>
+  <div class="page-meta">
+    Interactive tool · May 2026<br>
+    Output: bottom-left corner tag
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <div class="field">
+    <label>Tag Text</label>
+    <input type="text" id="inp-tag" value="OFFICER MARTINEZ" placeholder="OFFICER 1" autocomplete="off" spellcheck="false">
+  </div>
+</div>
+
+<!-- Quick presets -->
+<div class="style-row">
+  <span class="style-label">Bodycam</span>
+  <button class="preset-btn" onclick="setTag('OFFICER 1')">Officer 1</button>
+  <button class="preset-btn" onclick="setTag('OFFICER 2')">Officer 2</button>
+  <button class="preset-btn" onclick="setTag('OFFICER 3')">Officer 3</button>
+</div>
+
+<div class="style-row">
+  <span class="style-label">Other Sources</span>
+  <button class="preset-btn" onclick="setTag('DASHCAM')">Dashcam</button>
+  <button class="preset-btn" onclick="setTag('CCTV')">CCTV</button>
+  <button class="preset-btn" onclick="setTag('SURVEILLANCE')">Surveillance</button>
+  <button class="preset-btn" onclick="setTag('INTERVIEW')">Interview</button>
+</div>
+
+<div class="style-row">
+  <span class="style-label">Position</span>
+  <button class="preset-btn pos-btn" data-pos="TL" onclick="setPosition(this)">Top Left</button>
+  <button class="preset-btn pos-btn" data-pos="TR" onclick="setPosition(this)">Top Right</button>
+  <button class="preset-btn pos-btn active" data-pos="BL" onclick="setPosition(this)">Bottom Left</button>
+  <button class="preset-btn pos-btn" data-pos="BR" onclick="setPosition(this)">Bottom Right</button>
+</div>
+
+<!-- Preview canvas -->
+<div class="preview-wrap">
+  <canvas id="canvas" width="1920" height="1080"></canvas>
+</div>
+
+<!-- Export button -->
+<div class="export-row">
+  <button class="btn btn-primary" onclick="download()">&#8595; Download Tag</button>
+</div>
+
+<div class="export-note">
+  <span>Output:</span> transparent 1920 × 1080 PNG with the tag positioned bottom-left (40 px from each edge).<br>
+  Drop onto V4 in Resolve. It sits at the top of the overlay stack (above lower thirds and captions).
+</div>
+
+<footer>
+  File: <span id="filename-preview">corner-tag-officer-martinez.png</span>
+</footer>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx    = canvas.getContext('2d');
+  const FONT   = '"Inter", "Helvetica Neue", Helvetica, Arial, sans-serif';
+
+  // ── Render the tag at exact spec dimensions ─────────────────────
+  function render() {
+    const text = (document.getElementById('inp-tag').value || 'OFFICER 1').trim().toUpperCase();
+
+    ctx.clearRect(0, 0, 1920, 1080);
+
+    // Spec constants
+    const margin     = 40;   // distance from frame edges
+    const plateH     = 32;
+    const padX       = 14;
+    const barW       = 3;
+    const fontSize   = 13;
+    const letterSpc  = 1.5;
+
+    // Measure text with manual letter-spacing
+    ctx.font = `700 ${fontSize}px ${FONT}`;
+    const textW = measureSpacedText(text, letterSpc);
+
+    const plateW = barW + padX + textW + padX;
+
+    const x = margin;
+    const y = 1080 - margin - plateH;
+
+    // Amber accent bar (left)
+    ctx.fillStyle = '#D4A800';
+    ctx.fillRect(x, y, barW, plateH);
+
+    // Plate background
+    ctx.fillStyle = 'rgba(8, 8, 8, 0.85)';
+    ctx.fillRect(x + barW, y, plateW - barW, plateH);
+
+    // Text (manually spaced)
+    ctx.fillStyle = '#FFFFFF';
+    ctx.textBaseline = 'middle';
+    drawSpacedText(text, x + barW + padX, y + plateH / 2, letterSpc);
+
+    // Update filename preview
+    const safe = text.toLowerCase().replace(/\s+/g, '-');
+    document.getElementById('filename-preview').textContent = `corner-tag-${safe}.png`;
+  }
+
+  // Canvas does not natively support letter-spacing — measure + draw manually
+  function measureSpacedText(text, spacing) {
+    let w = 0;
+    for (let i = 0; i < text.length; i++) {
+      w += ctx.measureText(text[i]).width;
+      if (i < text.length - 1) w += spacing;
+    }
+    return w;
+  }
+
+  function drawSpacedText(text, x, y, spacing) {
+    let cx = x;
+    for (let i = 0; i < text.length; i++) {
+      ctx.fillText(text[i], cx, y);
+      cx += ctx.measureText(text[i]).width + spacing;
+    }
+  }
+
+  function setTag(value) {
+    document.getElementById('inp-tag').value = value;
+    render();
+  }
+
+  function download() {
+    const text = (document.getElementById('inp-tag').value || 'tag').trim();
+    const safe = text.toLowerCase().replace(/\s+/g, '-');
+    const link = document.createElement('a');
+    link.download = `corner-tag-${safe}.png`;
+    link.href     = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  document.getElementById('inp-tag').addEventListener('input', render);
+  render();
+</script>
+<script src="../sidebar.js"></script>
+</body>
+</html>

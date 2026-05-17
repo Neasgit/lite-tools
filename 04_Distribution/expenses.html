@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%230d0d0d%27/%3E%3Ctext x=%2716%27 y=%2724%27 font-family=%27Helvetica Neue,Arial,sans-serif%27 font-size=%2720%27 font-weight=%27900%27 text-anchor=%27middle%27 fill=%27%23D4A800%27%3EL%3C/text%3E%3C/svg%3E">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="only dark">
+  <meta name="description" content="Left in the Edit — expense tracker. Logs spending by category with running totals.">
+  <title>Left in the Edit — Expense Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    :root {
+      --bg:          #0a0a0a;
+      --surface:     #111111;
+      --surface-2:   #181818;
+      --border:      #1e1e1e;
+      --border-2:    #2a2a2a;
+
+      --amber:       #D4A800;
+      --amber-dim:   #3a2d00;
+      --amber-text:  #f0c840;
+      --crimson:     #C8102E;
+      --green:       #2E7D4F;
+      --blue:        #4A9EFF;
+      --purple:      #9b6bcc;
+
+      --text:        #e8e8e0;
+      --muted:       #888;
+      --faint:       #333;
+
+      --font:        'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-mono:   'SF Mono', 'Cascadia Code', Consolas, monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* Hub nav */
+    .hub-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 9999;
+      height: 36px;
+      background: rgba(10,10,10,0.95);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+    }
+    .hub-nav a {
+      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #484848; text-decoration: none;
+      font-family: var(--font);
+      font-weight: 600; transition: color 0.15s;
+    }
+    .hub-nav a:hover { color: #e0e0e0; }
+
+    /* Page header */
+    .page-header {
+      margin-top: 36px;
+      border-bottom: 1px solid var(--border);
+      padding: 48px 80px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+    }
+    .page-header-left { display: flex; flex-direction: column; gap: 8px; }
+    .page-eyebrow {
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: #fff;
+    }
+    .page-title span { color: var(--amber); }
+    .page-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    .header-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-link {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      font-weight: 600;
+      padding: 6px 12px;
+      border: 1px solid var(--border-2);
+      border-radius: 2px;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font);
+    }
+    .btn-link:hover { color: var(--text); border-color: var(--muted); }
+
+    /* Layout */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 80px 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* Reusable */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 20px 24px;
+      border-radius: 2px;
+    }
+
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--amber);
+    }
+
+    /* Summary cards */
+    .summary-card .summary-label {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .summary-card .summary-value {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: #fff;
+      line-height: 1.1;
+    }
+    .summary-card .summary-sub {
+      font-size: 11px;
+      color: var(--faint);
+      margin-top: 4px;
+      font-family: var(--font-mono);
+    }
+
+    /* Add form */
+    .add-form { display: flex; flex-direction: column; gap: 12px; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 160px 130px auto;
+      gap: 10px;
+      align-items: end;
+    }
+    .form-row-notes {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    input, select {
+      padding: 8px 10px;
+      border: 1px solid var(--border-2);
+      border-radius: 2px;
+      font-size: 13px;
+      color: var(--text);
+      background: var(--surface-2);
+      outline: none;
+      font-family: var(--font);
+      transition: border-color 0.15s;
+    }
+    input:focus, select:focus { border-color: var(--amber); }
+    input::placeholder { color: var(--faint); }
+
+    .btn-primary {
+      padding: 8px 18px;
+      background: var(--amber);
+      color: #111;
+      border: none;
+      border-radius: 2px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: var(--amber-text); }
+
+    /* Table */
+    .table-card { padding: 0; overflow: hidden; }
+    .table-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .table-header .eyebrow { margin-bottom: 0; }
+    .row-count { font-size: 11px; color: var(--muted); font-family: var(--font-mono); }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      padding: 12px 24px;
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--surface-2); }
+    tbody td {
+      padding: 12px 24px;
+      font-size: 13px;
+      color: var(--text);
+      vertical-align: middle;
+    }
+    .col-date { font-family: var(--font-mono); color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .col-item { font-weight: 600; color: #fff; }
+    .col-note { font-size: 11px; color: var(--muted); }
+    .col-amount { text-align: right; font-weight: 700; color: #fff; font-family: var(--font-mono); }
+    .col-actions { text-align: right; width: 40px; }
+
+    .badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+    .badge-equipment { color: var(--blue);    border-color: rgba(74,158,255,0.4); background: rgba(74,158,255,0.08); }
+    .badge-research  { color: var(--amber);   border-color: rgba(212,168,0,0.4);  background: rgba(212,168,0,0.08); }
+    .badge-software  { color: var(--purple);  border-color: rgba(155,107,204,0.4); background: rgba(155,107,204,0.08); }
+    .badge-marketing { color: var(--green);   border-color: rgba(46,125,79,0.4);   background: rgba(46,125,79,0.1); }
+    .badge-other     { color: var(--muted);   border-color: var(--border-2);       background: var(--surface-2); }
+
+    .btn-delete {
+      background: none;
+      border: none;
+      color: var(--faint);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.15s;
+      font-family: var(--font);
+    }
+    .btn-delete:hover { color: var(--crimson); }
+
+    tfoot td {
+      padding: 16px 24px;
+      border-top: 2px solid var(--border);
+      font-size: 13px;
+    }
+    tfoot .total-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    tfoot .total-amount {
+      text-align: right;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--amber);
+      font-family: var(--font-mono);
+    }
+
+    .empty-state {
+      padding: 48px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Category breakdown */
+    .breakdown { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+    .breakdown-row {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .breakdown-row:last-child { border-bottom: none; }
+    .breakdown-row .breakdown-bar {
+      height: 6px;
+      background: var(--surface-2);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+    .breakdown-row .breakdown-fill {
+      height: 100%;
+      background: var(--amber);
+      transition: width 0.3s;
+    }
+    .breakdown-row .breakdown-amount {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .page-header { padding: 40px 24px 32px; flex-direction: column; align-items: flex-start; }
+      .content { padding: 32px 24px 80px; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr 1fr; }
+      .col-note { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hub-nav">
+  <a href="../hub.html">← Hub</a>
+</div>
+
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="page-eyebrow">Left in the Edit</div>
+    <h1 class="page-title">Expense <span>Tracker</span></h1>
+    <p class="page-sub">Channel costs by category, running totals, monthly view</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn-link" onclick="exportJSON()">Export</button>
+    <button class="btn-link" onclick="importJSON()">Import</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- Summary -->
+  <div class="grid-3">
+    <div class="card summary-card">
+      <div class="summary-label">Total spent</div>
+      <div class="summary-value" id="total-spent">£0.00</div>
+      <div class="summary-sub">since May 2026</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">This month</div>
+      <div class="summary-value" id="this-month">£0.00</div>
+      <div class="summary-sub" id="month-label">—</div>
+    </div>
+    <div class="card summary-card">
+      <div class="summary-label">Items logged</div>
+      <div class="summary-value" id="item-count">0</div>
+      <div class="summary-sub">across all categories</div>
+    </div>
+  </div>
+
+  <!-- Add expense -->
+  <div class="card">
+    <div class="eyebrow">Add expense</div>
+    <div class="add-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="inp-date">
+        </div>
+        <div class="form-group">
+          <label>Item</label>
+          <input type="text" id="inp-item" placeholder="e.g. Blue Yeti mic">
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="inp-category">
+            <option value="equipment">Equipment</option>
+            <option value="research">Research</option>
+            <option value="software">Software</option>
+            <option value="marketing">Marketing</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Amount (£)</label>
+          <input type="number" id="inp-amount" placeholder="0.00" step="0.01" min="0">
+        </div>
+        <button class="btn-primary" onclick="addExpense()">Add</button>
+      </div>
+      <div class="form-row-notes">
+        <div class="form-group">
+          <label>Notes (optional)</label>
+          <input type="text" id="inp-notes" placeholder="e.g. Order No. 026-2022822">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card table-card" id="table-card">
+    <div class="table-header">
+      <div class="eyebrow">All expenses</div>
+      <div class="row-count" id="row-count">0 items</div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Item</th>
+          <th>Category</th>
+          <th>Notes</th>
+          <th style="text-align:right">Amount</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="expense-tbody"></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" class="total-label">Total</td>
+          <td class="total-amount" id="footer-total">£0.00</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Breakdown -->
+  <div class="card">
+    <div class="eyebrow">By category</div>
+    <div class="breakdown" id="breakdown"></div>
+  </div>
+
+</div>
+
+<script src="../sidebar.js"></script>
+<script>
+  // Seed data — carried over and extended from the May 8 Cowork artifact
+  const SEED = [
+    { id: 1, date: '2026-05-08', item: 'Open records request (Case 001 affidavit)', category: 'research', amount: 0.22, notes: 'Ref P006984-050826 · Originally $0.30 USD · Tulsa PD' },
+    { id: 2, date: '2026-05-08', item: 'Blue Yeti USB Microphone', category: 'equipment', amount: 96.99, notes: 'Order 026-2022822-0883504' },
+    { id: 3, date: '2026-05-14', item: 'Open records request 2 (Case 001 follow-up)', category: 'research', amount: 0.22, notes: 'Ref P007264-051426 · Originally $0.30 USD · Tulsa PD' },
+    { id: 4, date: '2026-05-16', item: 'Google Workspace Business Starter', category: 'software', amount: 1.20, notes: 'Contract 112134811 · £1 + £0.20 VAT · then £7/month' },
+    { id: 5, date: '2026-05-16', item: 'IONOS domains (4)', category: 'software', amount: 1.20, notes: 'leftintheedit .co.uk / .com / .store / .org · £1 + £0.20 VAT · ~£107/yr renewals' },
+  ];
+
+  const CATEGORIES = {
+    equipment: { label: 'Equipment', cls: 'badge-equipment' },
+    research:  { label: 'Research',  cls: 'badge-research'  },
+    software:  { label: 'Software',  cls: 'badge-software'  },
+    marketing: { label: 'Marketing', cls: 'badge-marketing' },
+    other:     { label: 'Other',     cls: 'badge-other'     },
+  };
+
+  const STORAGE_KEY = 'lite_expenses';
+  let expenses = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || SEED;
+  let nextId = Math.max(...expenses.map(e => e.id), 0) + 1;
+
+  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(expenses)); }
+  function fmt(n) { return '£' + Number(n).toFixed(2); }
+
+  function render() {
+    const tbody = document.getElementById('expense-tbody');
+    const sorted = [...expenses].sort((a, b) => a.date < b.date ? 1 : -1);
+
+    if (sorted.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No expenses yet. Add one above.</td></tr>';
+    } else {
+      tbody.innerHTML = sorted.map(e => `
+        <tr>
+          <td class="col-date">${e.date}</td>
+          <td class="col-item">${escapeHtml(e.item)}</td>
+          <td><span class="badge ${CATEGORIES[e.category].cls}">${CATEGORIES[e.category].label}</span></td>
+          <td class="col-note">${e.notes ? escapeHtml(e.notes) : '—'}</td>
+          <td class="col-amount">${fmt(e.amount)}</td>
+          <td class="col-actions"><button class="btn-delete" onclick="removeExpense(${e.id})" title="Delete">×</button></td>
+        </tr>
+      `).join('');
+    }
+
+    const total = expenses.reduce((s, e) => s + Number(e.amount), 0);
+    document.getElementById('total-spent').textContent = fmt(total);
+    document.getElementById('footer-total').textContent = fmt(total);
+    document.getElementById('item-count').textContent = expenses.length;
+    document.getElementById('row-count').textContent = expenses.length + (expenses.length === 1 ? ' item' : ' items');
+
+    // This month
+    const now = new Date();
+    const ym = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+    const monthTotal = expenses.filter(e => e.date.startsWith(ym)).reduce((s,e) => s + Number(e.amount), 0);
+    document.getElementById('this-month').textContent = fmt(monthTotal);
+    document.getElementById('month-label').textContent = now.toLocaleString('en-GB', { month: 'long', year: 'numeric' });
+
+    // By-category breakdown
+    const breakdownEl = document.getElementById('breakdown');
+    if (expenses.length === 0) {
+      breakdownEl.innerHTML = '<div style="color:var(--muted);font-size:12px">No data yet.</div>';
+    } else {
+      const byCat = {};
+      expenses.forEach(e => {
+        byCat[e.category] = (byCat[e.category] || 0) + Number(e.amount);
+      });
+      const maxAmount = Math.max(...Object.values(byCat));
+      const rows = Object.entries(CATEGORIES).map(([key, info]) => {
+        const amt = byCat[key] || 0;
+        if (amt === 0) return '';
+        const pct = (amt / maxAmount * 100).toFixed(1);
+        return `
+          <div class="breakdown-row">
+            <div><span class="badge ${info.cls}">${info.label}</span></div>
+            <div class="breakdown-bar"><div class="breakdown-fill" style="width:${pct}%"></div></div>
+            <div class="breakdown-amount">${fmt(amt)}</div>
+          </div>
+        `;
+      }).filter(Boolean).join('');
+      breakdownEl.innerHTML = rows;
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function addExpense() {
+    const date = document.getElementById('inp-date').value;
+    const item = document.getElementById('inp-item').value.trim();
+    const category = document.getElementById('inp-category').value;
+    const amount = parseFloat(document.getElementById('inp-amount').value);
+    const notes = document.getElementById('inp-notes').value.trim();
+
+    if (!date || !item || isNaN(amount) || amount < 0) {
+      alert('Please fill in date, item, and a valid amount.');
+      return;
+    }
+
+    expenses.push({ id: nextId++, date, item, category, amount, notes });
+    save();
+    render();
+
+    document.getElementById('inp-item').value = '';
+    document.getElementById('inp-amount').value = '';
+    document.getElementById('inp-notes').value = '';
+    document.getElementById('inp-item').focus();
+  }
+
+  function removeExpense(id) {
+    if (!confirm('Remove this expense?')) return;
+    expenses = expenses.filter(e => e.id !== id);
+    save();
+    render();
+  }
+
+  function exportJSON() {
+    const blob = new Blob([JSON.stringify(expenses, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `lite-expenses-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function importJSON() {
+    const inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'application/json';
+    inp.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (!Array.isArray(data)) throw new Error('Not an array');
+          if (!confirm(`Import ${data.length} expense(s)? This will replace your current data.`)) return;
+          expenses = data;
+          nextId = Math.max(...expenses.map(x => x.id || 0), 0) + 1;
+          save();
+          render();
+          alert('Imported ' + data.length + ' expenses.');
+        } catch (err) {
+          alert('Import failed: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    };
+    inp.click();
+  }
+
+  // Default date = today
+  document.getElementById('inp-date').value = new Date().toISOString().split('T')[0];
+
+  render();
+</script>
+
+</body>
+</html>
