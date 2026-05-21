@@ -3,3 +3,4 @@ uploads/
 .design-canvas.state.json
 *.bak
 docs/expenses.html
+docs/drafts/
