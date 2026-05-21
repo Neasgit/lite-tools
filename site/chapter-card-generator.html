@@ -1,0 +1,480 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE — Chapter Card Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <style>
+    body {
+      display: block !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      gap: 0 !important;
+      align-items: initial !important;
+      min-height: auto !important;
+      flex-direction: initial !important;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    .lite-legacy-content {
+      --bg:     #0a0a0a;
+      --surf:   #141414;
+      --border: #222;
+      --muted:  #555;
+      --amber:  #D4A800;
+      --font:   var(--font-sans);
+      color: #e8e8e0;
+      font-family: var(--font-sans);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .panel {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 18px 22px;
+      width: 100%;
+      max-width: 1280px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .panel-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .panel-divider {
+      width: 1px;
+      height: 36px;
+      background: var(--border);
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    input[type="text"] {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 12px;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      border-radius: 3px;
+      outline: none;
+      font-family: var(--font);
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus { border-color: var(--amber); }
+    #inp-chapter { width: 180px; }
+    #inp-sub     { width: 300px; }
+
+    input[type="number"] { display: none; }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      height: 36px;
+    }
+    .stepper-btn {
+      width: 32px; height: 100%;
+      background: #1a1a1a;
+      border: none;
+      color: #666;
+      font-size: 18px;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: background 0.12s, color 0.12s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      line-height: 1;
+      padding-bottom: 1px;
+    }
+    .stepper-btn:hover { background: #252525; color: #ccc; }
+    .stepper-btn:active { background: #1a1400; color: var(--amber); }
+    .stepper-val {
+      min-width: 40px;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--amber);
+      font-family: var(--font);
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      padding: 0 6px;
+      user-select: none;
+    }
+
+    .btn {
+      border: none;
+      padding: 9px 20px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: var(--font);
+      font-weight: 600;
+      transition: filter 0.15s;
+      white-space: nowrap;
+    }
+    .btn-amber { background: var(--amber); color: #000; }
+    .btn-amber:hover { filter: brightness(1.12); }
+
+    .toggle {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 12px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: var(--font);
+      font-weight: 500;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .toggle.on { background: #1a1400; border-color: #4a3800; color: var(--amber); }
+
+    .canvas-wrap {
+      width: 100%;
+      max-width: 1280px;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .canvas-wrap canvas { display: block; width: 100%; height: auto; }
+
+    footer {
+      font-size: 11px;
+      color: #2a2a2a;
+      letter-spacing: 1px;
+      text-align: center;
+      line-height: 2;
+    }
+    footer span { color: #3a3a3a; }
+  </style>
+  <script>window.LITE_PAGE = { slug: "chapter-card-generator", label: "Chapter Card Generator" };</script>
+  <style>
+    .lite-legacy-content nav,
+    .lite-legacy-content > nav,
+    .lite-legacy-content .nav { position: static !important; top: auto !important; }
+    .lite-legacy-content footer { position: static !important; }
+    .lite-legacy-content { font-family: var(--font-sans); }
+    .lite-legacy-content .hero,
+    .lite-legacy-content .hero-section { min-height: auto !important; }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item active" href="#"><span class="num">04</span><span>Chapter Card Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+
+  <main class="lite-main">
+    <header class="lite-page-head">
+      <div class="eyebrow">03 — Production · Chapter Cards</div>
+      <h1>Chapter Card Generator<span class="accent">.</span></h1>
+      <p class="lede">Set chapter label and sub-label, download 1920×1080 PNG, import into Premiere on V2.</p>
+    </header>
+
+    <div class="lite-legacy-content">
+
+      <div class="panel">
+        <div class="panel-row">
+
+          <div class="field">
+            <label>Chapter <span style="color:#333">(white · Inter)</span></label>
+            <input type="text" id="inp-chapter" value="PART 1" maxlength="20" autocomplete="off" spellcheck="false" data-persist="inp-chapter">
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>Sub-label <span style="color:#333">(amber · mono)</span></label>
+            <input type="text" id="inp-sub" value="THE CONFRONTATION" maxlength="44" autocomplete="off" spellcheck="false" data-persist="inp-sub">
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>Chapter size</label>
+            <div class="stepper">
+              <button class="stepper-btn" onclick="stepSize(-10)">&#8722;</button>
+              <div class="stepper-val" id="size-display">120</div>
+              <button class="stepper-btn" onclick="stepSize(+10)">&#43;</button>
+            </div>
+            <input type="number" id="inp-size" value="120" min="60" max="200" data-persist="inp-size">
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>Align</label>
+            <div style="display:flex;gap:6px">
+              <button class="toggle"    id="tog-left"   onclick="setAlign('left')">Left</button>
+              <button class="toggle on" id="tog-center" onclick="setAlign('center')">Centre</button>
+            </div>
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>Style</label>
+            <div style="display:flex;gap:6px">
+              <button class="toggle" id="sty-b1" onclick="setStyle('b1')" title="Standard">A</button>
+              <button class="toggle" id="sty-b2" onclick="setStyle('b2')" title="Airy">B</button>
+              <button class="toggle" id="sty-b3" onclick="setStyle('b3')" title="Reversed">C</button>
+              <button class="toggle" id="sty-b4" onclick="setStyle('b4')" title="Bold">D</button>
+            </div>
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>&nbsp;</label>
+            <button class="btn btn-amber" onclick="download()">&#8595; Download PNG</button>
+            <a href="chapter-card-b-variants.html" style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#555;font-family:var(--font);text-decoration:none;padding:9px 0;white-space:nowrap">B variants →</a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="canvas" width="1920" height="1080"></canvas>
+      </div>
+
+      <footer>
+        File: <span id="filename-out">chapter-card-part-1.png</span>
+        &nbsp;·&nbsp; Style: <span id="style-out">Top bar</span>
+        &nbsp;·&nbsp; 1920 × 1080 · Yellow marker in Premiere · 1.5–2.5 sec on timeline
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx    = canvas.getContext('2d');
+    const W = 1920, H = 1080;
+
+    const FONT  = '"Inter", "Helvetica Neue", Helvetica, Arial, sans-serif';
+    const MONO  = '"JetBrains Mono", "Courier New", Courier, monospace';
+    const AMBER = '#D4A800';
+    const WHITE = '#F0EFE7';
+    const BG    = '#111111';
+
+    let align     = 'center';
+    let cardStyle = (function() { try { return localStorage.getItem('lite-chapter-card-style') || 'b1'; } catch(e) { return 'b1'; } })();
+
+    function setStyle(s) {
+      cardStyle = s;
+      try { localStorage.setItem('lite-chapter-card-style', s); } catch(e) {}
+      ['b1','b2','b3','b4'].forEach(function(x) {
+        var el = document.getElementById('sty-' + x);
+        if (el) el.classList.toggle('on', x === s);
+      });
+      render();
+    }
+
+    function setAlign(a) {
+      align = a;
+      document.getElementById('tog-center').classList.toggle('on', a === 'center');
+      document.getElementById('tog-left').classList.toggle('on',   a === 'left');
+      render();
+    }
+
+    function stepSize(delta) {
+      const inp = document.getElementById('inp-size');
+      const val = Math.min(200, Math.max(60, parseInt(inp.value) + delta));
+      inp.value = val;
+      document.getElementById('size-display').textContent = val;
+      render();
+    }
+
+    // Draw text with manual letter tracking (canvas doesn't always honour CSS letterSpacing)
+    function fillTracked(text, x, y, tracking) {
+      let cx = x;
+      for (let i = 0; i < text.length; i++) {
+        ctx.fillText(text[i], cx, y);
+        cx += ctx.measureText(text[i]).width + tracking;
+      }
+    }
+
+    function measureTracked(text, tracking) {
+      let w = 0;
+      for (let i = 0; i < text.length; i++) {
+        w += ctx.measureText(text[i]).width + (i < text.length - 1 ? tracking : 0);
+      }
+      return w;
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, W, H);
+
+      // ── Background ─────────────────────────────────────────────
+      ctx.fillStyle = BG;
+      ctx.fillRect(0, 0, W, H);
+
+      // Very subtle scanline texture
+      for (let y = 0; y < H; y += 4) {
+        ctx.fillStyle = 'rgba(255,255,255,0.012)';
+        ctx.fillRect(0, y, W, 1);
+      }
+
+      const chapterText = (document.getElementById('inp-chapter').value || 'PART 1').trim();
+      const subRaw      = (document.getElementById('inp-sub').value || 'THE INCIDENT').trim();
+      const subText     = subRaw.toUpperCase();
+      const chSize      = parseInt(document.getElementById('inp-size').value) || 120;
+      const subSize     = Math.max(24, Math.round(chSize * 0.27));
+      const tracking    = 7; // per-character gap for sub-label
+
+      // ── Measure all elements ────────────────────────────────────
+      ctx.font = `700 ${chSize}px ${FONT}`;
+      const chW = ctx.measureText(chapterText).width;
+
+      ctx.font = `500 ${subSize}px ${MONO}`;
+      const subW = measureTracked(subText, tracking);
+
+      const barW  = Math.max(72, Math.round(chSize * 0.65));
+      const barH  = 5;
+      const gap1  = Math.round(chSize * 0.16); // bar → chapter
+      const gap2  = Math.round(chSize * 0.18); // chapter → sub
+      const blockH = barH + gap1 + chSize + gap2 + subSize;
+
+      const contentW = Math.max(chW, subW, barW);
+      const MARGIN_L = 140;
+
+      const blockX = align === 'center' ? (W - contentW) / 2 : MARGIN_L;
+      const blockY = (H - blockH) / 2;
+      const anchorX = align === 'center' ? W / 2 : blockX;
+
+      // ── Draw style (all variants are left-rule) ─────────────────
+      const styleNames = { b1: 'Standard', b2: 'Airy', b3: 'Reversed', b4: 'Bold' };
+      const styleEl = document.getElementById('style-out');
+      if (styleEl) styleEl.textContent = styleNames[cardStyle] || 'Standard';
+
+      // [ruleW, ruleGap, rulePad, labelGap, subTracking, reversed]
+      const variants = {
+        b1: [4, 36, 16, 18, 4, false],
+        b2: [4, 44, 20, 30, 3, false],
+        b3: [4, 36, 16, 14, 4, true ],
+        b4: [8, 30, 14, 14, 3, false],
+      };
+      const vp       = variants[cardStyle] || variants.b1;
+      const ruleW    = vp[0], ruleGap = vp[1], rulePad = vp[2];
+      const labelGap = vp[3], subTrk  = vp[4], reversed = vp[5];
+
+      ctx.font = `500 ${subSize}px ${MONO}`;
+      const subWv = measureTracked(subText, subTrk);
+
+      const bH = chSize + labelGap + subSize;
+      const bX = align === 'center' ? (W - (ruleW + ruleGap + Math.max(chW, subWv))) / 2 : MARGIN_L;
+      const bY = (H - bH) / 2;
+      const tX = bX + ruleW + ruleGap;
+
+      ctx.fillStyle = AMBER;
+      ctx.fillRect(bX, bY - rulePad, ruleW, bH + rulePad * 2);
+
+      const topLabel    = reversed ? subText     : chapterText;
+      const botLabel    = reversed ? chapterText : subText;
+      const topSz       = reversed ? subSize     : chSize;
+      const botSz       = reversed ? chSize      : subSize;
+      const topCol      = reversed ? AMBER       : WHITE;
+      const botCol      = reversed ? WHITE       : AMBER;
+
+      ctx.textBaseline = 'alphabetic';
+      ctx.textAlign    = 'left';
+
+      if (reversed) {
+        ctx.font = `500 ${topSz}px ${MONO}`; ctx.fillStyle = topCol;
+        fillTracked(topLabel, tX, bY + topSz * 0.82, subTrk);
+        ctx.font = `700 ${botSz}px ${FONT}`; ctx.fillStyle = botCol;
+        ctx.fillText(botLabel, tX, bY + topSz + labelGap + botSz * 0.82);
+      } else {
+        ctx.font = `700 ${topSz}px ${FONT}`; ctx.fillStyle = topCol;
+        ctx.fillText(topLabel, tX, bY + topSz * 0.82);
+        ctx.font = `500 ${botSz}px ${MONO}`; ctx.fillStyle = botCol;
+        fillTracked(botLabel, tX, bY + topSz + labelGap + botSz * 0.82, subTrk);
+      }
+
+      // ── LITE mark — bottom-left ──────────────────────────────────
+      const markSize = 26;
+      ctx.font = `700 ${markSize}px ${MONO}`;
+      ctx.textBaseline = 'alphabetic';
+      ctx.textAlign    = 'left';
+      const markY = H - 46;
+      const markX = 52;
+      ctx.fillStyle = WHITE;
+      ctx.fillText('LEFT IN ', markX, markY);
+      const liW = ctx.measureText('LEFT IN ').width;
+      ctx.fillStyle = AMBER;
+      ctx.fillText('THE EDIT', markX + liW, markY);
+
+      // ── Update filename hint ─────────────────────────────────────
+      const ch = chapterText.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      document.getElementById('filename-out').textContent = `chapter-card-${ch || 'card'}.png`;
+    }
+
+    function download() {
+      render();
+      const ch = (document.getElementById('inp-chapter').value.trim() || 'card')
+        .toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      const link = document.createElement('a');
+      link.download = `chapter-card-${ch}.png`;
+      link.href     = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // ── Events ────────────────────────────────────────────────────
+    document.getElementById('inp-chapter').addEventListener('input', render);
+    document.getElementById('inp-sub').addEventListener('input', render);
+
+    // Sync style buttons + render after fonts are ready (avoids blank canvas on load)
+    document.fonts.ready.then(function() {
+      ['b1','b2','b3','b4'].forEach(function(x) {
+        var el = document.getElementById('sty-' + x);
+        if (el) el.classList.toggle('on', x === cardStyle);
+      });
+      render();
+    });
+  </script>
+
+  </div>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Chapter Card Generator</span>
+  </footer>
+  </main>
+
+  <script src="shared/sidebar.js"></script>
+  <script src="shared/persist.js"></script>
+</div></body>
+</html>

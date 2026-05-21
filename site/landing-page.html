@@ -1,0 +1,370 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <meta name="description" content="Real footage. Real investigations. Left in the Edit covers true crime and bodycam cases with documentary-level analysis.">
+  <meta property="og:title" content="Left in the Edit">
+  <meta property="og:description" content="Real footage. Real investigations. Every cut, on the record.">
+  <meta property="og:type" content="website">
+  <title>Left in the Edit · The public site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  
+  <script>window.LITE_PAGE = { slug: "landing-page", label: "Landing Page" };</script>
+  <style>
+    .landing-shell {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .lp-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--amber); font-weight: 600;
+      margin-top: 56px; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .lp-eyebrow::before { content: ""; width: 48px; height: 3px; background: var(--amber); }
+
+    .lp-hero {
+      position: relative;
+      padding: 0 0 80px;
+      border-bottom: 1px solid var(--border);
+      min-height: 65vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .lp-hero > .lp-eyebrow,
+    .lp-hero > h1,
+    .lp-hero > .lp-sub,
+    .lp-hero > .lp-actions {
+      position: relative; z-index: 2;
+      max-width: min(640px, calc(100% - 480px));
+    }
+    @media (max-width: 1180px) {
+      .lp-hero > .lp-eyebrow,
+      .lp-hero > h1,
+      .lp-hero > .lp-sub,
+      .lp-hero > .lp-actions { max-width: 100%; }
+    }
+    .lp-hero h1 {
+      font-size: clamp(56px, 9vw, 120px);
+      font-weight: 700; letter-spacing: -2.5px; line-height: .92;
+      margin: 0; color: var(--text);
+    }
+    .lp-hero h1 .accent { color: var(--amber); }
+    .lp-hero .lp-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--text-dim);
+      max-width: 540px;
+      margin: 32px 0 0;
+      line-height: 1.65;
+    }
+    .lp-hero .lp-actions {
+      display: flex; gap: 14px; align-items: center;
+      margin-top: 40px; flex-wrap: wrap;
+    }
+
+    .lp-cta-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--amber); color: #111;
+      padding: 14px 26px; border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+      transition: background .15s, transform .15s;
+    }
+    .lp-cta-primary:hover { background: var(--amber-soft); transform: translateY(-1px); }
+    .lp-cta-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--text-dim); padding: 14px 0;
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600;
+      border-bottom: 1px solid var(--faint);
+      transition: color .15s, border-color .15s;
+    }
+    .lp-cta-ghost:hover { color: var(--text); border-color: var(--text-dim); }
+
+    /* Floating thumbnail visual */
+    .lp-thumb {
+      position: absolute; top: 110px; right: 0;
+      width: min(460px, 45vw); aspect-ratio: 16/9;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      opacity: .8;
+      filter: saturate(.85);
+    }
+    .lp-thumb::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.85) 100%),
+        repeating-linear-gradient(45deg, #1a1916 0 12px, #1f1d18 12px 24px);
+    }
+    .lp-thumb .lt-bar { position: absolute; left: 28px; bottom: 96px; width: 48px; height: 3px; background: var(--amber); z-index: 2; }
+    .lp-thumb .lt-title {
+      position: absolute; left: 28px; right: 28px; bottom: 50px;
+      font-size: clamp(20px, 2.6vw, 32px); font-weight: 700; color: #fff;
+      letter-spacing: -.5px; line-height: 1; z-index: 2;
+    }
+    .lp-thumb .lt-stamp {
+      position: absolute; top: 14px; right: 14px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 8px; background: rgba(0,0,0,.6);
+      border: 1px solid rgba(255,255,255,.12); border-radius: 2px;
+      font-family: var(--font-mono); font-size: 10px; color: #fff; letter-spacing: 1px;
+      z-index: 2;
+    }
+    .lp-thumb .lt-stamp .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); }
+    .lp-thumb .lt-wm {
+      position: absolute; left: 28px; bottom: 20px;
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 4px; font-weight: 700;
+      color: #fff; z-index: 2;
+    }
+    .lp-thumb .lt-wm .te { color: var(--amber); }
+    .lp-thumb .lt-coming {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--amber); color: #111;
+      font-family: var(--font-mono); font-size: 8px; font-weight: 700;
+      letter-spacing: 2px; padding: 3px 8px; z-index: 2;
+    }
+
+    @media (max-width: 1180px) { .lp-thumb { display: none; } }
+
+    /* Tagline break */
+    .lp-tagline {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 72px 0;
+      text-align: center;
+      margin-top: 72px;
+    }
+    .lp-tagline .big {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 700; letter-spacing: -1.5px; line-height: 1;
+      color: var(--text); margin: 0;
+    }
+    .lp-tagline .big .dot { color: var(--amber); }
+    .lp-tagline .sub {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 3px; color: var(--text-dimmer);
+      text-transform: uppercase; margin-top: 18px;
+    }
+
+    /* About / video block */
+    .lp-about {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      padding: 80px 0; align-items: start;
+    }
+    @media (max-width: 800px) { .lp-about { grid-template-columns: 1fr; gap: 40px; } }
+    .lp-about h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700; letter-spacing: -.8px; line-height: 1.15; margin: 0;
+    }
+    .lp-about h2 .accent { color: var(--amber); }
+    .lp-about .body { font-size: 14px; color: var(--text-dim); line-height: 1.75; }
+    .lp-about .body p + p { margin-top: 16px; }
+    .lp-stats {
+      margin-top: 32px;
+      border: 1px solid var(--border); border-radius: 4px;
+      overflow: hidden;
+    }
+    .lp-stats .row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-soft);
+      font-size: 13px;
+    }
+    .lp-stats .row:last-child { border-bottom: 0; }
+    .lp-stats .row .k { color: var(--text-dim); }
+    .lp-stats .row .v { font-family: var(--font-mono); color: var(--amber); font-weight: 600; }
+
+    /* Platforms */
+    .lp-platforms {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+    }
+    .lp-platforms .head { margin-bottom: 28px; }
+    .lp-platforms .grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    @media (max-width: 760px) { .lp-platforms .grid { grid-template-columns: 1fr; } }
+    .lp-platform {
+      padding: 28px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: border-color .15s;
+    }
+    .lp-platform:hover { border-color: var(--amber-dim); }
+    .lp-platform .pn {
+      font-size: 16px; font-weight: 700; letter-spacing: -.2px;
+    }
+    .lp-platform .pd { font-size: 12px; color: var(--text-dim); line-height: 1.6; flex: 1; }
+    .lp-platform .pl {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--amber); font-weight: 600;
+      margin-top: 4px;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: gap .15s;
+    }
+    .lp-platform:hover .pl { gap: 12px; }
+
+    /* Signup */
+    .lp-signup {
+      text-align: center;
+      padding: 72px 0;
+      border-top: 1px solid var(--border);
+    }
+    .lp-signup h2 {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700; letter-spacing: -.5px; margin: 0 0 12px;
+    }
+    .lp-signup p { font-size: 14px; color: var(--text-dim); margin: 0 0 28px; }
+    .lp-signup form {
+      display: flex; gap: 0; max-width: 440px; margin: 0 auto;
+    }
+    .lp-signup input {
+      flex: 1;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-right: 0;
+      padding: 13px 16px;
+      font-size: 13px; color: var(--text);
+      font-family: inherit; outline: none;
+      transition: border-color .15s;
+    }
+    .lp-signup input::placeholder { color: var(--text-dimmer); }
+    .lp-signup input:focus { border-color: var(--amber); }
+    .lp-signup button {
+      background: var(--amber); color: #111;
+      border: 1px solid var(--amber);
+      padding: 13px 20px;
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+    }
+    .lp-signup button:hover { background: var(--amber-soft); border-color: var(--amber-soft); }
+    .lp-signup .note { font-family: var(--font-mono); font-size: 10px; color: var(--text-dimmer); margin-top: 12px; letter-spacing: 1px; }
+    @media (max-width: 480px) {
+      .lp-signup form { flex-direction: column; }
+      .lp-signup input { border-right: 1px solid var(--border); border-bottom: 0; }
+      .lp-signup button { padding: 14px; }
+    }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item active" href="#"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+  <div class="landing-shell">
+
+    <!-- Hero -->
+    <section class="lp-hero">
+      <div class="lp-thumb">
+        <span class="lt-coming">LEFT IN THE EDIT</span>
+        <span class="lt-stamp"><span class="dot"></span>00:00:00</span>
+        <div class="lt-bar"></div>
+        <div class="lt-title">Coming<br>Soon</div>
+        <div class="lt-wm"><span>LEFT IN </span><span class="te">THE EDIT</span></div>
+      </div>
+      <div class="lp-eyebrow">True Crime · Bodycam · Real Investigations</div>
+      <h1>Left in<br>the <span class="accent">Edit.</span></h1>
+      <p class="lp-sub">
+        Documentary-level breakdowns of real cases. Bodycam footage, interrogations,
+        and the evidence most channels skip past.
+      </p>
+      <div class="lp-actions">
+        <a href="#" class="lp-cta-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          Watch on YouTube
+        </a>
+        <a href="#" class="lp-cta-ghost">Follow on TikTok ?</a>
+      </div>
+    </section>
+
+    <!-- Tagline -->
+    <section class="lp-tagline">
+      <p class="big">Every cut, on the record<span class="dot">.</span></p>
+      <div class="sub">v2 · LOWERCASE · COMMA · PERIOD · NO EXCEPTIONS</div>
+    </section>
+
+    <!-- About -->
+    <section class="lp-about">
+      <div>
+        <h2>One case.<br>All the <span class="accent">footage.</span></h2>
+        <div class="lp-stats">
+          <div class="row"><span class="k">Format</span><span class="v">Documentary breakdown</span></div>
+          <div class="row"><span class="k">Source material</span><span class="v">Bodycam &amp; interrogation</span></div>
+          <div class="row"><span class="k">Release cadence</span><span class="v">Weekly</span></div>
+          <div class="row"><span class="k">Voice</span><span class="v">Evidence-first · neutral POV</span></div>
+        </div>
+      </div>
+      <div class="body">
+        <p>Left in the Edit covers real true-crime cases using bodycam footage, interrogation recordings, and the raw evidence most channels skip past.</p>
+        <p>Each video is a documentary-level breakdown. The footage leads. The narration provides context, not hype. You get the material to form your own view.</p>
+        <p>Every editorial cut we make is logged in the video description, with timestamps and reasons. We treat your trust as the only product we have.</p>
+      </div>
+    </section>
+
+    <!-- Platforms -->
+    <section class="lp-platforms">
+      <div class="head"><span class="lite-label">Watch &amp; Follow</span></div>
+      <div class="grid">
+        <a href="#" class="lp-platform">
+          <div class="pn">YouTube</div>
+          <p class="pd">Full-length case breakdowns. New videos every week.</p>
+          <span class="pl">Subscribe ?</span>
+        </a>
+        <a href="#" class="lp-platform">
+          <div class="pn">TikTok</div>
+          <p class="pd">Short clips from the cases. Follow for drops between long-form videos.</p>
+          <span class="pl">Follow ?</span>
+        </a>
+        <a href="#" class="lp-platform">
+          <div class="pn">Instagram</div>
+          <p class="pd">Case art, short clips, behind-the-scenes notes.</p>
+          <span class="pl">Follow ?</span>
+        </a>
+        <a href="#" class="lp-platform">
+          <div class="pn">Reddit</div>
+          <p class="pd">Case discussion and community analysis. Join viewers breaking down each case.</p>
+          <span class="pl">Find us ?</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Signup -->
+    <section class="lp-signup">
+      <h2>New case alerts.</h2>
+      <p>Get notified when a new case drops. Just the case title and a link.</p>
+      <form onsubmit="handleSignup(event)">
+        <input type="email" placeholder="your@email.com" required>
+        <button type="submit">Notify me</button>
+      </form>
+      <div class="note">No spam. Unsubscribe any time.</div>
+    </section>
+
+  </div>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · The public site</span>
+    
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+<script>
+  function handleSignup(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = 'DONE ?';
+    btn.style.background = 'var(--amber-soft)';
+    e.target.querySelector('input').value = '';
+    setTimeout(() => { btn.textContent = 'Notify me'; btn.style.background = ''; }, 3000);
+  }
+</script>
+</div></body>
+</html>

@@ -1,0 +1,59 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE — Thumbnail Layouts (needs local server)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <style>
+    :root { --amber: #D4A800; --crimson: #C8102E; --bg: #0c0c0c; --bg-elev: #141414;
+            --text: #f0efe7; --text-dim: #9b9a92; --border: #262626;
+            --mono: 'JetBrains Mono', ui-monospace, monospace; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body { font-family: 'Inter', system-ui, sans-serif; line-height: 1.55;
+           display: grid; place-items: center; padding: 40px 20px; }
+    .card { max-width: 640px; padding: 40px;
+            background: var(--bg-elev); border: 1px solid var(--border);
+            border-left: 3px solid var(--amber); border-radius: 4px; }
+    .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+               text-transform: uppercase; color: var(--amber); font-weight: 600;
+               margin-bottom: 18px; }
+    h1 { font-size: 28px; font-weight: 700; letter-spacing: -.5px; margin: 0 0 16px; }
+    p { color: var(--text-dim); font-size: 14px; margin: 0 0 14px; }
+    p b { color: var(--text); font-weight: 600; }
+    code { font-family: var(--mono); font-size: 12px; background: rgba(212,168,0,.08);
+           color: var(--amber); padding: 2px 6px; border-radius: 2px; }
+    pre { font-family: var(--mono); font-size: 12px; background: rgba(0,0,0,.4);
+          padding: 14px 18px; border-radius: 4px; border: 1px solid var(--border);
+          color: var(--text); overflow-x: auto; margin: 18px 0; line-height: 1.6; }
+    .back { display: inline-block; margin-top: 18px; font-family: var(--mono);
+            font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--amber); text-decoration: none; border-bottom: 1px solid transparent; }
+    .back:hover { border-bottom-color: var(--amber); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow">Tooling note</div>
+    <h1>This page needs a local server.</h1>
+    <p>
+      <b>Thumbnail Layouts</b> is a design exploration page that compares six UI concepts for
+      the brand reference. It loads its components as external <code>.jsx</code> files, which
+      browsers block when the page is opened directly via <code>file://</code>.
+    </p>
+    <p>To run it, start a tiny HTTP server from the <code>site/</code> folder:</p>
+    <pre>cd "C:\Users\Sean\YouTube\03 - Assets\Tools\site"
+python -m http.server 8000</pre>
+    <p>Then open <code>http://localhost:8000/thumbnail-layouts.html</code>.</p>
+    <p>
+      The other tools in this folder — <b>Brand Reference</b>, generators, banners, expenses,
+      etc. — all work from <code>file://</code> directly.
+    </p>
+    <a class="back" href="index.html">← Back to tools hub</a>
+  </div>
+</body>
+</html>

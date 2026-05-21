@@ -1,0 +1,297 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LITE · Overhaul v1 · Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <script>window.LITE_PAGE = { slug: "index", label: "Hub" };</script>
+  <style>
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 8px;
+    }
+    @media (max-width: 1080px) { .hub-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 580px)  { .hub-grid { grid-template-columns: 1fr; } }
+
+    .hub-section {
+      margin-top: 56px;
+    }
+    .hub-section-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 14px;
+    }
+    .hub-section-head h2 {
+      font-size: 15px; font-weight: 600; margin: 0;
+      font-family: var(--font-mono);
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .hub-section-head .count {
+      font-family: var(--font-mono);
+      font-size: 11px; color: var(--text-dimmer); letter-spacing: 1.5px;
+    }
+
+    .hub-card {
+      display: flex; flex-direction: column; gap: 10px;
+      padding: 18px 18px 16px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: border-color .15s, transform .15s;
+      min-height: 132px;
+    }
+    .hub-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+    .hub-card .row1 { display: flex; align-items: center; gap: 8px; }
+    .hub-card .num {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px;
+      color: var(--text-dimmer); font-weight: 500;
+    }
+    .hub-card .tag {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 9px; letter-spacing: 1.5px;
+      padding: 2px 6px; border-radius: 2px; font-weight: 600;
+    }
+    .hub-card .tag.v2     { background: var(--amber); color: #111; }
+    .hub-card .tag.NEW    { background: var(--amber); color: #111; }
+    .hub-card .tag.WIP    { background: transparent; color: var(--text-dimmer); border: 1px solid var(--border-strong); }
+    .hub-card .tag.STUB   { background: transparent; color: var(--crimson); border: 1px solid var(--crimson); opacity: .8; }
+
+    .hub-card .title {
+      font-size: 16px; font-weight: 700; letter-spacing: -.3px;
+      color: var(--text);
+    }
+    .hub-card .desc {
+      font-size: 12px; color: var(--text-dim); line-height: 1.55;
+      margin: 0;
+    }
+    .hub-card .open {
+      margin-top: auto; display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--amber); font-weight: 600;
+    }
+
+    /* Changelog */
+    .overhaul-changelog {
+      margin-top: 20px;
+      padding: 18px 22px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 12px; color: var(--text-dim);
+      max-width: 760px;
+      display: grid; gap: 7px;
+    }
+    .overhaul-changelog .row { display: grid; grid-template-columns: 56px 1fr; gap: 14px; }
+    .overhaul-changelog .row .k { color: var(--amber); }
+    .overhaul-changelog .row b { color: var(--text); font-weight: 600; }
+
+    /* Hero override · softer than the default */
+    .lite-page-head h1 .li { color: var(--text); }
+    .lite-page-head h1 .te { color: var(--amber); }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+
+  <header class="lite-page-head">
+    <div class="eyebrow">Overhaul v1 · May 2026</div>
+    <h1><span class="li">LITE</span> <span class="te">Hub.</span></h1>
+    <p class="lede">
+      The whole project, reorganised on a single shared system · one source of truth for design tokens,
+      one sidebar, one type stack, generators that remember your work. Every page now talks to every other.
+    </p>
+    <div class="meta">
+      <span><b>23</b> Pages</span>
+      <span><b>1</b> Shared CSS</span>
+      <span><b>1</b> Shared Sidebar</span>
+      <span><b>Auto-save</b> Generators</span>
+    </div>
+
+    <div class="overhaul-changelog">
+      <div class="row"><span class="k">+ rebuilt</span><span><b>9 pages</b> rewritten on shared primitives: Editorial Standards, Redaction/Reveal, Title &amp; Thumbnail, Skill Workflow, Thumbnail Research, Competitor Analysis, Colour Comparison, Landing Page, Channel Banner</span></div>
+      <div class="row"><span class="k">+ shared</span><span><b>system.css</b> · single source for amber, fonts, sidebar, page chrome</span></div>
+      <div class="row"><span class="k">+ shared</span><span><b>sidebar.js</b> · injects the same nav into every page · theme persists</span></div>
+      <div class="row"><span class="k">+ shared</span><span><b>persist.js</b> · any <code style="font-family:var(--font-mono);color:var(--amber)">[data-persist]</code> field auto-saves to localStorage</span></div>
+      <div class="row"><span class="k">+ type</span><span>JetBrains Mono added as the evidence register (timestamps, cut logs, metadata)</span></div>
+      <div class="row"><span class="k">~ ·01</span><span><b>Brand Reference v2</b> is now canonical · timestamp glyph, redaction, vertical, motion+audio, POV</span></div>
+      <div class="row"><span class="k">~ ·04</span><span>Generators cross-link via a shared <code style="font-family:var(--font-mono);color:var(--amber)">lite.case</code> object · pick once, prefill everywhere</span></div>
+      <div class="row"><span class="k">- drop</span><span><b>brand-reference-REVIEW.html</b> removed; <b>brand-reference-light.html</b> folded into the v2 theme toggle</span></div>
+      <div class="row"><span class="k">? fix</span><span><b>landing-page.html</b> · line break verified, tagline reads cleanly</span></div>
+    </div>
+  </header>
+
+  <!-- 01 — Brand -->
+  <div class="hub-section">
+    <div class="hub-section-head"><h2>01 — Brand</h2><span class="count">04</span></div>
+    <div class="hub-grid">
+      <a class="hub-card" href="brand-reference.html">
+        <div class="row1"><span class="num">01</span><span class="tag v2">v2</span></div>
+        <div class="title">Brand Reference</div>
+        <p class="desc">Colours · Type · Wordmark · Voice · Thumbnail formula · Redaction · Motion. The source of truth.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="logo-sketches.html">
+        <div class="row1"><span class="num">02</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Logo Concepts</div>
+        <p class="desc">Five directions, each with on-dark/light previews and 64/32/16px favicon simulation.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="icon-concepts.html">
+        <div class="row1"><span class="num">03</span></div>
+        <div class="title">Icon Concepts</div>
+        <p class="desc">Channel iconography directions. Companion to logo concepts.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="channel-banner.html">
+        <div class="row1"><span class="num">04</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Channel Banner</div>
+        <p class="desc">Export-ready YouTube channel banner (placeholder · source was empty in v1).</p>
+        <span class="open">OPEN ?</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 02 · References -->
+  <div class="hub-section">
+    <div class="hub-section-head"><h2>02 · References</h2><span class="count">03</span></div>
+    <div class="hub-grid">
+      <a class="hub-card" href="editorial-standards.html">
+        <div class="row1"><span class="num">01</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Editorial Standards</div>
+        <p class="desc">Attribution, pre-publish checks, the rules. Goes hand-in-hand with ·08 Voice & POV.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="redaction-reveal.html">
+        <div class="row1"><span class="num">02</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Redaction / Reveal</div>
+        <p class="desc">Six redaction devices, when to use each. Spec lives in Brand Reference ·04.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="title-thumbnail-system.html">
+        <div class="row1"><span class="num">03</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Title &amp; Thumbnail System</div>
+        <p class="desc">The pair principle, seven patterns, title rules, worked examples.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 03 — Production -->
+  <div class="hub-section">
+    <div class="hub-section-head"><h2>03 — Production</h2><span class="count">03</span></div>
+    <div class="hub-grid">
+      <a class="hub-card" href="production-pipeline.html">
+        <div class="row1"><span class="num">01</span></div>
+        <div class="title">Production Pipeline</div>
+        <p class="desc">Full case lifecycle, stage gates, deliverables. State persists across visits.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="skill-workflow.html">
+        <div class="row1"><span class="num">02</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Skill Workflow</div>
+        <p class="desc">Six skills, canonical order, "I want to do X" lookup. Internal reference.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="social-media-workflow.html">
+        <div class="row1"><span class="num">03</span></div>
+        <div class="title">Social Media Workflow</div>
+        <p class="desc">Per-platform cadence, Shorts/TikTok formula derives from Brand Reference ·09.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 04 · Tools -->
+  <div class="hub-section">
+    <div class="hub-section-head"><h2>04 · Tools</h2><span class="count">04 · all auto-save</span></div>
+    <div class="hub-grid">
+      <a class="hub-card" href="thumbnail-generator.html">
+        <div class="row1"><span class="num">01</span><span class="tag NEW">NEW</span></div>
+        <div class="title">Thumbnail Generator</div>
+        <p class="desc">Type a case, swap variants, export. Now persists across refresh and shares the case with other tools.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="mugshot-border-generator.html">
+        <div class="row1"><span class="num">02</span><span class="tag NEW">NEW</span></div>
+        <div class="title">Border Generator</div>
+        <p class="desc">Mugshot border generator. Auto-save on every change.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="mugshot-nameplate-generator.html">
+        <div class="row1"><span class="num">03</span><span class="tag NEW">NEW</span></div>
+        <div class="title">Nameplate Generator</div>
+        <p class="desc">Mugshot nameplates. Pulls the current case name from the shared case object.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="corner-tag-generator.html">
+        <div class="row1"><span class="num">04</span><span class="tag NEW">NEW</span></div>
+        <div class="title">Corner Tag Generator</div>
+        <p class="desc">POV corner tags with the v2 role glyphs (U / D / 911 / C / DC / IV / W / ?). Persists.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 05 · Archive / Research -->
+  <div class="hub-section">
+    <div class="hub-section-head"><h2>05 · Archive &amp; Research</h2><span class="count">06</span></div>
+    <div class="hub-grid">
+      <a class="hub-card" href="thumbnail-research.html">
+        <div class="row1"><span class="num">01</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Thumbnail Research</div>
+        <p class="desc">The research that produced the ·09 variants and the amber recognition thesis.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="competitor-analysis.html">
+        <div class="row1"><span class="num">02</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Competitor Analysis</div>
+        <p class="desc">The genre map. Who we're not, and what they get wrong.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="claude-skills-cheatsheet.html">
+        <div class="row1"><span class="num">03</span></div>
+        <div class="title">Claude Cheatsheet</div>
+        <p class="desc">Internal scratch. Surface kept for reference.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="colour-comparison.html">
+        <div class="row1"><span class="num">04</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Colour Comparison</div>
+        <p class="desc">The shootout that landed on Documentary Amber. Decision rationale.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="expenses.html">
+        <div class="row1"><span class="num">05</span></div>
+        <div class="title">Expenses</div>
+        <p class="desc">Cost tracking for the channel build. Persists.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+      <a class="hub-card" href="landing-page.html">
+        <div class="row1"><span class="num">06</span><span class="tag NEW">REBUILT</span></div>
+        <div class="title">Landing Page</div>
+        <p class="desc">Public site. Restyled to match the shared system; tagline TBD pending ·07.</p>
+        <span class="open">OPEN ?</span>
+      </a>
+    </div>
+  </div>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Overhaul v1 · May 2026</span>
+    <span class="tagline">Every cut, on the record<span class="dot">.</span></span>
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+</div></body>
+</html>

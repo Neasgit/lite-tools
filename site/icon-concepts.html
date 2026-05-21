@@ -1,0 +1,578 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LITE · Icon Concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <script>window.LITE_PAGE = { slug: "icon-concepts", label: "Icon Concepts" };</script>
+  <style>
+    /* ===== Icon Concepts · aligned to LITE system ===== */
+    .icon-grid { display: flex; flex-direction: column; gap: 20px; }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--text-dim); font-weight: 600;
+      margin: 36px 0 4px;
+    }
+    .section-label .dash {
+      display: inline-block; width: 32px; height: 1px; background: var(--border-strong);
+    }
+    .section-label:first-of-type { margin-top: 0; }
+
+    .concept {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .concept-head {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 20px; align-items: flex-start;
+      padding: 22px 26px;
+      border-bottom: 1px solid var(--border);
+    }
+    .concept-head .num {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px;
+      color: var(--text-dimmer); font-weight: 600;
+    }
+    .concept-head .num .accent { color: var(--amber); }
+    .concept-head h3 {
+      font-size: 22px; font-weight: 700; letter-spacing: -.4px;
+      margin: 4px 0 6px; color: var(--text);
+    }
+    .concept-head .desc {
+      font-size: 13px; color: var(--text-dim); line-height: 1.6;
+      max-width: 640px; margin: 0;
+    }
+    .tag {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px;
+      padding: 5px 10px; border-radius: 2px; font-weight: 600;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .tag.top    { background: var(--amber); color: #111; }
+    .tag.strong { background: rgba(212,168,0,.14); color: var(--amber); border: 1px solid var(--amber); }
+    .tag.medium { background: transparent; color: var(--text-dim); border: 1px solid var(--border-strong); }
+
+    .concept-body {
+      display: grid; grid-template-columns: 1fr 280px;
+      gap: 0;
+    }
+    .sizes {
+      display: flex; align-items: center; justify-content: flex-start; gap: 0;
+      padding: 28px 16px;
+      border-right: 1px solid var(--border);
+    }
+    .size-cell {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      padding: 0 28px; flex: 1;
+      border-right: 1px solid var(--border);
+    }
+    .size-cell:last-child { border-right: none; }
+    .icon-frame {
+      width: 88px; height: 88px;
+      display: flex; align-items: center; justify-content: center;
+      background:
+        repeating-conic-gradient(#171717 0% 25%, #111 0% 50%) 0 0 / 12px 12px;
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
+    }
+    .size-label {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      color: var(--text-dim); letter-spacing: 1px;
+    }
+    .size-label .px { color: var(--text-dimmer); margin-left: 2px; }
+
+    .verdict { padding: 28px 26px; display: flex; flex-direction: column; gap: 10px; }
+    .verdict-label {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--amber); font-weight: 700;
+    }
+    .verdict p {
+      font-size: 12.5px; color: var(--text-dim); line-height: 1.65; margin: 0;
+    }
+
+    /* Standing summary at the bottom */
+    .standing {
+      margin-top: 40px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      border-radius: 4px;
+      padding: 28px 30px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    }
+    .standing h4 {
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--amber); margin: 0 0 10px; font-weight: 700;
+    }
+    .standing p { font-size: 12.5px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+    .standing p b { color: var(--text); font-weight: 600; }
+
+    @media (max-width: 1080px) {
+      .concept-body { grid-template-columns: 1fr; }
+      .sizes { border-right: none; border-bottom: 1px solid var(--border); }
+      .standing { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .concept-head { grid-template-columns: 1fr; }
+      .size-cell { padding: 0 14px; }
+      .icon-frame { width: 72px; height: 72px; }
+    }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item active" href="#"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+  <main class="lite-main">
+    <header class="lite-page-head">
+      <div class="eyebrow">01 — Brand</div>
+      <h1>Icon Concepts<span class="accent">.</span></h1>
+      <p class="lede">Seven directions for the channel icon. Each rendered at 64 / 32 / 16 px with a verdict. Approved direction lives in Brand Reference ·05.</p>
+      <div class="meta">
+        <span><b>07</b> Concepts</span>
+        <span><b>03</b> Sizes</span>
+        <span><b>02</b> Top picks</span>
+      </div>
+    </header>
+
+    <div class="icon-grid">
+      <div class="section-label"><span class="dash"></span>Geometric / Structural</div>
+  <article class="concept">
+    <header class="concept-head">
+      <div class="concept-id">
+        <span class="num">A <span class="accent">/ 07</span></span>
+        <h3>Filled Corners</h3>
+        <p class="desc">Solid amber triangles at each corner. Evolution of the Viewfinder · same concept, much heavier visual weight. Reads as a framing device or evidence marker.</p>
+      </div>
+      <div class="concept-tag-wrap">
+        <span class="tag top">Strong pick</span>
+      </div>
+    </header>
+    <div class="concept-body">
+      <div class="sizes">
+        
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="0" fill="#0d0d0d"/>
+              <polygon points="0,0 26,0 0,26" fill="#D4A800"/>
+            <polygon points="64,0 38,0 64,26" fill="#D4A800"/>
+            <polygon points="0,64 26,64 0,38" fill="#D4A800"/>
+            <polygon points="64,64 38,64 64,38" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">64<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="0" fill="#0d0d0d"/>
+              <polygon points="0,0 26,0 0,26" fill="#D4A800"/>
+            <polygon points="64,0 38,0 64,26" fill="#D4A800"/>
+            <polygon points="0,64 26,64 0,38" fill="#D4A800"/>
+            <polygon points="64,64 38,64 64,38" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">32<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="0" fill="#0d0d0d"/>
+              <polygon points="0,0 26,0 0,26" fill="#D4A800"/>
+            <polygon points="64,0 38,0 64,26" fill="#D4A800"/>
+            <polygon points="0,64 26,64 0,38" fill="#D4A800"/>
+            <polygon points="64,64 38,64 64,38" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">16<span class="px">px</span></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">Notes</div>
+        <p>Much more impact than line-only corners. Amber fills are bold at every size. Pattern stays readable at 16px.</p>
+      </div>
+    </div>
+  </article>
+  <article class="concept">
+    <header class="concept-head">
+      <div class="concept-id">
+        <span class="num">B <span class="accent">/ 07</span></span>
+        <h3>Crosshair</h3>
+        <p class="desc">Target/scope sight. References bodycam and tactical footage. Circle plus cross · clean and geometric.</p>
+      </div>
+      <div class="concept-tag-wrap">
+        <span class="tag strong">Strong concept</span>
+      </div>
+    </header>
+    <div class="concept-body">
+      <div class="sizes">
+        
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <circle cx="32" cy="32" r="18" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <circle cx="32" cy="32" r="3" fill="#D4A800"/>
+            <line x1="32" y1="6"  x2="32" y2="14" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="32" y1="50" x2="32" y2="58" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="6"  y1="32" x2="14" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="50" y1="32" x2="58" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="size-label">64<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <circle cx="32" cy="32" r="18" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <circle cx="32" cy="32" r="3" fill="#D4A800"/>
+            <line x1="32" y1="6"  x2="32" y2="14" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="32" y1="50" x2="32" y2="58" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="6"  y1="32" x2="14" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="50" y1="32" x2="58" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="size-label">32<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <circle cx="32" cy="32" r="18" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <circle cx="32" cy="32" r="3" fill="#D4A800"/>
+            <line x1="32" y1="6"  x2="32" y2="14" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="32" y1="50" x2="32" y2="58" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="6"  y1="32" x2="14" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            <line x1="50" y1="32" x2="58" y2="32" stroke="#D4A800" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="size-label">16<span class="px">px</span></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">Notes</div>
+        <p>Reads clearly at all sizes. Circle + cross is recognizable even at 16px. Feels tactical and documentary.</p>
+      </div>
+    </div>
+  </article>
+  <article class="concept">
+    <header class="concept-head">
+      <div class="concept-id">
+        <span class="num">C <span class="accent">/ 07</span></span>
+        <h3>Circle Emblem</h3>
+        <p class="desc">Thin amber ring with bold amber initial inside. Expedition / documentary badge aesthetic · timeless and legible.</p>
+      </div>
+      <div class="concept-tag-wrap">
+        <span class="tag strong">Clean & versatile</span>
+      </div>
+    </header>
+    <div class="concept-body">
+      <div class="sizes">
+        
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <circle cx="32" cy="32" r="23" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <text x="32" y="44" font-size="30" font-weight="700" fill="#D4A800" text-anchor="middle" font-family="Inter, sans-serif">L</text>
+            </svg>
+          </div>
+          <div class="size-label">64<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <circle cx="32" cy="32" r="23" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <text x="32" y="44" font-size="30" font-weight="700" fill="#D4A800" text-anchor="middle" font-family="Inter, sans-serif">L</text>
+            </svg>
+          </div>
+          <div class="size-label">32<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <circle cx="32" cy="32" r="23" fill="none" stroke="#D4A800" stroke-width="2"/>
+            <text x="32" y="44" font-size="30" font-weight="700" fill="#D4A800" text-anchor="middle" font-family="Inter, sans-serif">L</text>
+            </svg>
+          </div>
+          <div class="size-label">16<span class="px">px</span></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">Notes</div>
+        <p>Expedition badge feel. Works as a profile pic, watermark, favicon. The circle frames the letter without feeling like "just a monogram."</p>
+      </div>
+    </div>
+  </article>
+      <div class="section-label"><span class="dash"></span>Footage / Recording</div>
+  <article class="concept">
+    <header class="concept-head">
+      <div class="concept-id">
+        <span class="num">D <span class="accent">/ 07</span></span>
+        <h3>Record</h3>
+        <p class="desc">Large amber recording dot with thin outer ring. References bodycam HUD / REC indicator. No ambiguity about what this channel does.</p>
+      </div>
+      <div class="concept-tag-wrap">
+        <span class="tag medium">High concept, generic shape</span>
+      </div>
+    </header>
+    <div class="concept-body">
+      <div class="sizes">
+        
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <circle cx="32" cy="32" r="24" fill="none" stroke="#D4A800" stroke-width="1.5" opacity="0.35"/>
+            <circle cx="32" cy="32" r="15" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">64<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <circle cx="32" cy="32" r="24" fill="none" stroke="#D4A800" stroke-width="1.5" opacity="0.35"/>
+            <circle cx="32" cy="32" r="15" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">32<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <circle cx="32" cy="32" r="24" fill="none" stroke="#D4A800" stroke-width="1.5" opacity="0.35"/>
+            <circle cx="32" cy="32" r="15" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">16<span class="px">px</span></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">Notes</div>
+        <p>Amber dot reads instantly as "recording." But a filled circle is the most generic possible shape · only works if the brand colour is well-known.</p>
+      </div>
+    </div>
+  </article>
+  <article class="concept">
+    <header class="concept-head">
+      <div class="concept-id">
+        <span class="num">E <span class="accent">/ 07</span></span>
+        <h3>Play Frame</h3>
+        <p class="desc">Play triangle (amber) framed by thin corner marks. Combines the footage reference with the surveillance frame.</p>
+      </div>
+      <div class="concept-tag-wrap">
+        <span class="tag strong">Good combo</span>
+      </div>
+    </header>
+    <div class="concept-body">
+      <div class="sizes">
+        
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <path d="M10,22 L10,10 L22,10" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <polygon points="23,18 23,46 48,32" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">64<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <path d="M10,22 L10,10 L22,10" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <polygon points="23,18 23,46 48,32" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">32<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <path d="M10,22 L10,10 L22,10" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="square"/>
+            <polygon points="23,18 23,46 48,32" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">16<span class="px">px</span></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">Notes</div>
+        <p>Play triangle dominates at every size. Corners are supporting detail · disappear at 16px but the triangle alone is the mark.</p>
+      </div>
+    </div>
+  </article>
+  <article class="concept">
+    <header class="concept-head">
+      <div class="concept-id">
+        <span class="num">F <span class="accent">/ 07</span></span>
+        <h3>Open Brackets</h3>
+        <p class="desc">Just [ and ] in amber. Nothing inside · the empty space is the content "left in." Most conceptually pure interpretation of the channel name.</p>
+      </div>
+      <div class="concept-tag-wrap">
+        <span class="tag medium">Conceptually strong, visually sparse</span>
+      </div>
+    </header>
+    <div class="concept-body">
+      <div class="sizes">
+        
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <text x="5" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central" font-family="Inter, sans-serif">[</text>
+            <text x="46" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central" font-family="Inter, sans-serif">]</text>
+            </svg>
+          </div>
+          <div class="size-label">64<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <text x="5" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central" font-family="Inter, sans-serif">[</text>
+            <text x="46" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central" font-family="Inter, sans-serif">]</text>
+            </svg>
+          </div>
+          <div class="size-label">32<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <text x="5" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central" font-family="Inter, sans-serif">[</text>
+            <text x="46" y="32" font-size="46" font-weight="200" fill="#D4A800" dominant-baseline="central" font-family="Inter, sans-serif">]</text>
+            </svg>
+          </div>
+          <div class="size-label">16<span class="px">px</span></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">Notes</div>
+        <p>Empty brackets = the thing left in, unseen. But two vertical strokes at 16px reads as "||" · loses the concept at small sizes.</p>
+      </div>
+    </div>
+  </article>
+      <div class="section-label"><span class="dash"></span>Hybrid</div>
+  <article class="concept">
+    <header class="concept-head">
+      <div class="concept-id">
+        <span class="num">G <span class="accent">/ 07</span></span>
+        <h3>Square Crosshair</h3>
+        <p class="desc">The Viewfinder's corner marks plus crosshair lines meeting at a centre dot. Square geometry throughout · bodycam HUD or tactical sight.</p>
+      </div>
+      <div class="concept-tag-wrap">
+        <span class="tag top">Best of both</span>
+      </div>
+    </header>
+    <div class="concept-body">
+      <div class="sizes">
+        
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <path d="M10,22 L10,10 L22,10" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <line x1="32" y1="14" x2="32" y2="27" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="32" y1="37" x2="32" y2="50" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="14" y1="32" x2="27" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="37" y1="32" x2="50" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="2.5" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">64<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <path d="M10,22 L10,10 L22,10" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <line x1="32" y1="14" x2="32" y2="27" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="32" y1="37" x2="32" y2="50" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="14" y1="32" x2="27" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="37" y1="32" x2="50" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="2.5" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">32<span class="px">px</span></div>
+        </div>
+        <div class="size-cell">
+          <div class="icon-frame">
+            <svg width="16" height="16" viewBox="0 0 64 64" aria-hidden="true">
+              <rect width="64" height="64" rx="6" fill="#0d0d0d"/>
+              <path d="M10,22 L10,10 L22,10" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,10 L54,10 L54,22" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M10,42 L10,54 L22,54" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <path d="M42,54 L54,54 L54,42" fill="none" stroke="#D4A800" stroke-width="3" stroke-linecap="square"/>
+            <line x1="32" y1="14" x2="32" y2="27" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="32" y1="37" x2="32" y2="50" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="14" y1="32" x2="27" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="37" y1="32" x2="50" y2="32" stroke="#D4A800" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="2.5" fill="#D4A800"/>
+            </svg>
+          </div>
+          <div class="size-label">16<span class="px">px</span></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">Notes</div>
+        <p>Same corner geometry as the wordmark. Crosshair lines add a targeting/HUD layer without a circle. Centre dot anchors it. Cohesive with the full brand.</p>
+      </div>
+    </div>
+  </article>
+
+      <section class="standing" aria-label="Where things stand">
+        <div>
+          <h4>Strongest picks</h4>
+          <p><b>A · Filled Corners</b> evolves the Viewfinder wordmark directly. Same language, more weight. <b>B · Crosshair</b> is more tactical. Both hold at 16px.</p>
+        </div>
+        <div>
+          <h4>The hybrid</h4>
+          <p><b>G · Square Crosshair</b> combines both: corner marks plus crosshair lines in pure square geometry. Bridges Viewfinder and Crosshair. Cohesive with the wordmark, can feel busy at small sizes.</p>
+        </div>
+        <div>
+          <h4>Set aside</h4>
+          <p><b>E · Play Frame</b> feels generic unless paired with corner marks. <b>C, D, F</b> are reference points, not live options.</p>
+        </div>
+      </section>
+    </div>
+
+    <footer class="lite-footer">
+      <span>Left in the Edit · Icon Concepts</span>
+      <span class="tagline">Every cut, on the record<span class="dot">.</span></span>
+    </footer>
+  </main>
+
+  <script src="shared/sidebar.js"></script>
+  <script src="shared/persist.js"></script>
+</div></body>
+</html>

@@ -1,0 +1,282 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE · Title &amp; Thumbnail System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <script>window.LITE_PAGE = { slug: "title-thumbnail-system", label: "Title & Thumbnail" };</script>
+  <style>
+    .pair-principle {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .pp-card { padding: 26px 28px; }
+    .pp-card .role {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 3px;
+      color: var(--amber); text-transform: uppercase; font-weight: 600; margin-bottom: 14px;
+    }
+    .pp-card h3 { font-size: 22px; letter-spacing: -.4px; margin: 0 0 10px; font-weight: 700; }
+    .pp-card p { font-size: 13px; color: var(--text-dim); line-height: 1.7; margin: 0; }
+    @media (max-width: 800px) { .pair-principle { grid-template-columns: 1fr; } }
+
+    .patterns { display: flex; flex-direction: column; gap: 12px; }
+    .pattern {
+      display: grid;
+      grid-template-columns: 56px 1fr 240px;
+      gap: 18px;
+      padding: 18px 22px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      align-items: center;
+    }
+    .pattern .num {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 2px; color: var(--amber); font-weight: 700;
+    }
+    .pattern .label { font-size: 11px; color: var(--text-dimmer); font-family: var(--font-mono); letter-spacing: 2px; text-transform: uppercase; }
+    .pattern .sample { font-size: 16px; font-weight: 600; color: var(--text); margin-top: 4px; letter-spacing: -.3px; line-height: 1.35; }
+    .pattern .thumb {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--text-dim);
+      padding: 6px 10px; background: var(--bg-elev-2);
+      border: 1px solid var(--border); border-radius: 3px;
+      text-align: center;
+    }
+    .pattern .thumb b { color: var(--amber); font-weight: 600; }
+    @media (max-width: 800px) {
+      .pattern { grid-template-columns: 1fr; gap: 8px; }
+      .pattern .thumb { text-align: left; }
+    }
+
+    .title-rules { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .tr-card { padding: 22px; }
+    .tr-card h4 { font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; margin: 0 0 14px; }
+    .tr-card.do h4 { color: var(--amber); }
+    .tr-card.avoid h4 { color: var(--crimson); }
+    .tr-card ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+    .tr-card li { font-size: 13px; color: var(--text-dim); line-height: 1.6; padding-left: 14px; position: relative; }
+    .tr-card li::before { content: "·"; position: absolute; left: 4px; color: var(--amber); font-weight: 700; }
+    .tr-card.avoid li::before { color: var(--crimson); }
+    .tr-card li b { color: var(--text); font-weight: 600; }
+    @media (max-width: 800px) { .title-rules { grid-template-columns: 1fr; } }
+
+    .examples { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    .example { padding: 20px 22px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: 6px; }
+    .example .ex-head {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--amber); font-weight: 600; margin-bottom: 10px;
+    }
+    .example .ex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .example .ex-title { font-size: 18px; font-weight: 700; letter-spacing: -.3px; line-height: 1.2; }
+    .example .ex-thumb-spec {
+      font-family: var(--font-mono); font-size: 12px;
+      color: var(--text-dim); line-height: 1.7;
+    }
+    .example .ex-thumb-spec b { color: var(--amber); }
+    @media (max-width: 700px) { .example .ex-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item active" href="#"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+
+  <header class="lite-page-head">
+    <div class="eyebrow">02 · References · Version 1.0</div>
+    <h1>Title &amp; <span class="accent">Thumbnail.</span></h1>
+    <p class="lede">
+      Treat the title and the thumbnail as one paired asset. The title creates the question.
+      The thumbnail shows the evidence.
+    </p>
+    <div class="meta">
+      <span><b>Patterns</b> 7</span>
+      <span><b>Updated</b> May 2026</span>
+      <span><b>Companion</b> Brand Reference ·08·09</span>
+    </div>
+  </header>
+
+  <!-- ·01 The pair principle -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">01 · The pair principle</div>
+    <p class="section-desc">A title and a thumbnail do two different jobs. When they repeat each other the listing feels weaker · the viewer reads the same thing twice. When they complement each other, the title raises a question and the thumbnail answers with a piece of evidence.</p>
+    <div class="pair-principle">
+      <div class="lite-card pp-card">
+        <div class="role">TITLE</div>
+        <h3>Creates the question.</h3>
+        <p>Names the specific document, footage, call, statement, officer, record, or interview. Specific. Sourced. Restrained.</p>
+      </div>
+      <div class="lite-card pp-card">
+        <div class="role">THUMBNAIL</div>
+        <h3>Shows the evidence.</h3>
+        <p>One image, one phrase, one number · whatever the title points at. Never a copy of the title.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ·02 Seven patterns -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">02 · The seven patterns</div>
+    <p class="section-desc">Title type · sample · best-fit thumbnail format from Brand Reference ·09.</p>
+    <div class="patterns">
+      <div class="pattern">
+        <div class="num">01</div>
+        <div>
+          <div class="label">EVIDENCE CONTRADICTION</div>
+          <div class="sample">"The Bodycam Didn't Match the Report"</div>
+        </div>
+        <div class="thumb">Best: <b>Left Bar</b> or <b>Photo Overlay</b></div>
+      </div>
+      <div class="pattern">
+        <div class="num">02</div>
+        <div>
+          <div class="label">TIMELINE HOOK</div>
+          <div class="sample">"What Happened in the Missing 11 Minutes"</div>
+        </div>
+        <div class="thumb">Best: <b>Stat / Number</b></div>
+      </div>
+      <div class="pattern">
+        <div class="num">03</div>
+        <div>
+          <div class="label">INSTITUTIONAL DELAY</div>
+          <div class="sample">"Why It Took 400 Days to Release This"</div>
+        </div>
+        <div class="thumb">Best: <b>Stat / Number</b></div>
+      </div>
+      <div class="pattern">
+        <div class="num">04</div>
+        <div>
+          <div class="label">HIDDEN CONTEXT</div>
+          <div class="sample">"The Part They Cut Changes Everything"</div>
+        </div>
+        <div class="thumb">Best: <b>Redaction / Reveal</b></div>
+      </div>
+      <div class="pattern">
+        <div class="num">05</div>
+        <div>
+          <div class="label">CASE-SPECIFIC</div>
+          <div class="sample">"The 911 Call Was Only the Beginning"</div>
+        </div>
+        <div class="thumb">Best: <b>Photo Overlay</b></div>
+      </div>
+      <div class="pattern">
+        <div class="num">06</div>
+        <div>
+          <div class="label">REPORT CONFLICT</div>
+          <div class="sample">"The Report Said One Thing. The Footage Showed Another."</div>
+        </div>
+        <div class="thumb">Best: <b>Redaction / Reveal</b></div>
+      </div>
+      <div class="pattern">
+        <div class="num">07</div>
+        <div>
+          <div class="label">SOURCE-LED</div>
+          <div class="sample">"Court Records Reveal What the Footage Didn't"</div>
+        </div>
+        <div class="thumb">Best: <b>Document Highlight</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ·03 Title rules -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">03 · Title rules</div>
+    <p class="section-desc">Specific. Sourced. Restrained.</p>
+    <div class="title-rules">
+      <div class="lite-card tr-card do">
+        <h4>? Do</h4>
+        <ul>
+          <li>Use one concrete noun: <b>report</b>, <b>footage</b>, <b>call</b>, <b>timeline</b>, <b>statement</b>, <b>officer</b>, <b>record</b>, <b>interview</b>.</li>
+          <li>Keep the title specific to this case · not a category headline.</li>
+          <li>Let the title <b>create the question</b>. The thumbnail will show the evidence.</li>
+          <li>Use uncertainty carefully: <b>allegedly, appears to, according to</b>.</li>
+          <li>Front-load the most distinctive word · viewers scan, they don't read.</li>
+        </ul>
+      </div>
+      <div class="lite-card tr-card avoid">
+        <h4>? Avoid</h4>
+        <ul>
+          <li>"YOU WON'T BELIEVE" · reaction-channel grammar.</li>
+          <li>All caps · looks like every other bodycam channel.</li>
+          <li>Generic category labels: "Crazy Bodycam Footage" tells you nothing.</li>
+          <li>Repeating the thumbnail text · wasted real estate.</li>
+          <li>Overstating certainty: "PROVES he lied." Use <i>appears to contradict</i>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ·04 Worked examples -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">04 · Worked example packagings</div>
+    <p class="section-desc">Three cases, three pairings. See how the title and thumbnail split the work.</p>
+    <div class="examples">
+      <div class="example">
+        <div class="ex-head">EXAMPLE 01 · TIMELINE HOOK</div>
+        <div class="ex-grid">
+          <div>
+            <div class="lite-label dim" style="margin-bottom:6px">TITLE</div>
+            <div class="ex-title">"The Missing 11 Minutes of the Standoff"</div>
+          </div>
+          <div>
+            <div class="lite-label dim" style="margin-bottom:6px">THUMBNAIL</div>
+            <div class="ex-thumb-spec">
+              Format · <b>Stat / Number</b><br>
+              Hero number · <b>11:00</b><br>
+              Sub-line · "the bodycam doesn't show"<br>
+              Eyebrow · BODYCAM TIMELINE
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="example">
+        <div class="ex-head">EXAMPLE 02 · REPORT CONFLICT</div>
+        <div class="ex-grid">
+          <div>
+            <div class="lite-label dim" style="margin-bottom:6px">TITLE</div>
+            <div class="ex-title">"The Report Said Non-Compliant. The Footage Showed Hands Raised."</div>
+          </div>
+          <div>
+            <div class="lite-label dim" style="margin-bottom:6px">THUMBNAIL</div>
+            <div class="ex-thumb-spec">
+              Format · <b>Redaction / Reveal</b><br>
+              Top half · "Non-compliant" (redacted)<br>
+              Bottom half · "Hands raised" (amber reveal)<br>
+              Eyebrow · WHAT THEY CUT
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="example">
+        <div class="ex-head">EXAMPLE 03 · INSTITUTIONAL DELAY</div>
+        <div class="ex-grid">
+          <div>
+            <div class="lite-label dim" style="margin-bottom:6px">TITLE</div>
+            <div class="ex-title">"Why It Took 400 Days to Release This Footage"</div>
+          </div>
+          <div>
+            <div class="lite-label dim" style="margin-bottom:6px">THUMBNAIL</div>
+            <div class="ex-thumb-spec">
+              Format · <b>Stat / Number</b><br>
+              Hero number · <b>400</b><br>
+              Sub-line · "days the bodycam was sealed"<br>
+              Eyebrow · DAY 400
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Title &amp; Thumbnail · v1.0</span>
+    
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+</div></body>
+</html>

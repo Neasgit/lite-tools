@@ -1,0 +1,423 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE — Corner Tag Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <style>
+    body {
+      display: block !important; padding: 0 !important; margin: 0 !important;
+      gap: 0 !important; align-items: initial !important;
+      min-height: auto !important; flex-direction: initial !important;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    .lite-legacy-content {
+      --bg:     #0a0a0a;
+      --surf:   #141414;
+      --border: #222;
+      --muted:  #555;
+      --amber:  #D4A800;
+      color: #e8e8e0;
+      font-family: var(--font-sans);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    /* ── Controls panel ─────────────────────────────── */
+    .panel {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 20px;
+      width: 100%;
+      max-width: 1280px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .panel-divider { width: 1px; height: 32px; background: var(--border); align-self: center; flex-shrink: 0; }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--muted); font-weight: 500;
+    }
+
+    input[type="text"] {
+      background: var(--bg); border: 1px solid var(--border); color: #fff;
+      padding: 8px 12px; font-size: 15px; font-weight: 500; letter-spacing: 0.5px;
+      border-radius: 3px; outline: none; font-family: var(--font-sans);
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus { border-color: var(--amber); }
+    #inp-tag { width: 260px; }
+
+    .preset-row { display: flex; gap: 5px; flex-wrap: wrap; }
+
+    .preset {
+      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+      padding: 5px 11px; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+      border-radius: 3px; cursor: pointer; font-family: var(--font-sans);
+      font-weight: 500; transition: all 0.15s; white-space: nowrap;
+    }
+    .preset:hover { color: #fff; border-color: #555; }
+
+    .toggle {
+      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+      padding: 6px 13px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      border-radius: 3px; cursor: pointer; font-family: var(--font-sans);
+      font-weight: 500; transition: all 0.15s; white-space: nowrap;
+    }
+    .toggle.on { background: #1a1400; border-color: #4a3800; color: var(--amber); }
+
+    .btn {
+      border: none; padding: 9px 20px; font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; border-radius: 3px; cursor: pointer;
+      font-family: var(--font-sans); font-weight: 600; transition: filter 0.15s; white-space: nowrap;
+    }
+    .btn-amber { background: var(--amber); color: #000; }
+    .btn-amber:hover { filter: brightness(1.12); }
+
+    /* ── Canvas + zoom layout ────────────────────────── */
+    .preview-layout {
+      width: 100%; max-width: 1280px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .canvas-wrap {
+      position: relative;
+      border-radius: 4px; overflow: hidden; border: 1px solid var(--border);
+    }
+    .canvas-wrap canvas { display: block; width: 100%; height: auto; }
+
+    /* Zoom panel */
+    .zoom-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .zoom-label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--muted); font-weight: 500;
+    }
+
+    .zoom-canvas-wrap {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+    .zoom-canvas-wrap canvas { display: block; width: 100%; height: auto; }
+
+    .zoom-hint {
+      font-size: 11px; color: #333; letter-spacing: 0.5px; line-height: 1.6;
+    }
+    .zoom-hint b { color: var(--muted); font-weight: 500; }
+
+    footer { font-size: 11px; color: #2a2a2a; letter-spacing: 1px; text-align: center; line-height: 2; }
+    footer span { color: #3a3a3a; }
+
+    @media (max-width: 900px) {
+      .preview-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+  <script>window.LITE_PAGE = { slug: "corner-tag-generator", label: "Corner Tag Generator" };</script>
+  <style>
+    .lite-legacy-content nav, .lite-legacy-content > nav, .lite-legacy-content .nav { position: static !important; top: auto !important; }
+    .lite-legacy-content footer { position: static !important; }
+    .lite-legacy-content { font-family: var(--font-sans); }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item active" href="#"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+
+  <main class="lite-main">
+    <header class="lite-page-head">
+      <div class="eyebrow">03 — Production · Source Labels</div>
+      <h1>Corner Tag Generator<span class="accent">.</span></h1>
+      <p class="lede">POV source label for bodycam, dashcam, CCTV, and interview footage. Exports transparent 1920×1080 PNG — drop on V4 in Premiere above lower thirds.</p>
+    </header>
+
+    <div class="lite-legacy-content">
+
+      <!-- Controls -->
+      <div class="panel">
+        <div class="panel-row">
+
+          <div class="field">
+            <label>Tag text</label>
+            <input type="text" id="inp-tag" value="OFFICER MARTINEZ"
+              autocomplete="off" spellcheck="false" data-persist="inp-tag">
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>Position</label>
+            <div style="display:flex;gap:5px">
+              <button class="toggle"    id="pos-tl" onclick="setPosition('tl')">&#8598; TL</button>
+              <button class="toggle"    id="pos-tr" onclick="setPosition('tr')">&#8599; TR</button>
+              <button class="toggle on" id="pos-bl" onclick="setPosition('bl')">&#8601; BL</button>
+              <button class="toggle"    id="pos-br" onclick="setPosition('br')">&#8600; BR</button>
+            </div>
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>&nbsp;</label>
+            <button class="btn btn-amber" onclick="download()">&#8595; Download PNG</button>
+          </div>
+
+        </div>
+
+        <div class="panel-row">
+          <div class="field">
+            <label>Quick presets</label>
+            <div class="preset-row">
+              <button class="preset" onclick="setTag('OFFICER 1')">Officer 1</button>
+              <button class="preset" onclick="setTag('OFFICER 2')">Officer 2</button>
+              <button class="preset" onclick="setTag('OFFICER 3')">Officer 3</button>
+              <button class="preset" onclick="setTag('DASHCAM')">Dashcam</button>
+              <button class="preset" onclick="setTag('CCTV')">CCTV</button>
+              <button class="preset" onclick="setTag('SURVEILLANCE')">Surveillance</button>
+              <button class="preset" onclick="setTag('INTERVIEW')">Interview</button>
+              <button class="preset" onclick="setTag('911 CALL')">911 Call</button>
+              <button class="preset" onclick="setTag('DISPATCH')">Dispatch</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview + zoom side-by-side -->
+      <div class="preview-layout">
+
+        <div class="canvas-wrap">
+          <canvas id="canvas" width="1920" height="1080"></canvas>
+        </div>
+
+        <div class="zoom-panel">
+          <div class="zoom-label">Close-up</div>
+          <div class="zoom-canvas-wrap">
+            <canvas id="zoom-canvas" width="320" height="180"></canvas>
+          </div>
+          <div class="zoom-hint">
+            Close-up · scales to fit the tag.<br>
+            Preview background is simulated — export is fully transparent.
+          </div>
+          <footer style="text-align:left; margin-top: 4px;">
+            File: <span id="filename-out">corner-tag-officer-martinez.png</span><br>
+            1920 × 1080 · Transparent PNG
+          </footer>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const W = 1920, H = 1080;
+    const FONT  = '"Inter", "Helvetica Neue", Helvetica, Arial, sans-serif';
+    const AMBER = '#D4A800';
+
+    // Offscreen canvas — transparent, used for download
+    const offCanvas = document.createElement('canvas');
+    offCanvas.width = W; offCanvas.height = H;
+    const offCtx = offCanvas.getContext('2d');
+
+    // Preview canvas — dark footage-sim background
+    const canvas    = document.getElementById('canvas');
+    const ctx       = canvas.getContext('2d');
+
+    // Zoom canvas — magnified corner view
+    const zoomCanvas = document.getElementById('zoom-canvas');
+    const zoomCtx    = zoomCanvas.getContext('2d');
+
+    let position = 'bl';
+
+    // Tag spec constants
+    const FONTSIZE = 24;
+    const TRACKING = 1.5;
+    const PAD_H    = 14;
+    const PAD_V    = 9;
+    const BAR_W    = 3;
+    const MARGIN   = 40;
+
+    function setPosition(p) {
+      position = p;
+      ['tl','tr','bl','br'].forEach(function(id) {
+        document.getElementById('pos-' + id).classList.toggle('on', id === p);
+      });
+      render();
+    }
+
+    function setTag(value) {
+      document.getElementById('inp-tag').value = value;
+      render();
+    }
+
+    function measureSpaced(c, text) {
+      c.font = '700 ' + FONTSIZE + 'px ' + FONT;
+      var w = 0;
+      for (var i = 0; i < text.length; i++) {
+        w += c.measureText(text[i]).width;
+        if (i < text.length - 1) w += TRACKING;
+      }
+      return w;
+    }
+
+    function drawSpaced(c, text, x, y) {
+      var cx = x;
+      for (var i = 0; i < text.length; i++) {
+        c.fillText(text[i], cx, y);
+        cx += c.measureText(text[i]).width + TRACKING;
+      }
+    }
+
+    function drawTag(c, text) {
+      c.font = '700 ' + FONTSIZE + 'px ' + FONT;
+      var textW  = measureSpaced(c, text);
+      var plateW = BAR_W + PAD_H + textW + PAD_H;
+      var plateH = FONTSIZE + PAD_V * 2;
+      var x = (position === 'tr' || position === 'br') ? W - MARGIN - plateW : MARGIN;
+      var y = (position === 'tl' || position === 'tr') ? MARGIN : H - MARGIN - plateH;
+
+      c.fillStyle = AMBER;
+      c.fillRect(x, y, BAR_W, plateH);
+
+      c.fillStyle = 'rgba(8,8,8,0.85)';
+      c.fillRect(x + BAR_W, y, plateW - BAR_W, plateH);
+
+      c.fillStyle = '#FFFFFF';
+      c.font = '700 ' + FONTSIZE + 'px ' + FONT;
+      c.textBaseline = 'middle';
+      c.textAlign    = 'left';
+      drawSpaced(c, text, x + BAR_W + PAD_H, y + plateH / 2);
+    }
+
+    function drawBackground(c) {
+      // Dark gradient simulating footage
+      var grad = c.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, '#1c2030');
+      grad.addColorStop(0.5, '#0e1018');
+      grad.addColorStop(1, '#060708');
+      c.fillStyle = grad;
+      c.fillRect(0, 0, W, H);
+
+      // Vignette
+      var vig = c.createRadialGradient(W * 0.5, H * 0.45, H * 0.2, W * 0.5, H * 0.5, H * 0.85);
+      vig.addColorStop(0, 'rgba(0,0,0,0)');
+      vig.addColorStop(1, 'rgba(0,0,0,0.62)');
+      c.fillStyle = vig;
+      c.fillRect(0, 0, W, H);
+    }
+
+    function render() {
+      var text = (document.getElementById('inp-tag').value || 'OFFICER 1').trim().toUpperCase();
+
+      // 1. Draw transparent tag to offscreen (for download)
+      offCtx.clearRect(0, 0, W, H);
+      drawTag(offCtx, text);
+
+      // 2. Draw preview: footage bg + tag overlay
+      ctx.clearRect(0, 0, W, H);
+      drawBackground(ctx);
+      ctx.drawImage(offCanvas, 0, 0);
+
+      // 3. Zoom: re-render tag natively at zoom scale — crisp, no drawImage blur
+      var ZW = zoomCanvas.width, ZH = zoomCanvas.height;
+      // Measure source-scale plate to work out best zoom fit
+      ctx.font = '700 ' + FONTSIZE + 'px ' + FONT;
+      var _srcTW = 0;
+      for (var _i = 0; _i < text.length; _i++) {
+        _srcTW += ctx.measureText(text[_i]).width;
+        if (_i < text.length - 1) _srcTW += TRACKING;
+      }
+      var _srcPW = BAR_W + PAD_H + _srcTW + PAD_H;
+      var _srcPH = FONTSIZE + PAD_V * 2;
+      // Pick scale that fits both height (65% of canvas) and width (leave 20px margin)
+      var _zScale = Math.min(ZH * 0.65 / _srcPH, (ZW - 20) / _srcPW, 5.0);
+
+      var _zFS = FONTSIZE * _zScale, _zTR = TRACKING * _zScale;
+      var _zPH = PAD_H * _zScale, _zPV = PAD_V * _zScale, _zBW = BAR_W * _zScale;
+      zoomCtx.font = '700 ' + _zFS + 'px ' + FONT;
+      var _zTW = 0;
+      for (var _j = 0; _j < text.length; _j++) {
+        _zTW += zoomCtx.measureText(text[_j]).width;
+        if (_j < text.length - 1) _zTW += _zTR;
+      }
+      var _zPW    = _zBW + _zPH + _zTW + _zPH;
+      var _zPlatH = _zFS + _zPV * 2;
+      var _zX     = Math.max(10, (ZW - _zPW) / 2);
+      var _zY     = (ZH - _zPlatH) / 2;
+
+      zoomCtx.clearRect(0, 0, ZW, ZH);
+      zoomCtx.fillStyle = '#0c0f14';
+      zoomCtx.fillRect(0, 0, ZW, ZH);
+      zoomCtx.fillStyle = AMBER;
+      zoomCtx.fillRect(_zX, _zY, _zBW, _zPlatH);
+      zoomCtx.fillStyle = 'rgba(8,8,8,0.88)';
+      zoomCtx.fillRect(_zX + _zBW, _zY, _zPW - _zBW, _zPlatH);
+      zoomCtx.fillStyle = '#FFFFFF';
+      zoomCtx.font = '700 ' + _zFS + 'px ' + FONT;
+      zoomCtx.textBaseline = 'middle';
+      zoomCtx.textAlign    = 'left';
+      var _zCX = _zX + _zBW + _zPH;
+      for (var _k = 0; _k < text.length; _k++) {
+        zoomCtx.fillText(text[_k], _zCX, _zY + _zPlatH / 2);
+        _zCX += zoomCtx.measureText(text[_k]).width + _zTR;
+      }
+
+      // 4. Filename
+      var slug = text.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      document.getElementById('filename-out').textContent = 'corner-tag-' + (slug || 'tag') + '.png';
+    }
+
+    function download() {
+      render();
+      var text = (document.getElementById('inp-tag').value.trim() || 'tag');
+      var slug = text.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      var link = document.createElement('a');
+      link.download = 'corner-tag-' + slug + '.png';
+      link.href     = offCanvas.toDataURL('image/png');
+      link.click();
+    }
+
+    document.getElementById('inp-tag').addEventListener('input', function() {
+      this.value = this.value.toUpperCase();
+      render();
+    });
+
+    document.fonts.ready.then(render);
+  </script>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Corner Tag Generator</span>
+  </footer>
+
+  <script src="shared/sidebar.js"></script>
+  <script src="shared/persist.js"></script>
+</div></body>
+</html>

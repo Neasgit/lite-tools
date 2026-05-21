@@ -1,0 +1,736 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE · Skill Workflow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+
+  <script>window.LITE_PAGE = { slug: "skill-workflow", label: "Skill Workflow" };</script>
+  <style>
+    .skill-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    @media (max-width: 900px) { .skill-grid { grid-template-columns: 1fr; } }
+    .skill {
+      padding: 22px 24px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid transparent;
+      border-radius: 6px;
+      display: flex; flex-direction: column; gap: 10px;
+      transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      cursor: default;
+    }
+    .skill:hover {
+      border-color: var(--amber);
+      border-left-color: var(--amber);
+      background: color-mix(in srgb, var(--bg-elev) 85%, var(--amber) 15%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(212,168,0,0.10);
+    }
+    .skill:hover .name {
+      text-shadow: 0 0 18px rgba(212,168,0,0.45);
+    }
+    .skill .row1 {
+      display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    }
+    .skill .stage {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-dimmer); font-weight: 600;
+    }
+    .skill .stage b { color: var(--amber); }
+    .skill .name {
+      font-family: var(--font-mono); font-size: 18px; font-weight: 600;
+      color: var(--amber); letter-spacing: 0;
+    }
+    .skill .desc { font-size: 13px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+    .skill .triggers {
+      margin-top: 6px; padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 11px; color: var(--text-dim); line-height: 1.6;
+    }
+    .skill .triggers b { color: var(--amber); font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; }
+    .skill .triggers code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 1px 5px;
+      background: var(--bg-elev-2);
+      border-radius: 2px;
+      color: var(--text);
+      margin: 0 2px;
+    }
+
+    .lifecycle {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      margin: 16px 0 8px;
+    }
+    .lc-step {
+      display: flex; flex-direction: column; gap: 6px;
+      padding: 12px 8px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-align: center;
+      min-height: 92px;
+    }
+    .lc-step .n {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: 1.5px;
+      color: var(--text-dimmer); font-weight: 600;
+    }
+    .lc-step .nm {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--amber); font-weight: 600;
+      margin-top: 4px;
+    }
+    .lc-step .what { font-size: 10px; color: var(--text-dim); line-height: 1.35; }
+    @media (max-width: 700px) { .lifecycle { grid-template-columns: repeat(2, 1fr); } }
+
+    .lookup-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 13px;
+    }
+    .lookup-table th, .lookup-table td {
+      text-align: left; padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .lookup-table th {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+      color: var(--text-dimmer); text-transform: uppercase; font-weight: 600;
+    }
+    .lookup-table tr:last-child td { border-bottom: 0; }
+    .lookup-table .skill-cell { font-family: var(--font-mono); color: var(--amber); font-weight: 600; }
+    .lookup-table tbody tr:hover { background: var(--bg-elev); }
+
+    /* ── Flow pipe ── */
+    .flow-pipe {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* Sequential arrow connector */
+    .flow-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 28px;
+      position: relative;
+    }
+    .flow-arrow::before {
+      content: '';
+      display: block;
+      width: 2px;
+      height: 22px;
+      background: #3a2800;
+    }
+    .flow-arrow::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid #3a2800;
+    }
+
+    /* Parallel pair container */
+    .flow-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* Base node */
+    .flow-node {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Gate node variant */
+    .flow-node.fn-gate {
+      border-top: 2px solid var(--amber);
+    }
+    .fn-gate-label {
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    /* Manual node variant */
+    .flow-node.fn-manual {
+      border-style: dashed;
+      opacity: 0.6;
+    }
+
+    /* Fork / parallel node variant */
+    .flow-node.fn-fork {
+      padding: 14px 18px;
+    }
+
+    /* Async node variant */
+    .flow-node.fn-async {
+      border-color: #2a2a2a;
+    }
+
+    /* Node internals */
+    .fn-meta {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      align-items: center;
+    }
+    .fn-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-dimmer);
+      font-weight: 600;
+    }
+    .fn-tag {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dimmer);
+      font-weight: 500;
+    }
+    .fn-name {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--amber);
+    }
+    .fn-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+    .fn-triggers {
+      font-size: 11px;
+      color: var(--text-dim);
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+      margin-top: 4px;
+    }
+    .fn-triggers b {
+      color: var(--amber);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .fn-triggers code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 1px 5px;
+      background: var(--bg-elev-2);
+      border-radius: 2px;
+      margin: 0 2px;
+    }
+
+    /* Gate marker between join and next node */
+    .flow-gate-marker {
+      padding: 6px 16px;
+      border: 1px solid var(--amber);
+      border-radius: 3px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-family: var(--font-mono);
+      width: fit-content;
+      margin: 0 auto;
+      background: rgba(212,168,0,0.06);
+    }
+
+    /* Async section */
+    .flow-async-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--text-dimmer);
+      font-weight: 600;
+      margin-bottom: 12px;
+      margin-top: 32px;
+    }
+    .flow-async-row {
+      display: flex;
+      flex-direction: row;
+      gap: 14px;
+    }
+    .flow-async-row .flow-node {
+      flex: 1;
+    }
+    @media (max-width: 600px) {
+      .flow-pair { grid-template-columns: 1fr; }
+      .flow-async-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item active" href="#"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+
+  <header class="lite-page-head">
+    <div class="eyebrow">03 — Production · Internal Reference</div>
+    <h1>Skill <span class="accent">Workflow.</span></h1>
+    <p class="lede">
+      Fourteen purpose-built skills. One job each. The principle: if a skill needs to do two things, it's two skills.
+    </p>
+    <div class="meta">
+      <span><b>Skills</b> 14</span>
+      <span><b>Stages</b> 13</span>
+      <span><b>Updated</b> May 2026</span>
+    </div>
+  </header>
+
+  <!-- ·01 Pipeline flowchart -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">01 · Case pipeline</div>
+    <p class="section-desc">Canonical order from first research to community post. Dashed nodes are manual stages. Top-bordered nodes are gates — the case does not move until they pass.</p>
+
+    <div class="flow-pipe">
+
+      <!-- Stage 01 -->
+      <div class="flow-node">
+        <div class="fn-meta">
+          <span class="fn-num">01</span>
+          <span class="fn-tag">Discovery</span>
+        </div>
+        <div class="fn-name">research</div>
+        <div class="fn-triggers"><b>Triggers</b> · <code>research case X</code> <code>start research</code> <code>fill the brief</code></div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 02 -->
+      <div class="flow-node">
+        <div class="fn-meta">
+          <span class="fn-num">02</span>
+          <span class="fn-tag">Verification</span>
+        </div>
+        <div class="fn-name">factcheck</div>
+        <div class="fn-triggers"><b>Triggers</b> · <code>fact-check</code> <code>verify</code> <code>is this confirmed</code> <code>can we prove</code></div>
+      </div>
+
+      <!-- Fork SVG -->
+      <svg width="100%" height="32" viewBox="0 0 400 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
+        <path d="M200,0 V16 H100 V32" stroke="#3a2800" stroke-width="2" fill="none" stroke-linejoin="round"/>
+        <path d="M200,16 H300 V32" stroke="#3a2800" stroke-width="2" fill="none" stroke-linejoin="round"/>
+      </svg>
+
+      <!-- Stage 03A + 03B parallel -->
+      <div class="flow-pair">
+        <div class="flow-node fn-fork">
+          <div class="fn-meta">
+            <span class="fn-num">03A</span>
+            <span class="fn-tag">Open Records</span>
+          </div>
+          <div class="fn-name">foia</div>
+          <div class="fn-triggers"><b>Triggers</b> · <code>draft a FOIA</code> <code>open records request</code> <code>request the bodycam</code></div>
+        </div>
+        <div class="flow-node fn-fork">
+          <div class="fn-meta">
+            <span class="fn-num">03B</span>
+            <span class="fn-tag">Footage</span>
+          </div>
+          <div class="fn-name">footage-fetch</div>
+          <div class="fn-triggers"><b>Triggers</b> · <code>download footage</code> <code>yt-dlp commands</code> <code>scaffold the footage log</code></div>
+        </div>
+      </div>
+
+      <!-- Join SVG -->
+      <svg width="100%" height="32" viewBox="0 0 400 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
+        <path d="M100,0 V16 H200 V32" stroke="#3a2800" stroke-width="2" fill="none" stroke-linejoin="round"/>
+        <path d="M300,0 V16 H200" stroke="#3a2800" stroke-width="2" fill="none" stroke-linejoin="round"/>
+      </svg>
+
+      <!-- Stage 03C manual -->
+      <div class="flow-node fn-manual">
+        <div class="fn-meta">
+          <span class="fn-num">03C</span>
+          <span class="fn-tag">Manual</span>
+        </div>
+        <div class="fn-name">Footage Log + Cut Sheet</div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 04 -->
+      <div class="flow-node">
+        <div class="fn-meta">
+          <span class="fn-num">04</span>
+          <span class="fn-tag">Script</span>
+        </div>
+        <div class="fn-name">scriptwriter</div>
+        <div class="fn-triggers"><b>Triggers</b> · <code>write the script</code> <code>draft narration</code> <code>script this up</code></div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 05 gate -->
+      <div class="flow-node fn-gate">
+        <div class="fn-gate-label">Gate · Script Lock</div>
+        <div class="fn-meta">
+          <span class="fn-num">05</span>
+          <span class="fn-tag">Script Lock</span>
+        </div>
+        <div class="fn-name">qa</div>
+        <div class="fn-triggers"><b>Triggers</b> · <code>QA case X</code> <code>ready to lock</code> <code>check script for issues</code></div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 06 -->
+      <div class="flow-node">
+        <div class="fn-meta">
+          <span class="fn-num">06</span>
+          <span class="fn-tag">VO Prep</span>
+        </div>
+        <div class="fn-name">vo-prep</div>
+        <div class="fn-triggers"><b>Triggers</b> · <code>prep the VO</code> <code>format for ElevenLabs</code> <code>extract pronunciations</code></div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 07 manual -->
+      <div class="flow-node fn-manual">
+        <div class="fn-meta">
+          <span class="fn-num">07</span>
+          <span class="fn-tag">Manual</span>
+        </div>
+        <div class="fn-name">ElevenLabs + Adobe Podcast</div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 08 -->
+      <div class="flow-node">
+        <div class="fn-meta">
+          <span class="fn-num">08</span>
+          <span class="fn-tag">Long-Form Edit</span>
+        </div>
+        <div class="fn-name">edit</div>
+        <div class="fn-triggers"><b>Triggers</b> · <code>Premiere</code> <code>CapCut</code> <code>captions</code> <code>export</code> <code>B-roll</code> <code>timeline</code></div>
+      </div>
+
+      <!-- Fork SVG -->
+      <svg width="100%" height="32" viewBox="0 0 400 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
+        <path d="M200,0 V16 H100 V32" stroke="#3a2800" stroke-width="2" fill="none" stroke-linejoin="round"/>
+        <path d="M200,16 H300 V32" stroke="#3a2800" stroke-width="2" fill="none" stroke-linejoin="round"/>
+      </svg>
+
+      <!-- Stage 09A + 09B parallel -->
+      <div class="flow-pair">
+        <div class="flow-node fn-fork">
+          <div class="fn-meta">
+            <span class="fn-num">09A</span>
+            <span class="fn-tag">Legal</span>
+          </div>
+          <div class="fn-name">legal-review</div>
+          <div class="fn-triggers"><b>Triggers</b> · <code>legal review</code> <code>defamation check</code> <code>is this safe to publish</code></div>
+        </div>
+        <div class="flow-node fn-fork fn-gate">
+          <div class="fn-gate-label">Gate · Publish</div>
+          <div class="fn-meta">
+            <span class="fn-num">09B</span>
+            <span class="fn-tag">Publish Gate</span>
+          </div>
+          <div class="fn-name">qa</div>
+          <div class="fn-triggers"><b>Triggers</b> · <code>pre-publish QA</code> <code>ready to publish</code> <code>pre-flight</code></div>
+        </div>
+      </div>
+
+      <!-- Join SVG -->
+      <svg width="100%" height="32" viewBox="0 0 400 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
+        <path d="M100,0 V16 H200 V32" stroke="#3a2800" stroke-width="2" fill="none" stroke-linejoin="round"/>
+        <path d="M300,0 V16 H200" stroke="#3a2800" stroke-width="2" fill="none" stroke-linejoin="round"/>
+      </svg>
+
+      <div class="flow-gate-marker">Gate · Publish — both must pass</div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 10 -->
+      <div class="flow-node">
+        <div class="fn-meta">
+          <span class="fn-num">10</span>
+          <span class="fn-tag">Publish Prep</span>
+        </div>
+        <div class="fn-name">package</div>
+        <div class="fn-triggers"><b>Triggers</b> · <code>package case X</code> <code>generate title</code> <code>write description</code> <code>ready to publish</code></div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 11 manual -->
+      <div class="flow-node fn-manual">
+        <div class="fn-meta">
+          <span class="fn-num">11</span>
+          <span class="fn-tag">Manual</span>
+        </div>
+        <div class="fn-name">Upload + News Monitoring</div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 12 -->
+      <div class="flow-node">
+        <div class="fn-meta">
+          <span class="fn-num">12</span>
+          <span class="fn-tag">Shorts</span>
+        </div>
+        <div class="fn-name">shorts</div>
+        <div class="fn-triggers"><b>Triggers</b> · <code>shorts for case X</code> <code>cut into shorts</code> <code>TikTok hooks</code> <code>vertical clips</code></div>
+      </div>
+
+      <div class="flow-arrow"></div>
+
+      <!-- Stage 13 -->
+      <div class="flow-node">
+        <div class="fn-meta">
+          <span class="fn-num">13</span>
+          <span class="fn-tag">Community</span>
+        </div>
+        <div class="fn-name">cut-notes</div>
+        <div class="fn-triggers"><b>Triggers</b> · <code>cut notes for case X</code> <code>community post</code> <code>what was left out post</code></div>
+      </div>
+
+      <!-- Async section -->
+      <div class="flow-async-label">Async · Run outside the pipeline</div>
+      <div class="flow-async-row">
+        <div class="flow-node fn-async">
+          <div class="fn-meta">
+            <span class="fn-tag">Ongoing Maintenance</span>
+          </div>
+          <div class="fn-name">vault-mod</div>
+          <div class="fn-triggers"><b>Triggers</b> · <code>audit the vault</code> <code>vault check</code> <code>stale notes</code></div>
+        </div>
+        <div class="flow-node fn-async">
+          <div class="fn-meta">
+            <span class="fn-tag">As Needed · Prose</span>
+          </div>
+          <div class="fn-name">stop-slop</div>
+          <div class="fn-triggers"><b>Triggers</b> · <code>slop this</code> <code>remove AI tells</code> <code>tighten the prose</code></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ·02 Skill reference -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">02 · Skill reference</div>
+    <p class="section-desc">All 14 skills in pipeline order. One job each.</p>
+    <div class="skill-grid">
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>01</b> · Discovery</span>
+          <span class="name">research</span>
+        </div>
+        <p class="desc">Searches news archives, court records, obituaries, and footage sources. Drops a structured Research Brief into the case folder from a single seed link.</p>
+        <div class="triggers"><b>Triggers</b> · <code>research case X</code> <code>fill the research brief</code> <code>kick off research</code> <code>start research</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>02</b> · Verification</span>
+          <span class="name">factcheck</span>
+        </div>
+        <p class="desc">Audits a Research Brief for accuracy, source quality, contradictions, and unsupported claims. Treats every claim as suspect until cross-sourced. Always run before scripting.</p>
+        <div class="triggers"><b>Triggers</b> · <code>verify case X</code> <code>fact-check this</code> <code>is this confirmed</code> <code>can we prove</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>03A</b> · Open Records</span>
+          <span class="name">foia</span>
+        </div>
+        <p class="desc">Open Records / FOIA request drafter. Reads case Sources.md and Research Brief, identifies records not yet public, drafts formal requests with correct agency, statute, and retention-window language. Per-state statute lookup built in.</p>
+        <div class="triggers"><b>Triggers</b> · <code>draft a FOIA</code> <code>open records request</code> <code>request the bodycam</code> <code>what should I request</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>03B</b> · Footage</span>
+          <span class="name">footage-fetch</span>
+        </div>
+        <p class="desc">Generates yt-dlp commands for footage URLs in the Research Brief, applies LITE file-naming convention, and builds the Footage Log scaffold. Does not download itself — produces paste-ready terminal commands.</p>
+        <div class="triggers"><b>Triggers</b> · <code>download footage for case X</code> <code>yt-dlp commands</code> <code>scaffold the footage log</code> <code>get the bodycam</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>04</b> · Script</span>
+          <span class="name">scriptwriter</span>
+        </div>
+        <p class="desc">Footage-led documentary script writing. Reads Research Brief and Footage Log first — never guesses at what footage shows. Uses the EWU voice rule: evidence drives the story, narration names what footage carries.</p>
+        <div class="triggers"><b>Triggers</b> · <code>write the script for case X</code> <code>draft the narration</code> <code>script this up</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>05 · 09B</b> · Script Lock &amp; Publish Gate</span>
+          <span class="name">qa</span>
+        </div>
+        <p class="desc">Script copy-editor and publish gate. Checks grammar, naming consistency, pronoun clarity, sentence variety, and voice adherence. Runs twice: Stage 5 before script lock, Stage 9B before publishing. Read-only — produces a QA Report.</p>
+        <div class="triggers"><b>Triggers</b> · <code>QA the script</code> <code>copy-edit case X</code> <code>ready to lock</code> <code>check script for issues</code> <code>proofread case X</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>06</b> · VO Prep</span>
+          <span class="name">vo-prep</span>
+        </div>
+        <p class="desc">Bridges script lock and ElevenLabs generation. Strips production markers, extracts pronunciation dictionary entries, and flags clone-friendliness issues. Outputs VO Text - ElevenLabs.md and VO Prep Report.md.</p>
+        <div class="triggers"><b>Triggers</b> · <code>prep the VO</code> <code>VO prep</code> <code>format for ElevenLabs</code> <code>extract pronunciations</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>08</b> · Long-Form Edit</span>
+          <span class="name">edit</span>
+        </div>
+        <p class="desc">Step-by-step walkthroughs for all video production questions. Covers Premiere Pro (primary NLE), CapCut (captions + yellow accent words), and OpusClip (Shorts). Runs at Stage 8 for the long-form and again at Stage 12 for Shorts.</p>
+        <div class="triggers"><b>Triggers</b> · <code>Premiere</code> <code>CapCut</code> <code>captions</code> <code>export</code> <code>B-roll</code> <code>audio sync</code> <code>timeline</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>09A</b> · Legal</span>
+          <span class="name">legal-review</span>
+        </div>
+        <p class="desc">Pre-publish defamation and libel scan. Flags presumption-of-guilt language, unsupported claims about living people, civil-vs-criminal confusion, minor identification, and motive speculation. A structured self-audit — not a substitute for a real lawyer.</p>
+        <div class="triggers"><b>Triggers</b> · <code>legal review</code> <code>defamation check</code> <code>libel check</code> <code>is this safe to publish</code> <code>pre-publish legal</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>10</b> · Publish Prep</span>
+          <span class="name">package</span>
+        </div>
+        <p class="desc">Generates all publish assets in one pass: 3 title variants (per SEO formula), YouTube description, tags, pinned comment, and thumbnail brief. Reads locked script, Sources.md, and Footage Log.</p>
+        <div class="triggers"><b>Triggers</b> · <code>package case X</code> <code>publish prep</code> <code>generate title</code> <code>write description</code> <code>ready to publish</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>12</b> · Shorts</span>
+          <span class="name">shorts</span>
+        </div>
+        <p class="desc">Writes 3–5 vertical (9:16) Short scripts from a published long-form. Hook framework (counter-intuitive / question / footage / left-out), drip schedule across 3–4 weeks, EWU-style captions, reuses ElevenLabs narration.</p>
+        <div class="triggers"><b>Triggers</b> · <code>shorts for case X</code> <code>cut this into shorts</code> <code>shorts drip</code> <code>TikTok hooks</code> <code>vertical clips</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage"><b>13</b> · Community</span>
+          <span class="name">cut-notes</span>
+        </div>
+        <p class="desc">Drafts the YouTube Community tab post explaining what was cut from the long-form and why. 2–4 short paragraphs in the channel voice. Earns the "Every cut, on the record" tagline.</p>
+        <div class="triggers"><b>Triggers</b> · <code>cut notes for case X</code> <code>community post</code> <code>what was left out post</code> <code>transparency post</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage">Async · Maintenance</span>
+          <span class="name">vault-mod</span>
+        </div>
+        <p class="desc">Read-only vault health check. Produces a dated Vault Audit file listing critical / minor / suggestions. Never writes — waits for approval. Runs outside the case pipeline on its own cadence.</p>
+        <div class="triggers"><b>Triggers</b> · <code>audit the vault</code> <code>is anything stale</code> <code>check for duplicates</code> <code>vault health check</code></div>
+      </div>
+
+      <div class="skill">
+        <div class="row1">
+          <span class="stage">Async · Prose</span>
+          <span class="name">stop-slop</span>
+        </div>
+        <p class="desc">Eliminates throat-clearing openers, binary-contrast clichés, false agency, em dashes, and other AI patterns from prose. Run before publishing scripts, descriptions, or community posts.</p>
+        <div class="triggers"><b>Triggers</b> · <code>slop this</code> <code>remove AI tells</code> <code>tighten the prose</code></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ·03 Lookup -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">03 · "I want to do X" lookup</div>
+    <p class="section-desc">When in doubt, this table beats remembering names.</p>
+    <table class="lookup-table">
+      <thead><tr><th>I want to</th><th>Use</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Start a new case from a news article</td><td class="skill-cell">lite-research</td><td>Builds the Research Brief from a single seed link.</td></tr>
+        <tr><td>Check whether a claim in my notes is real</td><td class="skill-cell">lite-factcheck</td><td>Treats every claim as suspect until cross-sourced.</td></tr>
+        <tr><td>Request footage or records that aren't public yet</td><td class="skill-cell">lite-foia</td><td>Drafts the formal request with the correct state statute.</td></tr>
+        <tr><td>Get yt-dlp commands for footage URLs</td><td class="skill-cell">lite-footage-fetch</td><td>Generates paste-ready commands + Footage Log scaffold.</td></tr>
+        <tr><td>Write the cold open</td><td class="skill-cell">lite-scriptwriter</td><td>Pulls the hook from the Research Brief.</td></tr>
+        <tr><td>Decide if the script is ready to lock</td><td class="skill-cell">lite-qa</td><td>Walks the editorial gates and gives a pass / hold verdict.</td></tr>
+        <tr><td>Prepare the script for ElevenLabs</td><td class="skill-cell">lite-vo-prep</td><td>Strips markers, extracts pronunciations, outputs the VO Text file.</td></tr>
+        <tr><td>Know what export setting to use</td><td class="skill-cell">lite-edit</td><td>Knows the channel preset cold.</td></tr>
+        <tr><td>Check for defamation risk before publishing</td><td class="skill-cell">lite-legal-review</td><td>Pre-publish libel scan — run every time.</td></tr>
+        <tr><td>Generate the YouTube title and description</td><td class="skill-cell">lite-package</td><td>Full publish asset pack in one pass.</td></tr>
+        <tr><td>Cut Shorts from the long-form</td><td class="skill-cell">lite-shorts</td><td>Writes 3–5 Short scripts with drip schedule.</td></tr>
+        <tr><td>Write the community transparency post</td><td class="skill-cell">lite-cut-notes</td><td>The "every cut, on the record" post — earns the tagline.</td></tr>
+        <tr><td>Find stale notes in the vault</td><td class="skill-cell">lite-vault-mod</td><td>Maintenance · run weekly so it doesn't pile up.</td></tr>
+        <tr><td>Clean AI patterns out of a piece of writing</td><td class="skill-cell">stop-slop</td><td>Run before publishing scripts, descriptions, community posts.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ·04 Overlap & rules -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">04 · When skills overlap</div>
+    <p class="section-desc">Two skills can look like they do the same job. They don't.</p>
+    <div class="skill-grid">
+      <div class="skill">
+        <div class="name" style="color:var(--text)">research vs factcheck</div>
+        <p class="desc"><b style="color:var(--amber)">research</b> assembles the universe of claims. <b style="color:var(--amber)">factcheck</b> assumes the universe and stress-tests it. Never use research to verify; never use factcheck to discover.</p>
+      </div>
+      <div class="skill">
+        <div class="name" style="color:var(--text)">foia vs footage-fetch</div>
+        <p class="desc"><b style="color:var(--amber)">foia</b> targets records that aren't public yet — it writes letters. <b style="color:var(--amber)">footage-fetch</b> targets URLs that already exist — it writes yt-dlp commands. Run both in parallel after factcheck.</p>
+      </div>
+      <div class="skill">
+        <div class="name" style="color:var(--text)">qa runs twice</div>
+        <p class="desc">Once before script lock (Stage 5). Once before publish (Stage 9). The editorial errors that hurt are not the same as the script errors. Don't skip the second one.</p>
+      </div>
+      <div class="skill">
+        <div class="name" style="color:var(--text)">legal-review vs qa</div>
+        <p class="desc"><b style="color:var(--amber)">qa</b> checks production readiness and editorial quality. <b style="color:var(--amber)">legal-review</b> checks for defamation and libel risk. Both run pre-publish. Different checks, same timing.</p>
+      </div>
+      <div class="skill">
+        <div class="name" style="color:var(--text)">edit owns two stages</div>
+        <p class="desc">The long-form cut (Stage 8) and the Shorts cuts (Stage 12). Same skill, different priors. Don't try to do Shorts in the long-form session — context-switch costs.</p>
+      </div>
+      <div class="skill">
+        <div class="name" style="color:var(--text)">vault-mod is async</div>
+        <p class="desc">Never blocks the case pipeline. Runs on its own cadence. If it's asking for input mid-case, defer it.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Skill Workflow · v1.0</span>
+
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+</div></body>
+</html>

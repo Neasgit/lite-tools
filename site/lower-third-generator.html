@@ -1,0 +1,287 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE — Lower Third Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <style>
+    body {
+      display: block !important; padding: 0 !important; margin: 0 !important;
+      gap: 0 !important; align-items: initial !important;
+      min-height: auto !important; flex-direction: initial !important;
+    }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    .lite-legacy-content {
+      --bg:     #0a0a0a;
+      --surf:   #141414;
+      --border: #222;
+      --muted:  #555;
+      --amber:  #D4A800;
+      color: #e8e8e0;
+      font-family: var(--font-sans);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .panel {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 18px 22px;
+      width: 100%;
+      max-width: 1280px;
+    }
+
+    .panel-row {
+      display: flex;
+      gap: 14px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .panel-divider { width: 1px; height: 36px; background: var(--border); align-self: center; flex-shrink: 0; }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--muted); font-weight: 500;
+    }
+
+    input[type="text"] {
+      background: var(--bg); border: 1px solid var(--border); color: #fff;
+      padding: 8px 12px; font-size: 15px; font-weight: 500; letter-spacing: 0.5px;
+      border-radius: 3px; outline: none; font-family: var(--font-sans);
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus { border-color: var(--amber); }
+    #inp-name { width: 320px; }
+
+    .toggle {
+      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+      padding: 6px 14px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      border-radius: 3px; cursor: pointer; font-family: var(--font-sans);
+      font-weight: 500; transition: all 0.15s; white-space: nowrap;
+    }
+    .toggle.on { background: #1a1400; border-color: #4a3800; color: var(--amber); }
+
+    .btn {
+      border: none; padding: 9px 20px; font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; border-radius: 3px; cursor: pointer;
+      font-family: var(--font-sans); font-weight: 600; transition: filter 0.15s; white-space: nowrap;
+    }
+    .btn-amber { background: var(--amber); color: #000; }
+    .btn-amber:hover { filter: brightness(1.12); }
+
+    /* Canvas preview — dark bg simulates footage underneath */
+    .canvas-wrap {
+      width: 100%; max-width: 1280px; position: relative;
+      border-radius: 4px; overflow: hidden; border: 1px solid var(--border);
+      background: #0d0d0d;
+    }
+    .canvas-wrap canvas { display: block; width: 100%; height: auto; }
+
+    footer { font-size: 11px; color: #2a2a2a; letter-spacing: 1px; text-align: center; line-height: 2; }
+    footer span { color: #3a3a3a; }
+  </style>
+  <script>window.LITE_PAGE = { slug: "lower-third-generator", label: "Lower Third Generator" };</script>
+  <style>
+    .lite-legacy-content nav, .lite-legacy-content > nav, .lite-legacy-content .nav { position: static !important; top: auto !important; }
+    .lite-legacy-content footer { position: static !important; }
+    .lite-legacy-content { font-family: var(--font-sans); }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item active" href="#"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+
+  <main class="lite-main">
+    <header class="lite-page-head">
+      <div class="eyebrow">03 — Production · Speaker Labels</div>
+      <h1>Lower Third Generator<span class="accent">.</span></h1>
+      <p class="lede">Speaker name label — amber for first appearance, white for repeat. Exports transparent 1920×1080 PNG for Premiere overlay.</p>
+    </header>
+
+    <div class="lite-legacy-content">
+
+      <div class="panel">
+        <div class="panel-row">
+
+          <div class="field">
+            <label>Speaker name</label>
+            <input type="text" id="inp-name" value="OFFICER MARTINEZ" maxlength="40"
+              autocomplete="off" spellcheck="false" data-persist="inp-name">
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>Appearance</label>
+            <div style="display:flex;gap:6px">
+              <button class="toggle on" id="tog-first"  onclick="setAppearance('first')">First — Amber</button>
+              <button class="toggle"    id="tog-repeat" onclick="setAppearance('repeat')">Repeat — White</button>
+            </div>
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>Position</label>
+            <div style="display:flex;gap:6px">
+              <button class="toggle on" id="pos-bl" onclick="setPosition('bl')">&#8601; BL</button>
+              <button class="toggle"    id="pos-br" onclick="setPosition('br')">&#8600; BR</button>
+              <button class="toggle"    id="pos-tl" onclick="setPosition('tl')">&#8598; TL</button>
+              <button class="toggle"    id="pos-tr" onclick="setPosition('tr')">&#8599; TR</button>
+            </div>
+          </div>
+
+          <div class="panel-divider"></div>
+
+          <div class="field">
+            <label>&nbsp;</label>
+            <button class="btn btn-amber" onclick="download()">&#8595; Download PNG</button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="canvas" width="1920" height="1080"></canvas>
+      </div>
+
+      <footer>
+        File: <span id="filename-out">lower-third-officer-martinez.png</span>
+        &nbsp;·&nbsp; 1920 × 1080 · Transparent · Drop on V2 in Premiere · blend Screen or use as overlay
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx    = canvas.getContext('2d');
+    const W = 1920, H = 1080;
+
+    const FONT  = '"Inter", "Helvetica Neue", Helvetica, Arial, sans-serif';
+    const AMBER = '#D4A800';
+    const WHITE = '#F0EFE7';
+
+    let appearance = 'first';
+    let position   = 'bl';
+
+    function setPosition(p) {
+      position = p;
+      ['bl','br','tl','tr'].forEach(function(id) {
+        document.getElementById('pos-' + id).classList.toggle('on', id === p);
+      });
+      render();
+    }
+
+    function setAppearance(a) {
+      appearance = a;
+      document.getElementById('tog-first').classList.toggle('on',  a === 'first');
+      document.getElementById('tog-repeat').classList.toggle('on', a === 'repeat');
+      render();
+    }
+
+    function fillTracked(text, x, y, tracking) {
+      let cx = x;
+      for (let i = 0; i < text.length; i++) {
+        ctx.fillText(text[i], cx, y);
+        cx += ctx.measureText(text[i]).width + tracking;
+      }
+    }
+
+    function measureTracked(text, tracking) {
+      let w = 0;
+      for (let i = 0; i < text.length; i++) {
+        w += ctx.measureText(text[i]).width + (i < text.length - 1 ? tracking : 0);
+      }
+      return w;
+    }
+
+    function render() {
+      ctx.clearRect(0, 0, W, H);
+
+      const rawName = document.getElementById('inp-name').value || 'OFFICER MARTINEZ';
+      const name    = rawName.toUpperCase().trim();
+
+      const fontSize  = 52;
+      const tracking  = 5;
+      const padV      = 18;
+      const padH      = 34;
+      const accentW   = 5;
+      const pillR     = 4;
+
+      ctx.font = `700 ${fontSize}px ${FONT}`;
+      const textW = measureTracked(name, tracking);
+
+      const pillH = fontSize + padV * 2;
+      const pillW = accentW + padH + textW + padH;
+      const marginX = Math.round(W * 0.062);
+      const marginY = Math.round(H * 0.095);
+      const pillX = (position === 'br' || position === 'tr') ? W - marginX - pillW : marginX;
+      const pillY = (position === 'tl' || position === 'tr') ? marginY : H - marginY - pillH;
+
+      // Dark pill
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.78)';
+      ctx.beginPath();
+      ctx.roundRect(pillX, pillY, pillW, pillH, pillR);
+      ctx.fill();
+
+      // Amber accent bar (left edge, rounded left corners only)
+      ctx.fillStyle = AMBER;
+      ctx.beginPath();
+      ctx.roundRect(pillX, pillY, accentW, pillH, [pillR, 0, 0, pillR]);
+      ctx.fill();
+
+      // Name text
+      ctx.fillStyle = appearance === 'first' ? AMBER : WHITE;
+      ctx.font = `700 ${fontSize}px ${FONT}`;
+      ctx.textBaseline = 'alphabetic';
+      ctx.textAlign    = 'left';
+      const textX = pillX + accentW + padH;
+      const textY = pillY + padV + fontSize * 0.82;
+      fillTracked(name, textX, textY, tracking);
+
+      // Update filename hint
+      const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      document.getElementById('filename-out').textContent = `lower-third-${slug || 'speaker'}.png`;
+    }
+
+    function download() {
+      render();
+      const slug = (document.getElementById('inp-name').value.trim() || 'speaker')
+        .toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      const link = document.createElement('a');
+      link.download = `lower-third-${slug}.png`;
+      link.href     = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    document.getElementById('inp-name').addEventListener('input', function() {
+      this.value = this.value.toUpperCase();
+      render();
+    });
+
+    document.fonts.ready.then(render);
+  </script>
+
+  </div>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Lower Third Generator</span>
+  </footer>
+  </main>
+
+  <script src="shared/sidebar.js"></script>
+  <script src="shared/persist.js"></script>
+</div></body>
+</html>

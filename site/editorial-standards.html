@@ -1,0 +1,304 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE · Editorial Standards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <script>window.LITE_PAGE = { slug: "editorial-standards", label: "Editorial Standards" };</script>
+  <style>
+    .principle {
+      padding: 28px 32px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      border-radius: 4px;
+      margin-bottom: 32px;
+    }
+    .principle h2 {
+      font-size: 28px; letter-spacing: -.5px; font-weight: 700;
+      margin: 0 0 12px; line-height: 1.15;
+    }
+    .principle h2 .accent { color: var(--amber); }
+    .principle p {
+      color: var(--text-dim); margin: 0 0 14px; font-size: 14px; line-height: 1.7;
+      max-width: 720px;
+    }
+    .principle p:last-child { margin-bottom: 0; }
+
+    .rules {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--bg-elev);
+    }
+    .rule {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 14px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border-soft);
+      border-right: 1px solid var(--border-soft);
+      align-items: start;
+    }
+    .rule:nth-child(2n) { border-right: 0; }
+    .rule:nth-last-child(-n+2) { border-bottom: 0; }
+    .rule .num {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 1.5px;
+      color: var(--amber); font-weight: 700;
+      padding-top: 2px;
+    }
+    .rule .body { font-size: 14px; color: var(--text); line-height: 1.6; }
+    .rule .body b { color: var(--amber); font-weight: 600; }
+
+    .attribution-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    .attribution-card { padding: 22px; }
+    .attribution-card h4 {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      font-weight: 600; margin: 0 0 14px;
+    }
+    .attribution-card.use h4 { color: var(--amber); }
+    .attribution-card.avoid h4 { color: var(--crimson); }
+    .attribution-card ul {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .attribution-card li {
+      display: flex; flex-direction: column; gap: 4px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .attribution-card li:last-child { border-bottom: 0; padding-bottom: 0; }
+    .attribution-card .phrase {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text); font-weight: 500;
+    }
+    .attribution-card.avoid .phrase {
+      text-decoration: line-through;
+      text-decoration-color: var(--crimson);
+      color: var(--text-dim);
+    }
+    .attribution-card .when {
+      font-size: 11px;
+      color: var(--text-dim); line-height: 1.5;
+    }
+
+    .checklist {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 26px 28px;
+    }
+    .checklist .head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 18px;
+    }
+    .checklist h3 { font-size: 18px; font-weight: 700; margin: 0; }
+    .checklist .meta {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 2px; color: var(--text-dimmer);
+      text-transform: uppercase;
+    }
+    .check-item {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid var(--border-soft);
+      align-items: start;
+      cursor: pointer;
+    }
+    .check-item:first-of-type { border-top: 0; }
+    .check-item .box {
+      width: 18px; height: 18px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 3px;
+      margin-top: 2px;
+      transition: background .15s, border-color .15s;
+      display: flex; align-items: center; justify-content: center;
+      color: transparent; font-size: 12px; font-weight: 700;
+    }
+    .check-item.done .box { background: var(--amber); border-color: var(--amber); color: #111; }
+    .check-item.done .body { color: var(--text-dim); text-decoration: line-through; text-decoration-color: var(--text-dimmer); }
+    .check-item .body { font-size: 14px; color: var(--text); line-height: 1.6; }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item active" href="#"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+
+  <header class="lite-page-head">
+    <div class="eyebrow">02 · References · Version 1.1</div>
+    <h1>Editorial <span class="accent">Standards.</span></h1>
+    <p class="lede">
+      Evidence before narrative. The rules every claim must pass before a script locks,
+      before a thumbnail ships, before a video publishes.
+    </p>
+    <div class="meta">
+      <span><b>Version</b> 1.1</span>
+      <span><b>Updated</b> 2026-05-21</span>
+      <span><b>Source</b> Brand Review &amp; Action Plan</span>
+    </div>
+  </header>
+
+  <!-- ·01 Principle -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 14px">01 · Principle</div>
+    <div class="principle">
+      <h2>Evidence-led, <span class="accent">not conclusion-led.</span></h2>
+      <p>
+        Every claim in a script, thumbnail, title, or description must be supported by
+        footage, court records, police statements, official documents, or clearly
+        attributed reporting. If a claim cannot be sourced, it gets <b style="color: var(--amber)">rewritten or removed</b> · not softened.
+      </p>
+      <p>
+        These standards exist so the channel stays trustworthy as it grows. Once trust is lost
+        it does not come back. Bake the rules into the pipeline and you stop having to make
+        the same judgement call every week.
+      </p>
+    </div>
+  </section>
+
+  <!-- ·02 The Rules -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">02 · The Rules</div>
+    <p class="section-desc">9 rules · enforced at script and at review</p>
+    <div class="rules">
+      <div class="rule"><span class="num">01</span><div class="body">Every claim must be supported by footage, court records, police statements, official documents, or clearly attributed reporting.</div></div>
+      <div class="rule"><span class="num">02</span><div class="body">Do not <b>imply guilt</b> beyond what the footage or records support.</div></div>
+      <div class="rule"><span class="num">03</span><div class="body">Do not use <b>gore, grief, or distress</b> as the hook.</div></div>
+      <div class="rule"><span class="num">04</span><div class="body">Do not include graphic moments unless they <b>materially change</b> the viewer's understanding.</div></div>
+      <div class="rule"><span class="num">05</span><div class="body">Use careful attribution · see ·03.</div></div>
+      <div class="rule"><span class="num">06</span><div class="body">Correct errors <b>visibly</b>. A pinned comment, a card, or an on-screen note · not a quiet edit.</div></div>
+      <div class="rule"><span class="num">07</span><div class="body">Do not frame <b>real people as characters</b> for entertainment.</div></div>
+      <div class="rule"><span class="num">08</span><div class="body">Do not overstate certainty where the record is unclear.</div></div>
+      <div class="rule"><span class="num">09</span><div class="body">If a claim cannot be sourced · rewrite it or remove it. <b>There is no third option.</b></div></div>
+    </div>
+  </section>
+
+  <!-- ·03 Attribution Language -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">03 · Attribution Language</div>
+    <p class="section-desc">The phrases that protect the channel and the viewer. Exact wording matters.</p>
+    <div class="attribution-grid">
+      <div class="lite-card attribution-card use">
+        <h4>? Use</h4>
+        <ul>
+          <li><span class="phrase">allegedly</span><span class="when">For unresolved or contested claims; never for settled facts.</span></li>
+          <li><span class="phrase">police say</span><span class="when">When the source is a department statement or report.</span></li>
+          <li><span class="phrase">court records state</span><span class="when">For anything from filings, transcripts, or rulings.</span></li>
+          <li><span class="phrase">the footage appears to show</span><span class="when">When interpretation is involved · leaves room for the viewer.</span></li>
+          <li><span class="phrase">according to the report</span><span class="when">For specific documents; cite the report by name when possible.</span></li>
+          <li><span class="phrase">reportedly</span><span class="when">For named-source reporting that isn't yet in the public record.</span></li>
+        </ul>
+      </div>
+      <div class="lite-card attribution-card avoid">
+        <h4>? Avoid</h4>
+        <ul>
+          <li><span class="phrase">obviously guilty</span><span class="when">Conclusion-led. Replace with evidence.</span></li>
+          <li><span class="phrase">it's clear that</span><span class="when">If it's clear, the footage will show it. Cut the framing.</span></li>
+          <li><span class="phrase">caught red-handed</span><span class="when">Editorial. Loaded. Doesn't survive a defamation lawyer.</span></li>
+          <li><span class="phrase">cold-blooded killer</span><span class="when">Frames a person, not their actions.</span></li>
+          <li><span class="phrase">in his sick mind</span><span class="when">Speculation about state of mind without record.</span></li>
+          <li><span class="phrase">monster, animal, predator</span><span class="when">Character labels. Reaction-channel grammar.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ·04 Audio Caption Style -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">04 · Audio Caption Style</div>
+    <p class="section-desc">For audio-only segments (911 calls, dispatch radio, court audio without on-screen video) the visualizer carries the tone. Locked 2026-05-20.</p>
+    <div class="principle" style="margin-bottom: 18px">
+      <h2>Thin line <span class="accent">over thick bar.</span></h2>
+      <p>
+        LITE uses the <b style="color: var(--amber)">thin-line waveform</b> for any audio-only segment.
+        The <b style="color: var(--crimson)">thick-bar</b> and <b style="color: var(--crimson)">circular waveform</b>
+        treatments read too kinetic for the documentary register · they belong to reaction and true-crime-entertainment grammar, not the public-record framing this channel works in.
+      </p>
+      <p>
+        Spec lives on the Brand Reference page (§12 Captions). The rule lives here because it is an editorial decision about register, not just a visual one.
+      </p>
+    </div>
+    <div class="attribution-grid">
+      <div class="lite-card attribution-card use">
+        <h4>? Use</h4>
+        <ul>
+          <li><span class="phrase">thin-line waveform</span><span class="when">911 calls, dispatch radio, off-camera court audio · matches documentary pace.</span></li>
+        </ul>
+      </div>
+      <div class="lite-card attribution-card avoid">
+        <h4>? Avoid</h4>
+        <ul>
+          <li><span class="phrase">thick-bar visualizer</span><span class="when">Reads as reaction-channel grammar · too kinetic.</span></li>
+          <li><span class="phrase">circular waveform</span><span class="when">Decorative · pulls focus from the speaker label and caption text.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ·05 Pre-Publish Test -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">05 · Pre-Publish Test</div>
+    <p class="section-desc">Run the checklist before every publish. State persists across visits · pick up where you left off on the next case.</p>
+    <div class="checklist">
+      <div class="head">
+        <h3>Per-case checklist</h3>
+        <div class="meta"><span id="check-count">0 / 10</span> CLEARED</div>
+      </div>
+      <div id="check-list">
+        <div class="check-item"><div class="box">?</div><div class="body">Every factual claim in the script is sourced · footage, document, court record, or named report.</div></div>
+        <div class="check-item"><div class="box">?</div><div class="body">Every claim in the thumbnail and title is also in the script.</div></div>
+        <div class="check-item"><div class="box">?</div><div class="body">No claim implies guilt beyond what the public record supports.</div></div>
+        <div class="check-item"><div class="box">?</div><div class="body">Attribution language is in place · no ·obviously,· no ·cold-blooded.·</div></div>
+        <div class="check-item"><div class="box">?</div><div class="body">Graphic content (if any) materially changes understanding. If not, it's cut.</div></div>
+        <div class="check-item"><div class="box">?</div><div class="body">Victims are not framed as characters. Suspects are not made into protagonists.</div></div>
+        <div class="check-item"><div class="box">?</div><div class="body">Cut log mirrored in the video description.</div></div>
+        <div class="check-item"><div class="box">?</div><div class="body">A second pair of eyes (or 24 hours of distance) has reviewed the script.</div></div>
+        <div class="check-item"><div class="box">?</div><div class="body">Sources list is ready to pin in the comments.</div></div>
+        <div class="check-item"><div class="box">?</div><div class="body">Correction policy explained in the description: pinned comment + on-screen card.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Editorial Standards · v1.1</span>
+    
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+<script src="shared/persist.js"></script>
+<script>
+  // Persist the checklist state
+  const items = [...document.querySelectorAll('.check-item')];
+  const count = document.getElementById('check-count');
+  function refresh() {
+    const done = items.filter(i => i.classList.contains('done')).length;
+    count.textContent = `${done} / ${items.length}`;
+  }
+  items.forEach((it, i) => {
+    const k = 'editorial-check-' + i;
+    if (window.LITE_PERSIST?.get(k) === '1') it.classList.add('done');
+    it.addEventListener('click', () => {
+      it.classList.toggle('done');
+      window.LITE_PERSIST?.set(k, it.classList.contains('done') ? '1' : '0');
+      refresh();
+    });
+  });
+  refresh();
+</script>
+</div></body>
+</html>

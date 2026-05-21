@@ -1,0 +1,170 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE · Colour Comparison</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <script>window.LITE_PAGE = { slug: "colour-comparison", label: "Colour Comparison" };</script>
+  <style>
+    .swatch-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    }
+    @media (max-width: 900px) { .swatch-row { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .swatch-row { grid-template-columns: 1fr; } }
+
+    .col-swatch {
+      display: flex; flex-direction: column;
+      border-radius: 6px; overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg-elev);
+    }
+    .col-swatch .demo {
+      aspect-ratio: 16/9; position: relative;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 18px 22px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.7) 100%),
+        repeating-linear-gradient(45deg, #1a1916 0 12px, #1f1d18 12px 24px);
+      filter: saturate(0.7);
+      color: #fff;
+    }
+    .col-swatch .bar { width: 36px; height: 3px; margin-bottom: 10px; }
+    .col-swatch .demo-title { font-size: 18px; font-weight: 700; line-height: 1.05; letter-spacing: -.3px; max-width: 80%; }
+    .col-swatch .demo-stamp {
+      position: absolute; top: 10px; right: 10px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 7px; background: rgba(0,0,0,.6);
+      border: 1px solid rgba(255,255,255,.12); border-radius: 2px;
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: 1px; color: #fff;
+    }
+    .col-swatch .demo-stamp .dot { width: 5px; height: 5px; border-radius: 50%; }
+    .col-swatch .meta {
+      padding: 16px 18px;
+    }
+    .col-swatch .meta .name { font-size: 14px; font-weight: 700; }
+    .col-swatch .meta .hex { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); margin-top: 2px; letter-spacing: 1px; }
+    .col-swatch .meta .verdict {
+      margin-top: 12px;
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; font-weight: 600;
+    }
+    .col-swatch.win .verdict { color: var(--amber); }
+    .col-swatch.alt .verdict { color: var(--text-dim); }
+
+    .decision {
+      margin-top: 32px;
+      padding: 26px 30px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      border-radius: 4px;
+    }
+    .decision h3 { font-size: 22px; margin: 0 0 10px; letter-spacing: -.4px; font-weight: 700; }
+    .decision h3 .accent { color: var(--amber); }
+    .decision p { font-size: 14px; color: var(--text-dim); line-height: 1.7; max-width: 720px; margin: 0; }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item active" href="#"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+
+  <header class="lite-page-head">
+    <div class="eyebrow">05 · Archive · Decision Log</div>
+    <h1>Colour <span class="accent">Comparison.</span></h1>
+    <p class="lede">
+      Four candidate recognition colours, the same thumbnail. The exploration that
+      ended at Documentary Amber. Archived for the decision record.
+    </p>
+    <div class="meta">
+      <span><b>Candidates</b> 4</span>
+      <span><b>Decided</b> May 2026</span>
+      <span><b>Final</b> #D4A800</span>
+    </div>
+  </header>
+
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">01 · The candidates</div>
+    <p class="section-desc">Each shown on a real bodycam-style thumbnail with the v2 timestamp glyph and amber bar in their expected position.</p>
+    <div class="swatch-row">
+
+      <div class="col-swatch win">
+        <div class="demo">
+          <div class="demo-stamp"><span class="dot" style="background:#D4A800"></span>23:51:08</div>
+          <div class="bar" style="background:#D4A800"></div>
+          <div class="demo-title">She Called 911. 90 Minutes Later.</div>
+        </div>
+        <div class="meta">
+          <div class="name">Documentary Amber</div>
+          <div class="hex">#D4A800</div>
+          <div class="verdict">? FINAL</div>
+        </div>
+      </div>
+
+      <div class="col-swatch alt">
+        <div class="demo">
+          <div class="demo-stamp"><span class="dot" style="background:#E8E8E0"></span>23:51:08</div>
+          <div class="bar" style="background:#E8E8E0"></div>
+          <div class="demo-title">She Called 911. 90 Minutes Later.</div>
+        </div>
+        <div class="meta">
+          <div class="name">Bone</div>
+          <div class="hex">#E8E8E0</div>
+          <div class="verdict">· ANTI-COLOUR</div>
+        </div>
+      </div>
+
+      <div class="col-swatch alt">
+        <div class="demo">
+          <div class="demo-stamp"><span class="dot" style="background:#7BBF6A"></span>23:51:08</div>
+          <div class="bar" style="background:#7BBF6A"></div>
+          <div class="demo-title">She Called 911. 90 Minutes Later.</div>
+        </div>
+        <div class="meta">
+          <div class="name">Evidence Mint</div>
+          <div class="hex">#7BBF6A</div>
+          <div class="verdict">· EXPERIMENTAL</div>
+        </div>
+      </div>
+
+      <div class="col-swatch alt">
+        <div class="demo">
+          <div class="demo-stamp"><span class="dot" style="background:#A86A2C"></span>23:51:08</div>
+          <div class="bar" style="background:#A86A2C"></div>
+          <div class="demo-title">She Called 911. 90 Minutes Later.</div>
+        </div>
+        <div class="meta">
+          <div class="name">Burned Copper</div>
+          <div class="hex">#A86A2C</div>
+          <div class="verdict">· TOO DIM</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="decision">
+      <h3>Locked: <span class="accent">Documentary Amber</span>.</h3>
+      <p>
+        Highest contrast against the YouTube grey chrome. Reads as evidence-light / streetlight,
+        not as caution tape. Underused in the bodycam subgenre · most channels go yellow, which
+        signals "the subgenre" not "this channel". Bone was the bravest move but the brand
+        carries restraint elsewhere; trying to do it through colour too left thumbnails feeling
+        empty. Mint and Copper both lost feed visibility. The recognition load is now carried by
+        amber + the v2 timestamp glyph + the LITE mark working together.
+      </p>
+    </div>
+  </section>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Colour Comparison · Archived May 2026</span>
+    
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+</div></body>
+</html>

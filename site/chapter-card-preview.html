@@ -1,0 +1,221 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>LITE — Chapter Card Style Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=JetBrains+Mono:wght@500&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #f0efe7; padding: 48px 32px 80px; }
+
+    h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #D4A800; margin-bottom: 40px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 1100px;
+    }
+
+    .option {
+      cursor: pointer;
+      border: 2px solid #222;
+      border-radius: 6px;
+      overflow: hidden;
+      transition: border-color 0.15s, transform 0.1s;
+    }
+    .option:hover { border-color: #D4A800; transform: translateY(-2px); }
+    .option.selected { border-color: #D4A800; }
+
+    .card-preview {
+      aspect-ratio: 16/9;
+      background: #111111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* ── Option A — Top bar (current) ── */
+    .a-inner { display: flex; flex-direction: column; align-items: flex-start; padding: 0 60px; }
+    .a-bar   { width: 72px; height: 5px; background: #D4A800; margin-bottom: 16px; }
+    .ch-label { font-family: 'Inter', sans-serif; font-size: 42px; font-weight: 700; color: #F0EFE7; line-height: 1; }
+    .ch-sub   { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #D4A800; letter-spacing: 6px; margin-top: 14px; }
+    .lite-mark {
+      position: absolute; bottom: 18px; left: 28px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 4px;
+    }
+    .lite-mark .li { color: #F0EFE7; }
+    .lite-mark .te { color: #D4A800; }
+
+    /* ── Option B — Left rule ── */
+    .b-inner { display: flex; align-items: stretch; gap: 0; }
+    .b-rule  { width: 4px; background: #D4A800; border-radius: 2px; flex-shrink: 0; }
+    .b-text  { padding: 10px 0 10px 30px; display: flex; flex-direction: column; gap: 18px; justify-content: center; }
+    .b-text .ch-sub { letter-spacing: 4px; }
+
+    /* ── Option C — No bar ── */
+    .c-inner { display: flex; flex-direction: column; align-items: flex-start; padding: 0 60px; gap: 14px; }
+
+    /* ── Option D — Underline ── */
+    .d-inner  { display: flex; flex-direction: column; align-items: flex-start; padding: 0 60px; }
+    .d-bar    { width: 72px; height: 5px; background: #D4A800; margin-top: 14px; margin-bottom: 12px; }
+    .d-sub    { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #D4A800; letter-spacing: 6px; }
+
+    .option-label {
+      background: #141414;
+      border-top: 1px solid #222;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .option-label .name  { font-size: 13px; font-weight: 700; letter-spacing: -0.3px; }
+    .option-label .desc  { font-size: 11px; color: #666; margin-top: 3px; }
+    .option-label .check {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid #333;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: #D4A800; flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .option.selected .check { background: #D4A800; border-color: #D4A800; color: #000; }
+
+    .action-row { margin-top: 32px; max-width: 1100px; display: flex; align-items: center; gap: 16px; }
+    .btn {
+      padding: 10px 24px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace; font-weight: 600; border: none;
+      border-radius: 3px; cursor: pointer; transition: filter 0.15s;
+    }
+    .btn-amber { background: #D4A800; color: #000; }
+    .btn-amber:hover { filter: brightness(1.12); }
+    .btn-ghost { background: #1a1a1a; color: #666; border: 1px solid #2a2a2a; }
+    .btn-ghost:hover { color: #ccc; }
+    .hint { font-size: 12px; color: #444; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
+    #result { font-size: 13px; color: #D4A800; font-family: 'JetBrains Mono', monospace; margin-top: 16px; letter-spacing: 1px; display: none; }
+  </style>
+</head>
+<body>
+  <h1>Chapter Card — Style Options</h1>
+  <p class="sub">CLICK A CARD TO SELECT · THEN HIT APPLY</p>
+
+  <div class="grid">
+
+    <!-- A: Top bar (current) -->
+    <div class="option" id="opt-a" onclick="select('a')">
+      <div class="card-preview">
+        <div class="a-inner">
+          <div class="a-bar"></div>
+          <div class="ch-label">PART 1</div>
+          <div class="ch-sub">THE CONFRONTATION</div>
+        </div>
+        <div class="lite-mark"><span class="li">LEFT IN </span><span class="te">THE EDIT</span></div>
+      </div>
+      <div class="option-label">
+        <div>
+          <div class="name">A — Top bar <span style="font-size:10px;color:#555;font-weight:400;letter-spacing:1px;margin-left:8px">CURRENT</span></div>
+          <div class="desc">Horizontal amber bar above the chapter label</div>
+        </div>
+        <div class="check" id="chk-a">✓</div>
+      </div>
+    </div>
+
+    <!-- B: Left rule -->
+    <div class="option" id="opt-b" onclick="select('b')">
+      <div class="card-preview">
+        <div class="b-inner">
+          <div class="b-rule"></div>
+          <div class="b-text">
+            <div class="ch-label">PART 1</div>
+            <div class="ch-sub">THE CONFRONTATION</div>
+          </div>
+        </div>
+        <div class="lite-mark"><span class="li">LEFT IN </span><span class="te">THE EDIT</span></div>
+      </div>
+      <div class="option-label">
+        <div>
+          <div class="name">B — Left rule</div>
+          <div class="desc">Thin vertical amber line to the left of the text</div>
+        </div>
+        <div class="check" id="chk-b"></div>
+      </div>
+    </div>
+
+    <!-- C: No bar -->
+    <div class="option" id="opt-c" onclick="select('c')">
+      <div class="card-preview">
+        <div class="c-inner">
+          <div class="ch-label">PART 1</div>
+          <div class="ch-sub">THE CONFRONTATION</div>
+        </div>
+        <div class="lite-mark"><span class="li">LEFT IN </span><span class="te">THE EDIT</span></div>
+      </div>
+      <div class="option-label">
+        <div>
+          <div class="name">C — No bar</div>
+          <div class="desc">Minimal — amber lives only in the sub-label colour</div>
+        </div>
+        <div class="check" id="chk-c"></div>
+      </div>
+    </div>
+
+    <!-- D: Underline (bar below label) -->
+    <div class="option" id="opt-d" onclick="select('d')">
+      <div class="card-preview">
+        <div class="d-inner">
+          <div class="ch-label">PART 1</div>
+          <div class="d-bar"></div>
+          <div class="d-sub">THE CONFRONTATION</div>
+        </div>
+        <div class="lite-mark"><span class="li">LEFT IN </span><span class="te">THE EDIT</span></div>
+      </div>
+      <div class="option-label">
+        <div>
+          <div class="name">D — Divider bar</div>
+          <div class="desc">Bar separates the chapter label from the sub-label</div>
+        </div>
+        <div class="check" id="chk-d"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-amber" onclick="applyChoice()">Apply to generator →</button>
+    <button class="btn btn-ghost" onclick="window.location='chapter-card-generator.html'">Back to generator</button>
+    <span class="hint" id="sel-hint">No selection yet</span>
+  </div>
+  <div id="result"></div>
+
+  <script>
+    let chosen = 'a'; // default = current
+    document.getElementById('opt-a').classList.add('selected');
+    document.getElementById('chk-a').textContent = '✓';
+
+    function select(id) {
+      ['a','b','c','d'].forEach(x => {
+        document.getElementById('opt-' + x).classList.remove('selected');
+        document.getElementById('chk-' + x).textContent = '';
+      });
+      chosen = id;
+      document.getElementById('opt-' + id).classList.add('selected');
+      document.getElementById('chk-' + id).textContent = '✓';
+      const labels = { a: 'A — Top bar (current)', b: 'B — Left rule', c: 'C — No bar', d: 'D — Divider bar' };
+      document.getElementById('sel-hint').textContent = 'Selected: ' + labels[id];
+    }
+
+    function applyChoice() {
+      const labels = { a: 'top-bar', b: 'left-rule', c: 'no-bar', d: 'divider' };
+      const names  = { a: 'Top bar (current)', b: 'Left rule', c: 'No bar', d: 'Divider bar' };
+      localStorage.setItem('lite-chapter-card-style', labels[chosen]);
+      const r = document.getElementById('result');
+      r.style.display = 'block';
+      r.textContent = '✓ Style set to "' + names[chosen] + '" — opening generator...';
+      setTimeout(() => { window.location = 'chapter-card-generator.html'; }, 900);
+    }
+  </script>
+</body>
+</html>

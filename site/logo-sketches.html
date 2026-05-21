@@ -1,0 +1,620 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LITE · Logo Concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <script>window.LITE_PAGE = { slug: "logo-sketches", label: "Logo Concepts" };</script>
+  <style>
+    .concept {
+      padding: 0;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    /* Concept header */
+    .concept-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      padding: 20px 26px;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+      align-items: baseline;
+    }
+    .concept-head .num {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 2px; color: var(--text-dimmer);
+      font-weight: 600;
+    }
+    .concept-head .num .accent { color: var(--amber); }
+    .concept-head h3 {
+      font-size: 22px; font-weight: 700; letter-spacing: -.4px;
+      margin: 4px 0 2px;
+    }
+    .concept-head .desc {
+      font-size: 12px; color: var(--text-dim);
+    }
+    .concept-head .tag {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px;
+      padding: 4px 8px; border-radius: 2px;
+      font-weight: 600; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .concept-head .tag.best { background: var(--amber); color: #111; }
+    .concept-head .tag.strong { background: rgba(212,168,0,.18); color: var(--amber); border: 1px solid var(--amber); }
+    .concept-head .tag.weak { background: transparent; color: var(--text-dimmer); border: 1px solid var(--border-strong); }
+    .concept-head .tag.kill { background: transparent; color: var(--crimson); border: 1px solid var(--crimson); }
+
+    /* Big preview row: on-dark + on-light */
+    .preview-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .preview-cell {
+      aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
+      padding: 36px;
+      position: relative;
+    }
+    .preview-cell.dark { background: #111; }
+    .preview-cell.light { background: #f5f4ee; border-left: 1px solid var(--border); }
+    .preview-cell .ctx {
+      position: absolute; top: 12px; left: 14px;
+      font-family: var(--font-mono); font-size: 9px;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    .preview-cell.dark .ctx { color: rgba(255,255,255,.4); }
+    .preview-cell.light .ctx { color: rgba(0,0,0,.4); }
+
+    /* Concept-specific marks · built with HTML/CSS so they scale cleanly */
+
+    /* 01 · Amber Line */
+    .mk-amberline {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .mk-amberline .bar { width: 36px; height: 3px; background: var(--amber); }
+    .mk-amberline .wm {
+      font-weight: 700; letter-spacing: 3px; font-size: clamp(16px, 3vw, 24px);
+      line-height: 1;
+    }
+    .preview-cell.dark .mk-amberline .wm { color: #fff; }
+    .preview-cell.dark .mk-amberline .wm .te { color: var(--amber); }
+    .preview-cell.light .mk-amberline .wm { color: #111; }
+    .preview-cell.light .mk-amberline .wm .te { color: #D4A800; }
+
+    /* 02 · Bracket */
+    .mk-bracket {
+      font-weight: 700; letter-spacing: 3px; font-size: clamp(16px, 3vw, 24px);
+      line-height: 1;
+      display: inline-flex; align-items: center;
+    }
+    .mk-bracket .b { color: var(--amber); padding: 0 4px; }
+    .preview-cell.dark .mk-bracket { color: #fff; }
+    .preview-cell.light .mk-bracket { color: #111; }
+    .preview-cell.light .mk-bracket .b { color: #D4A800; }
+
+    /* 03 · Slash */
+    .mk-slash {
+      font-weight: 700; letter-spacing: 3px; font-size: clamp(16px, 3vw, 24px);
+      line-height: 1;
+      display: inline-flex; align-items: center; gap: 0;
+    }
+    .mk-slash .slash {
+      display: inline-block;
+      width: 14px; height: 1.4em; background: var(--amber);
+      transform: skewX(-22deg);
+      margin: 0 12px;
+    }
+    .preview-cell.dark .mk-slash { color: #fff; }
+    .preview-cell.light .mk-slash { color: #111; }
+    .preview-cell.light .mk-slash .slash { background: #D4A800; }
+
+    /* 04 · Viewfinder */
+    .mk-vf {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+    }
+    .mk-vf .frame {
+      position: relative;
+      width: 64px; height: 48px;
+    }
+    .mk-vf .frame::before, .mk-vf .frame::after,
+    .mk-vf .frame .br::before, .mk-vf .frame .br::after {
+      content: ""; position: absolute;
+      width: 12px; height: 12px;
+      border: 2px solid var(--amber);
+    }
+    .mk-vf .frame::before { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+    .mk-vf .frame::after { top: 0; right: 0; border-left: 0; border-bottom: 0; }
+    .mk-vf .frame .br::before { bottom: 0; left: 0; border-right: 0; border-top: 0; }
+    .mk-vf .frame .br::after { bottom: 0; right: 0; border-left: 0; border-top: 0; }
+    .mk-vf .wm { font-weight: 700; letter-spacing: 3px; font-size: clamp(15px, 2.6vw, 22px); }
+    .preview-cell.dark .mk-vf .wm { color: #fff; }
+    .preview-cell.dark .mk-vf .wm .te { color: var(--amber); }
+    .preview-cell.light .mk-vf .wm { color: #111; }
+    .preview-cell.light .mk-vf .wm .te { color: #D4A800; }
+
+    /* 05 · Monogram LE */
+    .mk-le {
+      display: flex; align-items: baseline;
+      font-weight: 700; letter-spacing: 0;
+      font-size: clamp(36px, 5.5vw, 60px); line-height: 1;
+    }
+    .preview-cell.dark .mk-le .l { color: #fff; }
+    .preview-cell.dark .mk-le .e { color: var(--amber); }
+    .preview-cell.light .mk-le .l { color: #111; }
+    .preview-cell.light .mk-le .e { color: #D4A800; }
+
+    /* Favicon simulation row */
+    .favicon-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 200px;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      background: var(--bg-elev-2);
+    }
+    .fav-cell {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 22px 14px;
+      gap: 10px;
+      border-right: 1px solid var(--border);
+    }
+    .fav-cell:nth-child(3) { border-right: 1px solid var(--border); }
+    .fav-cell .icon-bg {
+      background: #111;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 4px;
+      padding: 0;
+    }
+    .fav-cell.s-64 .icon-bg { width: 64px; height: 64px; }
+    .fav-cell.s-32 .icon-bg { width: 32px; height: 32px; }
+    .fav-cell.s-16 .icon-bg { width: 16px; height: 16px; }
+    .fav-cell .label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px;
+      color: var(--text-dimmer); text-transform: uppercase; font-weight: 600;
+    }
+    .fav-verdict {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 18px 22px;
+      background: var(--bg-elev);
+    }
+    .fav-verdict .head {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; font-weight: 700; margin-bottom: 6px;
+    }
+    .fav-verdict .body { font-size: 11px; color: var(--text-dim); line-height: 1.55; }
+    .fav-verdict.weak .head { color: var(--text-dim); }
+    .fav-verdict.strong .head { color: var(--amber); }
+    .fav-verdict.best .head { color: var(--amber); }
+    .fav-verdict.kill .head { color: var(--crimson); }
+
+    @media (max-width: 760px) {
+      .preview-row { grid-template-columns: 1fr; }
+      .preview-cell.light { border-left: 0; border-top: 1px solid var(--border); }
+      .favicon-row { grid-template-columns: repeat(3, 1fr); }
+      .fav-verdict { grid-column: 1 / -1; border-top: 1px solid var(--border); }
+    }
+
+    /* Bottom · why this works + uses */
+    .concept-body {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 0;
+      border-top: 1px solid var(--border);
+    }
+    .concept-body .why, .concept-body .uses {
+      padding: 20px 26px;
+    }
+    .concept-body .uses { border-left: 1px solid var(--border); background: var(--bg-elev-2); }
+    .concept-body h4 {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+      color: var(--amber); text-transform: uppercase; font-weight: 600; margin: 0 0 12px;
+    }
+    .concept-body ul {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .concept-body li {
+      font-size: 12px; color: var(--text-dim); line-height: 1.55;
+      padding-left: 14px; position: relative;
+    }
+    .concept-body li::before {
+      content: "·"; position: absolute; left: 4px; color: var(--amber); font-weight: 700;
+    }
+    .concept-body li b { color: var(--text); font-weight: 600; }
+    .concept-body .uses li { color: var(--text); }
+    .concept-body .uses li::before { color: var(--amber); }
+
+    @media (max-width: 760px) {
+      .concept-body { grid-template-columns: 1fr; }
+      .concept-body .uses { border-left: 0; border-top: 1px solid var(--border); }
+    }
+
+    /* Ranking table */
+    .ranking-table {
+      width: 100%; border-collapse: collapse;
+      background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: 6px; overflow: hidden;
+    }
+    .ranking-table th, .ranking-table td {
+      text-align: left; padding: 14px 18px;
+      border-bottom: 1px solid var(--border-soft);
+      font-size: 13px;
+    }
+    .ranking-table tr:last-child td { border-bottom: 0; }
+    .ranking-table th {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+      color: var(--text-dimmer); text-transform: uppercase; font-weight: 600;
+      background: var(--bg-elev-2);
+    }
+    .ranking-table .rank {
+      font-family: var(--font-mono); font-weight: 700; color: var(--amber);
+      width: 24px;
+    }
+    .ranking-table .stars { color: var(--amber); letter-spacing: 1px; font-size: 13px; }
+    .ranking-table .stars.dim { color: var(--text-dimmer); }
+    .ranking-table .verdict { font-size: 12px; color: var(--text-dim); line-height: 1.55; }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item active" href="#"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+
+  <header class="lite-page-head">
+    <div class="eyebrow">01 — Brand · Concepts</div>
+    <h1>Logo <span class="accent">Concepts.</span></h1>
+    <p class="lede">
+      Five directions. Each shown on dark and light, then simulated at favicon sizes ·
+      64px, 32px, and 16px · to see which marks survive the scale-down. Decision lives in
+      Brand Reference ·06.
+    </p>
+    <div class="meta">
+      <span><b>Concepts</b> 5</span>
+      <span><b>Updated</b> May 2026</span>
+      <span><b>Tokens</b> #D4A800 · #111 · Inter Bold</span>
+    </div>
+  </header>
+
+  <!-- 01 · Amber Line -->
+  <section class="lite-section" style="padding-top: 0;">
+    <div class="concept">
+      <div class="concept-head">
+        <div>
+          <div class="num"><span class="accent">01</span> · TYPOGRAPHIC</div>
+          <h3>The Amber Line</h3>
+          <div class="desc">Wordmark with the brand's recurring amber bar above</div>
+        </div>
+        <span class="tag strong">STRONG WORDMARK</span>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-cell dark">
+          <span class="ctx">ON DARK</span>
+          <div class="mk-amberline">
+            <div class="bar"></div>
+            <div class="wm"><span>LEFT IN </span><span class="te">THE EDIT</span></div>
+          </div>
+        </div>
+        <div class="preview-cell light">
+          <span class="ctx">ON LIGHT</span>
+          <div class="mk-amberline">
+            <div class="bar"></div>
+            <div class="wm"><span>LEFT IN </span><span class="te">THE EDIT</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="favicon-row">
+        <div class="fav-cell s-64"><div class="icon-bg"><div class="mk-amberline" style="gap: 3px;"><div class="bar" style="width: 28px; height: 2px;"></div><div class="wm" style="font-size: 9px; letter-spacing: 1.5px; color: #fff;"><span style="display:block">LEFT IN</span><span style="display:block;color: var(--amber)">THE EDIT</span></div></div></div><div class="label">64px</div></div>
+        <div class="fav-cell s-32"><div class="icon-bg"><div style="width: 14px; height: 2px; background: var(--amber);"></div></div><div class="label">32px</div></div>
+        <div class="fav-cell s-16"><div class="icon-bg"><div style="width: 8px; height: 1px; background: var(--amber);"></div></div><div class="label">16px</div></div>
+        <div class="fav-verdict weak">
+          <div class="head">? WEAK ICON</div>
+          <div class="body">Strong wordmark · but the amber bar loses all meaning at small sizes. At 16px it's a yellow stripe, not a brand mark. Needs the LE monogram as a companion.</div>
+        </div>
+      </div>
+
+      <div class="concept-body">
+        <div class="why">
+          <h4>Why this works</h4>
+          <ul>
+            <li>The amber bar is already your brand's recurring fingerprint · making it part of the logo <b>reinforces recognition</b></li>
+            <li>Purely typographic · no separate mark to maintain. Works at any size when paired with the wordmark</li>
+            <li>The bar above "THE EDIT" frames the edit · the thing that was intentionally <i>left in</i></li>
+          </ul>
+        </div>
+        <div class="uses">
+          <h4>Use for</h4>
+          <ul>
+            <li>Channel banner</li>
+            <li>Thumbnail watermark</li>
+            <li>Website header</li>
+            <li>Social bios</li>
+            <li>Merch</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 · Bracket -->
+    <div class="concept">
+      <div class="concept-head">
+        <div>
+          <div class="num"><span class="accent">02</span> · EDITORIAL</div>
+          <h3>The Bracket</h3>
+          <div class="desc">Amber editorial brackets on "the Edit"</div>
+        </div>
+        <span class="tag strong">STRONG CONCEPT</span>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-cell dark">
+          <span class="ctx">ON DARK</span>
+          <div class="mk-bracket"><span>LEFT IN </span><span class="b">[</span><span style="color:var(--amber)">THE EDIT</span><span class="b">]</span></div>
+        </div>
+        <div class="preview-cell light">
+          <span class="ctx">ON LIGHT</span>
+          <div class="mk-bracket"><span>LEFT IN </span><span class="b">[</span><span style="color:#D4A800">THE EDIT</span><span class="b">]</span></div>
+        </div>
+      </div>
+
+      <div class="favicon-row">
+        <div class="fav-cell s-64"><div class="icon-bg" style="font-family: var(--font-sans); font-size: 32px; font-weight: 700; color: var(--amber); letter-spacing: -1px;">[E]</div><div class="label">64px</div></div>
+        <div class="fav-cell s-32"><div class="icon-bg" style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; color: var(--amber); letter-spacing: -0.5px;">[E]</div><div class="label">32px</div></div>
+        <div class="fav-cell s-16"><div class="icon-bg" style="font-family: var(--font-sans); font-size: 10px; font-weight: 700; color: var(--amber); letter-spacing: -0.3px;">[E]</div><div class="label">16px</div></div>
+        <div class="fav-verdict strong">
+          <div class="head">? STRONG ICON</div>
+          <div class="body">The <b style="color:var(--text)">[E]</b> mark is genuinely ownable · editorial brackets are the literal definition of your channel name. Readable to 16px. No other true crime channel uses this symbol.</div>
+        </div>
+      </div>
+
+      <div class="concept-body">
+        <div class="why">
+          <h4>Why this works</h4>
+          <ul>
+            <li><b>Square brackets are the universal symbol for "left in"</b> · editorial notation for content that wasn't removed</li>
+            <li>Documentary and legal connotation · evidence, transcripts, annotations</li>
+            <li>The amber <b>[E]</b> becomes a standalone mark · readable at small sizes and genuinely ownable in the true crime space</li>
+          </ul>
+        </div>
+        <div class="uses">
+          <h4>Use for</h4>
+          <ul>
+            <li>Channel art</li>
+            <li>Profile picture ([E] only)</li>
+            <li>Intros / outros</li>
+            <li>Merchandise</li>
+            <li>Favicon</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 · Slash -->
+    <div class="concept">
+      <div class="concept-head">
+        <div>
+          <div class="num"><span class="accent">03</span> · KINETIC</div>
+          <h3>The Cut</h3>
+          <div class="desc">Diagonal amber slash · the razor edit</div>
+        </div>
+        <span class="tag weak">WEAK ICON</span>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-cell dark">
+          <span class="ctx">ON DARK</span>
+          <div class="mk-slash"><span>LEFT IN</span><span class="slash"></span><span>THE EDIT</span></div>
+        </div>
+        <div class="preview-cell light">
+          <span class="ctx">ON LIGHT</span>
+          <div class="mk-slash"><span>LEFT IN</span><span class="slash"></span><span>THE EDIT</span></div>
+        </div>
+      </div>
+
+      <div class="favicon-row">
+        <div class="fav-cell s-64"><div class="icon-bg"><div style="width: 14px; height: 36px; background: var(--amber); transform: skewX(-22deg);"></div></div><div class="label">64px</div></div>
+        <div class="fav-cell s-32"><div class="icon-bg"><div style="width: 8px; height: 20px; background: var(--amber); transform: skewX(-22deg);"></div></div><div class="label">32px</div></div>
+        <div class="fav-cell s-16"><div class="icon-bg"><div style="width: 4px; height: 10px; background: var(--amber); transform: skewX(-22deg);"></div></div><div class="label">16px</div></div>
+        <div class="fav-verdict kill">
+          <div class="head">? WEAKEST ICON</div>
+          <div class="body">The slash collapses to a thin amber line at small sizes · indistinguishable from dozens of other brands. Strong as a thumbnail graphic element, not a logo mark.</div>
+        </div>
+      </div>
+
+      <div class="concept-body">
+        <div class="why">
+          <h4>Why this works</h4>
+          <ul>
+            <li>The slash literally represents the <b>razor blade cut</b> · the foundational gesture of editing</li>
+            <li>Creates visual motion and asymmetry · the most <b>dynamic</b> of the five concepts</li>
+            <li>Works well as a graphic element in motion · good for animated intros</li>
+          </ul>
+        </div>
+        <div class="uses">
+          <h4>Use for</h4>
+          <ul>
+            <li>Thumbnail graphic element</li>
+            <li>Video intros</li>
+            <li>Animated logo sting</li>
+            <li>Apparel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 · Viewfinder -->
+    <div class="concept">
+      <div class="concept-head">
+        <div>
+          <div class="num"><span class="accent">04</span> · ICONIC</div>
+          <h3>The Viewfinder</h3>
+          <div class="desc">Corner-bracket camera / evidence frame</div>
+        </div>
+        <span class="tag best">? BEST ALL-ROUNDER</span>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-cell dark">
+          <span class="ctx">ON DARK</span>
+          <div class="mk-vf">
+            <div class="frame"><div class="br"></div></div>
+            <div class="wm"><span>LEFT IN </span><span class="te">THE EDIT</span></div>
+          </div>
+        </div>
+        <div class="preview-cell light">
+          <span class="ctx">ON LIGHT</span>
+          <div class="mk-vf">
+            <div class="frame"><div class="br"></div></div>
+            <div class="wm"><span>LEFT IN </span><span class="te">THE EDIT</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="favicon-row">
+        <div class="fav-cell s-64"><div class="icon-bg"><div style="position: relative; width: 44px; height: 32px;"><span style="position:absolute;top:0;left:0;width:8px;height:8px;border:2px solid var(--amber);border-right:0;border-bottom:0"></span><span style="position:absolute;top:0;right:0;width:8px;height:8px;border:2px solid var(--amber);border-left:0;border-bottom:0"></span><span style="position:absolute;bottom:0;left:0;width:8px;height:8px;border:2px solid var(--amber);border-right:0;border-top:0"></span><span style="position:absolute;bottom:0;right:0;width:8px;height:8px;border:2px solid var(--amber);border-left:0;border-top:0"></span></div></div><div class="label">64px</div></div>
+        <div class="fav-cell s-32"><div class="icon-bg"><div style="position: relative; width: 22px; height: 16px;"><span style="position:absolute;top:0;left:0;width:5px;height:5px;border:1.5px solid var(--amber);border-right:0;border-bottom:0"></span><span style="position:absolute;top:0;right:0;width:5px;height:5px;border:1.5px solid var(--amber);border-left:0;border-bottom:0"></span><span style="position:absolute;bottom:0;left:0;width:5px;height:5px;border:1.5px solid var(--amber);border-right:0;border-top:0"></span><span style="position:absolute;bottom:0;right:0;width:5px;height:5px;border:1.5px solid var(--amber);border-left:0;border-top:0"></span></div></div><div class="label">32px</div></div>
+        <div class="fav-cell s-16"><div class="icon-bg"><div style="position: relative; width: 11px; height: 8px;"><span style="position:absolute;top:0;left:0;width:3px;height:3px;border:1px solid var(--amber);border-right:0;border-bottom:0"></span><span style="position:absolute;top:0;right:0;width:3px;height:3px;border:1px solid var(--amber);border-left:0;border-bottom:0"></span><span style="position:absolute;bottom:0;left:0;width:3px;height:3px;border:1px solid var(--amber);border-right:0;border-top:0"></span><span style="position:absolute;bottom:0;right:0;width:3px;height:3px;border:1px solid var(--amber);border-left:0;border-top:0"></span></div></div><div class="label">16px</div></div>
+        <div class="fav-verdict best">
+          <div class="head">? BEST ALL-ROUNDER</div>
+          <div class="body">Four corner marks form a complete standalone symbol at every size. The pattern holds at 16px. Directly references surveillance/bodycam · owned territory in true crime.</div>
+        </div>
+      </div>
+
+      <div class="concept-body">
+        <div class="why">
+          <h4>Why this works</h4>
+          <ul>
+            <li>Corner brackets are universal for camera viewfinders and <b>evidence/record framing</b> · both directly relevant to the channel</li>
+            <li>The four corners alone become a completely standalone icon · profile picture, favicon, watermark</li>
+            <li>Most <b>cinematic</b> of all five concepts · references surveillance, documentation, bodycam footage</li>
+          </ul>
+        </div>
+        <div class="uses">
+          <h4>Use for</h4>
+          <ul>
+            <li>Profile picture (corners only)</li>
+            <li>Favicon</li>
+            <li>Thumbnail watermark</li>
+            <li>Video frame overlay</li>
+            <li>Sting frame on reveals</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 · Monogram -->
+    <div class="concept">
+      <div class="concept-head">
+        <div>
+          <div class="num"><span class="accent">05</span> · MONOGRAM</div>
+          <h3>The Monogram · LE</h3>
+          <div class="desc">Compact two-letter mark · works at any size</div>
+        </div>
+        <span class="tag weak">SET ASIDE</span>
+      </div>
+
+      <div class="preview-row">
+        <div class="preview-cell dark">
+          <span class="ctx">ON DARK</span>
+          <div class="mk-le"><span class="l">L</span><span class="e">E</span></div>
+        </div>
+        <div class="preview-cell light">
+          <span class="ctx">ON LIGHT</span>
+          <div class="mk-le"><span class="l">L</span><span class="e">E</span></div>
+        </div>
+      </div>
+
+      <div class="favicon-row">
+        <div class="fav-cell s-64"><div class="icon-bg" style="font-family: var(--font-sans); font-size: 32px; font-weight: 700; letter-spacing: 0;"><span style="color: #fff">L</span><span style="color: var(--amber)">E</span></div><div class="label">64px</div></div>
+        <div class="fav-cell s-32"><div class="icon-bg" style="font-family: var(--font-sans); font-size: 18px; font-weight: 700; letter-spacing: 0;"><span style="color: #fff">L</span><span style="color: var(--amber)">E</span></div><div class="label">32px</div></div>
+        <div class="fav-cell s-16"><div class="icon-bg" style="font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: 0;"><span style="color: #fff">L</span><span style="color: var(--amber)">E</span></div><div class="label">16px</div></div>
+        <div class="fav-verdict weak">
+          <div class="head">· SET ASIDE</div>
+          <div class="body">LE as a monogram lacks a concept · it's just two initials with no meaning beyond the letters themselves. The <b style="color: var(--text)">LITE</b> mark in Brand Reference ·06 covers this use case better.</div>
+        </div>
+      </div>
+
+      <div class="concept-body">
+        <div class="why">
+          <h4>Why this works</h4>
+          <ul>
+            <li>"E" in amber · the Edit is the amber element, literally and visually</li>
+            <li>Two letters are impossible to misread at any size · from 16px favicon to embroidered merch</li>
+            <li>Pairs with any wordmark concept above · the compact form when space is tight</li>
+          </ul>
+        </div>
+        <div class="uses">
+          <h4>Superseded by</h4>
+          <ul>
+            <li>LITE wordmark</li>
+            <li>Brand Reference ·06</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ranking -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 14px">Long-term viability ranking</div>
+    <table class="ranking-table">
+      <thead>
+        <tr><th>#</th><th>Concept</th><th>Icon</th><th>Wordmark</th><th>Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rank">1</td>
+          <td><b>04 · The Viewfinder</b></td>
+          <td class="stars">?????</td>
+          <td class="stars">????<span class="dim">?</span></td>
+          <td class="verdict">Corner marks are a complete standalone symbol. Directly references surveillance/bodycam. Holds at 16px.</td>
+        </tr>
+        <tr>
+          <td class="rank">2</td>
+          <td><b>02 · The Bracket</b></td>
+          <td class="stars">????<span class="dim">?</span></td>
+          <td class="stars">?????</td>
+          <td class="verdict">Most conceptually tight · [E] is literally what your channel name means. Genuinely ownable symbol.</td>
+        </tr>
+        <tr>
+          <td class="rank">3</td>
+          <td><b>01 · The Amber Line</b></td>
+          <td class="stars">??<span class="dim">???</span></td>
+          <td class="stars">?????</td>
+          <td class="verdict">Best wordmark of the five. The amber bar is the brand fingerprint. Weak as a standalone icon · needs a companion mark.</td>
+        </tr>
+        <tr>
+          <td class="rank">4</td>
+          <td><b>03 · The Cut</b></td>
+          <td class="stars">??<span class="dim">???</span></td>
+          <td class="stars">???<span class="dim">??</span></td>
+          <td class="verdict">Weakest icon · a diagonal line is too generic to own. Use the slash as a thumbnail graphic element only, not a logo mark.</td>
+        </tr>
+        <tr>
+          <td class="rank">5</td>
+          <td><b>05 · The Monogram</b></td>
+          <td class="stars dim">· · · · ·</td>
+          <td class="stars dim">· · · · ·</td>
+          <td class="verdict">Set aside. Doesn't connect conceptually. The LITE mark in Brand Reference ·06 covers this use case better.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Logo Concepts · v1.0</span>
+    <span class="tagline">Every cut, on the record<span class="dot">.</span></span>
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+</div></body>
+</html>

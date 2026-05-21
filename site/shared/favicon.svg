@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#111111" rx="5"/>
+  <rect x="6" y="7" width="3" height="18" fill="#D4A800" rx="1"/>
+  <text x="12" y="22" font-family="'Inter','Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="700" font-size="15" fill="#F0EFE7">LI</text>
+</svg>

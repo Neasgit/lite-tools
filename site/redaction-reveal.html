@@ -1,0 +1,385 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE · Redaction / Reveal System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <script>window.LITE_PAGE = { slug: "redaction-reveal", label: "Redaction / Reveal" };</script>
+  <style>
+    .device-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    }
+    @media (max-width: 900px) { .device-grid { grid-template-columns: 1fr; } }
+
+    .device {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .device .stage {
+      aspect-ratio: 16/9;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.55) 100%),
+        repeating-linear-gradient(45deg, #1a1916 0 12px, #1f1d18 12px 24px);
+      filter: saturate(0.7);
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 8%;
+      cursor: pointer;
+    }
+    .device .stage-text {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.85;
+      color: rgba(255,255,255,.85);
+      letter-spacing: .3px;
+      position: relative; z-index: 2;
+    }
+    .device .body {
+      padding: 18px 20px 20px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .device .num-row {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 2px; color: var(--text-dimmer);
+      text-transform: uppercase; font-weight: 600;
+    }
+    .device .num-row .num { color: var(--amber); }
+    .device .num-row .hero-tag {
+      margin-left: auto;
+      background: var(--amber); color: #111;
+      padding: 2px 6px; border-radius: 2px;
+      font-size: 9px; letter-spacing: 1.5px;
+    }
+    .device h3 { font-size: 17px; font-weight: 700; letter-spacing: -.3px; margin: 0; }
+    .device .desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+    .device .hint {
+      font-family: var(--font-mono);
+      font-size: 9px; letter-spacing: 2px; color: var(--text-dimmer);
+      text-transform: uppercase; margin-top: 4px;
+    }
+
+    /* Device 01 · Amber reveal line (animated) */
+    .d-reveal .stage-text { position: relative; display: inline-block; padding: 6px 12px; }
+    .d-reveal .reveal-cover {
+      position: absolute; inset: 0;
+      background: var(--bg-deep);
+      transition: clip-path .6s ease;
+      clip-path: inset(0 0 0 0);
+    }
+    .d-reveal.revealed .reveal-cover { clip-path: inset(0 0 0 100%); }
+    .d-reveal .reveal-line {
+      position: absolute; top: 0; bottom: 0; width: 2px;
+      background: var(--amber);
+      box-shadow: 0 0 10px var(--amber);
+      left: 100%;
+      transition: left .6s ease;
+    }
+    .d-reveal.revealed .reveal-line { left: 0; opacity: 0; }
+    .d-reveal .underneath { color: var(--amber); font-weight: 600; }
+
+    /* Device 02 · Redaction bar */
+    .d-bar .redact {
+      background: var(--bg-deep);
+      color: transparent;
+      padding: 0 8px; margin: 0 2px;
+      border-radius: 1px;
+      position: relative; display: inline-block;
+    }
+    .d-bar .redact::before {
+      content: ""; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 2px, transparent 2px 4px);
+    }
+    .d-bar.revealed .redact { background: transparent; color: var(--amber); }
+
+    /* Device 03 · Cut marker */
+    .d-cut .stage-text { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+    .d-cut .clip-line { display: flex; align-items: center; gap: 8px; }
+    .d-cut .cut-bracket { color: var(--amber); font-weight: 700; font-size: 18px; }
+    .d-cut .gap-tag {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--amber); letter-spacing: 2px;
+      padding-left: 20px; position: relative;
+    }
+    .d-cut .gap-tag::before {
+      content: ""; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      width: 12px; height: 1px; background: var(--amber);
+    }
+
+    /* Device 04 · Before / After */
+    .d-split .stage { padding: 0; }
+    .d-split .split-grid {
+      width: 100%; height: 100%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      position: relative;
+    }
+    .d-split .split-cell {
+      padding: 24px;
+      display: flex; flex-direction: column; justify-content: center;
+      gap: 8px;
+    }
+    .d-split .split-cell.before { border-right: 1px solid rgba(255,255,255,.15); }
+    .d-split .split-cell.after { background: rgba(212,168,0,.06); }
+    .d-split .split-label {
+      font-family: var(--font-mono);
+      font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dimmer);
+    }
+    .d-split .after .split-label { color: var(--amber); }
+    .d-split .split-text { font-size: 12px; line-height: 1.5; color: #fff; }
+
+    /* Device 05 · Document highlight */
+    .d-highlight .stage-text {
+      max-width: 100%;
+      font-size: 11px; line-height: 1.9;
+      color: rgba(255,255,255,.4);
+    }
+    .d-highlight .hl-line {
+      background: var(--amber); color: #111; font-weight: 600;
+      padding: 1px 6px;
+    }
+
+    /* Device 06 · Page break / void */
+    .d-void .stage {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.55) 100%),
+        repeating-linear-gradient(45deg, #1a1916 0 12px, #1f1d18 12px 24px);
+    }
+    .d-void .void-card {
+      background: var(--bg-deep);
+      padding: 22px 28px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px;
+      border-left: 3px solid var(--amber);
+    }
+    .d-void .void-glyph {
+      font-family: var(--font-mono);
+      font-size: 32px; letter-spacing: 4px; color: var(--amber);
+    }
+    .d-void .void-cap {
+      font-family: var(--font-mono);
+      font-size: 9px; letter-spacing: 2px; color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .usage-rules {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    }
+    @media (max-width: 900px) { .usage-rules { grid-template-columns: 1fr; } }
+    .usage-card {
+      padding: 22px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .usage-card h4 {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 3px;
+      text-transform: uppercase; font-weight: 600; margin: 0 0 14px;
+      color: var(--amber);
+    }
+    .usage-card ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+    .usage-card li {
+      font-size: 13px; color: var(--text-dim); line-height: 1.6;
+      padding-left: 18px; position: relative;
+    }
+    .usage-card li::before {
+      content: "·"; position: absolute; left: 4px; color: var(--amber); font-weight: 700;
+    }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item active" href="#"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+
+  <header class="lite-page-head">
+    <div class="eyebrow">02 · References · Version 1.0</div>
+    <h1>Redaction / <span class="accent">Reveal.</span></h1>
+    <p class="lede">
+      The visual language for cuts, omissions, and reveal moments. Six devices, all sharing
+      one rule: <b style="color:var(--amber)">charcoal hides, amber surfaces.</b> Click any device to see it animate.
+    </p>
+    <div class="meta">
+      <span><b>Version</b> 1.0</span>
+      <span><b>Devices</b> 6</span>
+      <span><b>Brand spec</b> ·04 of Brand Reference</span>
+    </div>
+  </header>
+
+  <!-- ·01 Why -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">01 · Why this exists</div>
+    <h2>The name <span style="color:var(--amber)">Left in the Edit</span> is about what gets cut, omitted, or hidden.</h2>
+    <p class="section-desc">
+      The brand needs a visual device that says the same thing: <i>something was removed,
+      something is being recovered, something is being revealed.</i> That's what this system is for.
+      Six devices. All work together. Amber is reserved for the reveal point · never the redaction itself.
+    </p>
+  </section>
+
+  <!-- ·02 The six devices -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">02 · The six devices</div>
+    <p class="section-desc">Each shows a different kind of "left in the edit". Click any stage to see the reveal.</p>
+
+    <div class="device-grid">
+
+      <!-- 01 -->
+      <div class="device d-reveal" onclick="this.classList.toggle('revealed')">
+        <div class="stage">
+          <div class="stage-text">
+            Officer statement, page 4:
+            <span style="display:inline-block;position:relative">
+              <span class="reveal-cover"></span>
+              <span class="underneath">"I never drew my weapon."</span>
+              <span class="reveal-line"></span>
+            </span>
+            <br>
+            <span style="font-size:11px;color:var(--text-dim);font-family:var(--font-mono)">? Bodycam contradicts at 04:12</span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="num-row">
+            <span class="num">01</span><span>Amber Reveal Line</span>
+            <span class="hero-tag">HERO MOVE</span>
+          </div>
+          <h3>The thin amber line that slides across a redacted detail</h3>
+          <p class="desc">Use once per video. This is the signature device · the moment the channel name pays off on screen.</p>
+          <div class="hint">CLICK STAGE TO REVEAL ?</div>
+        </div>
+      </div>
+
+      <!-- 02 -->
+      <div class="device d-bar" onclick="this.classList.toggle('revealed')">
+        <div class="stage">
+          <div class="stage-text">
+            Internal report · redacted:<br>
+            Witness <span class="redact">JOHN MARTINEZ</span> stated the suspect<br>
+            <span>"appeared </span><span class="redact">extremely intoxicated</span><span>" before officers arrived.</span><br>
+            <span style="font-size:11px;color:var(--text-dim);font-family:var(--font-mono)">Released under FOIA 02-2026</span>
+          </div>
+        </div>
+        <div class="body">
+          <div class="num-row"><span class="num">02</span><span>Redaction Bar</span></div>
+          <h3>Solid charcoal bar over a word, timestamp, face, or line</h3>
+          <p class="desc">Treats the redaction as a real object on the page. Charcoal hides; amber surfaces on click.</p>
+          <div class="hint">CLICK TO REVEAL ?</div>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="device d-cut">
+        <div class="stage">
+          <div class="stage-text">
+            <div class="clip-line">"Sir, I need you to step out of the <span class="cut-bracket">]</span></div>
+            <div class="gap-tag">Camera stops · 2-second gap</div>
+            <div class="clip-line"><span class="cut-bracket">[</span> alright, alright, I'm getting out."</div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="num-row"><span class="num">03</span><span>Cut Marker</span></div>
+          <h3>Amber slash or bracket at the exact frame the official edit cut</h3>
+          <p class="desc">For calling attention to where the recording stopped, the report ended, or the page broke.</p>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <div class="device d-split">
+        <div class="stage">
+          <div class="split-grid">
+            <div class="split-cell before">
+              <div class="split-label">Official report</div>
+              <div class="split-text">"Suspect was non-compliant and ignored verbal commands."</div>
+            </div>
+            <div class="split-cell after">
+              <div class="split-label">Bodycam shows</div>
+              <div class="split-text">Subject hands raised within 4 seconds of first contact.</div>
+            </div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="num-row"><span class="num">04</span><span>Before / After Frame</span></div>
+          <h3>Split between the official narrative and what the footage shows</h3>
+          <p class="desc">The structural workhorse. Use whenever the case turns on a contradiction.</p>
+        </div>
+      </div>
+
+      <!-- 05 -->
+      <div class="device d-highlight">
+        <div class="stage">
+          <div class="stage-text">
+            INCIDENT REPORT · CASE 26-447<br>
+            Officer arrived on scene at 23:41. <span class="hl-line">Bodycam was activated 9 minutes after arrival.</span><br>
+            No verbal commands were issued. <span class="hl-line">Camera was deactivated 3 minutes 14 seconds</span> during transport.<br>
+            Subject was released without charge at 02:18.
+          </div>
+        </div>
+        <div class="body">
+          <div class="num-row"><span class="num">05</span><span>Document Highlight</span></div>
+          <h3>Amber highlight runs across the line that matters</h3>
+          <p class="desc">When the document itself is the evidence. Highlight only the line that turns the case.</p>
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="device d-void">
+        <div class="stage">
+          <div class="void-card">
+            <div class="void-glyph">· · ·</div>
+            <div class="void-cap">3 PAGES MISSING · CASE FILE 47</div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="num-row"><span class="num">06</span><span>Page Break / Void</span></div>
+          <h3>Empty card with amber border for explicit absences</h3>
+          <p class="desc">When the omission itself is the point · pages missing, footage destroyed, witness withdrew.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ·03 Usage Rules -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">03 · Usage Rules</div>
+    <p class="section-desc">Devices share rules. Break these and the system stops reading as a system.</p>
+    <div class="usage-rules">
+      <div class="usage-card">
+        <h4>? Constants</h4>
+        <ul>
+          <li>Charcoal (#060606) is the redaction colour. It hides.</li>
+          <li>Amber (#D4A800) is the reveal colour. It surfaces.</li>
+          <li>JetBrains Mono is the type register for every device.</li>
+          <li>Reveals are paired with the sub-bass sting (Brand Reference ·04).</li>
+          <li>Each device gets its own beat · never two at once.</li>
+        </ul>
+      </div>
+      <div class="usage-card">
+        <h4>? Cadence</h4>
+        <ul>
+          <li>Amber Reveal Line · once per video, maximum.</li>
+          <li>Redaction Bar · used as often as the case warrants.</li>
+          <li>Cut Marker · paired with the cut log in the description.</li>
+          <li>Before / After · for the case-turning contradiction.</li>
+          <li>Document Highlight · only on a line that actually turns the case.</li>
+          <li>Page Break / Void · for genuine omissions, not absence-as-effect.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Redaction / Reveal · v1.0</span>
+    
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+</div></body>
+</html>

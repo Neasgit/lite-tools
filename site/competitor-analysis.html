@@ -1,0 +1,405 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE · Competitor Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <script>window.LITE_PAGE = { slug: "competitor-analysis", label: "Competitor Analysis" };</script>
+  <style>
+    .channel-list { display: flex; flex-direction: column; gap: 10px; }
+    .channel {
+      display: grid; grid-template-columns: 220px 110px 1fr; gap: 22px;
+      padding: 22px 24px;
+      background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: 6px; align-items: baseline;
+    }
+    .channel .nm { font-size: 17px; font-weight: 700; letter-spacing: -.2px; line-height: 1.3; }
+    .channel .nm .subs { display: block; font-family: var(--font-mono); font-size: 11.5px; color: var(--amber); letter-spacing: 1px; margin-top: 6px; font-weight: 500; }
+    .channel .lane {
+      font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 2px;
+      text-transform: uppercase; font-weight: 600;
+      padding: 5px 9px; border-radius: 2px; text-align: center;
+    }
+    .channel .lane.direct    { background: var(--amber); color: #111; }
+    .channel .lane.adjacent  { background: rgba(212,168,0,.15); color: var(--amber); border: 1px solid var(--amber); }
+    .channel .lane.cousin    { background: transparent; color: var(--text-dim); border: 1px solid var(--border-strong); }
+    .channel .lane.spiritual { background: transparent; color: var(--text-dimmer); border: 1px dashed var(--border-strong); }
+    .channel .what {
+      font-size: 14.5px;
+      color: var(--text);
+      line-height: 1.7;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      font-family: var(--font-sans);
+    }
+    @media (max-width: 760px) {
+      .channel { grid-template-columns: 1fr; gap: 8px; }
+      .channel .lane { justify-self: start; }
+    }
+
+    .ewu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    @media (max-width: 800px) { .ewu-grid { grid-template-columns: 1fr; } }
+    .ewu-card {
+      padding: 22px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .ewu-card .label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 2px;
+      color: var(--amber); text-transform: uppercase; font-weight: 600; margin-bottom: 10px;
+    }
+    .ewu-card h4 { font-size: 16px; font-weight: 700; margin: 0 0 8px; letter-spacing: -.2px; }
+    .ewu-card .desc { font-size: 13px; color: var(--text-dim); line-height: 1.65; margin: 0 0 12px; }
+    .ewu-card .desc:last-child { margin-bottom: 0; }
+    .ewu-card .action {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+      font-size: 12px; color: var(--text);
+      font-family: var(--font-mono); line-height: 1.6;
+    }
+    .ewu-card .action b { color: var(--amber); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+
+    .blind-spot {
+      padding: 22px 26px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--crimson);
+      border-radius: 4px;
+      margin-top: 16px;
+    }
+    .blind-spot h3 { font-size: 18px; font-weight: 700; margin: 0 0 8px; color: var(--crimson); }
+    .blind-spot p { font-size: 13px; color: var(--text-dim); line-height: 1.7; margin: 0 0 8px; max-width: 760px; }
+    .blind-spot p:last-child { margin-bottom: 0; }
+
+    .steal-list { display: flex; flex-direction: column; gap: 10px; }
+    .steal {
+      padding: 18px 22px;
+      background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .steal .ch-name { font-size: 15px; font-weight: 700; letter-spacing: -.2px; margin-bottom: 14px; }
+    .steal .ch-name .channel-tag {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--amber); letter-spacing: 1.5px; text-transform: uppercase;
+      margin-left: 10px;
+    }
+    .steal .items { display: grid; grid-template-columns: 1fr; gap: 8px; }
+    .steal .item {
+      display: grid; grid-template-columns: 100px 1fr; gap: 14px;
+      padding: 10px 0; border-top: 1px solid var(--border-soft); align-items: baseline;
+    }
+    .steal .item:first-child { border-top: 0; padding-top: 0; }
+    .steal .item .verb {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px;
+      text-transform: uppercase; font-weight: 700;
+    }
+    .steal .item .verb.steal { color: var(--amber); }
+    .steal .item .verb.apply { color: var(--text-dim); }
+    .steal .item .verb.skip { color: var(--crimson); }
+    .steal .item .body { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+    .steal .item .body b { color: var(--text); font-weight: 600; }
+
+    .opp-list { display: flex; flex-direction: column; gap: 12px; counter-reset: opp; }
+    .opp {
+      display: grid; grid-template-columns: 36px 1fr; gap: 14px;
+      padding: 16px 20px;
+      background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: 6px; align-items: start;
+    }
+    .opp::before {
+      counter-increment: opp;
+      content: counter(opp);
+      font-family: var(--font-mono); font-weight: 700; font-size: 24px;
+      color: var(--amber); line-height: 1; padding-top: 2px;
+    }
+    .opp h4 { font-size: 15px; font-weight: 700; margin: 0 0 6px; letter-spacing: -.2px; }
+    .opp p { font-size: 13px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+
+    .gap-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    @media (max-width: 800px) { .gap-list { grid-template-columns: 1fr; } }
+    .gap {
+      padding: 18px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      border-radius: 4px;
+      font-size: 13px; color: var(--text-dim); line-height: 1.65;
+    }
+    .gap b { color: var(--text); font-weight: 600; }
+
+    .next-moves { display: flex; flex-direction: column; gap: 8px; counter-reset: nm; }
+    .move {
+      display: grid; grid-template-columns: 36px 1fr; gap: 14px;
+      padding: 14px 18px;
+      background: var(--bg-elev); border: 1px solid var(--border);
+      border-radius: 4px; align-items: start;
+    }
+    .move::before {
+      counter-increment: nm;
+      content: counter(nm);
+      font-family: var(--font-mono); font-weight: 700; font-size: 18px;
+      color: var(--amber); line-height: 1; padding-top: 2px;
+    }
+    .move .body { font-size: 13px; color: var(--text); line-height: 1.6; }
+    .move .body b { color: var(--amber); font-weight: 600; }
+
+    .honesty {
+      padding: 22px 26px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--crimson);
+      border-radius: 4px;
+    }
+    .honesty h3 { font-size: 17px; font-weight: 700; margin: 0 0 14px; color: var(--crimson); }
+    .honesty ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+    .honesty li {
+      font-size: 13px; color: var(--text-dim); line-height: 1.7;
+      padding-left: 18px; position: relative;
+    }
+    .honesty li::before { content: "?"; position: absolute; left: 0; color: var(--crimson); font-weight: 700; }
+    .honesty li b { color: var(--text); font-weight: 600; }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item" href="channel-banner.html"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item active" href="#"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+
+  <header class="lite-page-head">
+    <div class="eyebrow">05 · Archive · Strategy</div>
+    <h1>Competitor <span class="accent">Analysis.</span></h1>
+    <p class="lede">
+      Eleven channels reviewed. Most are useful as inspiration but aren't who you'll be compared to
+      by YouTube's recommendation engine. Here's the actual landscape, what to steal, and what to leave.
+    </p>
+    <div class="meta">
+      <span><b>Channels</b> 11</span>
+      <span><b>Reviewed</b> May 2026</span>
+      <span><b>Lanes</b> 4</span>
+    </div>
+  </header>
+
+  <!-- ·01 -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">01 · The landscape</div>
+    <p class="section-desc">Of the eleven reviewed, only a handful share your lane. The rest are inspiration, not competition.</p>
+    <div class="channel-list">
+      <div class="channel">
+        <div class="nm">Explore With Us<span class="subs">5.9M</span></div>
+        <div class="lane direct">DIRECT</div>
+        <div class="what">The north star · but now a media company with a full team. You're entering their ecosystem, not competing with them yet.</div>
+      </div>
+      <div class="channel">
+        <div class="nm">EWU Bodycam<span class="subs">1.6M</span></div>
+        <div class="lane direct">DIRECT</div>
+        <div class="what">Sister channel. Pure bodycam-led format. Closest tonal match to what you're building.</div>
+      </div>
+      <div class="channel">
+        <div class="nm">Law and Crime<span class="subs">corporate</span></div>
+        <div class="lane direct">DIRECT</div>
+        <div class="what">Corporate-backed, named host. Polished but feels like cable news. Different register.</div>
+      </div>
+      <div class="channel">
+        <div class="nm">JCS Criminal Psychology<span class="subs">restraint</span></div>
+        <div class="lane adjacent">ADJACENT</div>
+        <div class="what">Interrogation analysis, not case retelling. Sporadic uploads. Narration-driven. Sets the bar for restraint in the genre.</div>
+      </div>
+      <div class="channel">
+        <div class="nm">Coffeehouse Crime<span class="subs">personality</span></div>
+        <div class="lane adjacent">ADJACENT</div>
+        <div class="what">Personality-led case retellings. Named host (Adrian). Shorter format.</div>
+      </div>
+      <div class="channel">
+        <div class="nm">Trap Lore Ross<span class="subs">tonal</span></div>
+        <div class="lane cousin">TONAL COUSIN</div>
+        <div class="what">Hip-hop documentary. Patience and receipts-everywhere approach translates directly.</div>
+      </div>
+      <div class="channel">
+        <div class="nm">Midwest Safety<span class="subs">overlays</span></div>
+        <div class="lane cousin">TONAL COUSIN</div>
+        <div class="what">On-the-ground reporting. Mainly useful for editing and overlay technique.</div>
+      </div>
+      <div class="channel">
+        <div class="nm">Ape Huncho / X-Cop / Detective Williams / Curios<span class="subs">peripheral</span></div>
+        <div class="lane spiritual">SPIRITUAL</div>
+        <div class="what">Different formats or different audiences. Worth knowing they exist; not direct competition.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ·02 -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">02 · EWU dissected · your north star</div>
+    <p class="section-desc">EWU is the player to study. Goal isn't to copy · it's to take what scales for a one-person operation and ignore what only works at media-company scale.</p>
+    <div class="ewu-grid">
+      <div class="ewu-card">
+        <div class="label">The Narrator</div>
+        <h4>Deep, slightly theatrical, broadcast-trained</h4>
+        <p class="desc">The voice is a huge part of the brand · it signals "documentary, take it seriously."</p>
+        <div class="action"><b>WHAT YOU CAN DO</b>Slow your pace. Drop your register slightly. Leave more space between sentences than feels natural. Time the pauses in a few EWU intros · they're longer than you'd expect.</div>
+      </div>
+      <div class="ewu-card">
+        <div class="label">The Framing</div>
+        <h4>"A news agency committed to factual information"</h4>
+        <p class="desc">EWU positions itself as journalism, not entertainment. That frames everything else.</p>
+        <div class="action"><b>WHAT YOU CAN DO</b>Draft a similar positioning line for your About page. Something like: <i>"Left in the Edit is independent documentary journalism · primary footage, primary sources, the full record."</i></div>
+      </div>
+      <div class="ewu-card">
+        <div class="label">The Structure</div>
+        <h4>30·60 min · cold open · context · walkthrough · aftermath</h4>
+        <p class="desc">EWU videos follow a consistent shape: cold open (no narration) ? channel intro ? context (2·3 min) ? footage walkthrough ? aftermath ? outro tease.</p>
+        <div class="action"><b>WHAT YOU CAN DO</b>Your 20-min target is shorter, which is fine. Use the cold open. Don't make viewers wait three minutes for the hook.</div>
+      </div>
+      <div class="ewu-card">
+        <div class="label">The Records Pipeline</div>
+        <h4>FOIA requests at scale · sometimes via lawsuit</h4>
+        <p class="desc">EWU files requests at scale and reportedly takes agencies to court when denied. That's the engine behind their "never-before-seen" claim.</p>
+        <div class="action"><b>WHAT YOU CAN DO</b>Build a request log (Google Sheet: date, agency, case, status, response). Over time this becomes a moat most creators won't bother building.</div>
+      </div>
+      <div class="ewu-card">
+        <div class="label">The Thumbnails</div>
+        <h4>Mugshot or bodycam still + bold sans + coloured stripe</h4>
+        <p class="desc">Faces large, two to three words max, high contrast. Deliberately local-news aesthetic.</p>
+        <div class="action"><b>WHAT YOU CAN DO</b>Study 30·50 of their thumbnails before designing yours. Genre legibility matters more than originality at thumbnail size.</div>
+      </div>
+      <div class="ewu-card">
+        <div class="label">The Blind Spot</div>
+        <h4>Frequently described as cop-favourable</h4>
+        <p class="desc">EWU rarely uses cases that make officers look bad. That's the daylight: include the unflattering footage, name what was cut.</p>
+        <div class="action"><b>WHAT YOU CAN DO</b>The differentiator is <b style="color:var(--text)">completeness, not angle</b>. Stay calm and factual. The footage does the work. Don't editorialise.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ·03 -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">03 · What to take from each</div>
+    <p class="section-desc">One technique from each channel. Take the specific move, leave the rest.</p>
+    <div class="steal-list">
+      <div class="steal">
+        <div class="ch-name">JCS Criminal Psychology<span class="channel-tag">RESTRAINT</span></div>
+        <div class="items">
+          <div class="item"><span class="verb steal">TAKE</span><div class="body">Reveal the crime upfront and turn the viewer into an <b>analyst</b>, not a detective. Suspense is psychological, not informational.</div></div>
+          <div class="item"><span class="verb apply">APPLY</span><div class="body">For Case 001: viewers already know Angie stole the cruiser. Don't pretend it's a mystery. Frame it as <i>"here's what other coverage didn't show you."</i></div></div>
+          <div class="item"><span class="verb steal">TAKE</span><div class="body">Willingness to sit with a single moment for ten minutes. Your File 4 legal discussion clip is JCS-territory.</div></div>
+          <div class="item"><span class="verb skip">SKIP</span><div class="body">The dry sarcasm. On a new channel it reads as smug.</div></div>
+        </div>
+      </div>
+
+      <div class="steal">
+        <div class="ch-name">Trap Lore Ross<span class="channel-tag">PATIENCE</span></div>
+        <div class="items">
+          <div class="item"><span class="verb steal">TAKE</span><div class="body">Patience in setup. TLR will spend ten minutes establishing context before the payoff. He trusts the audience to stay.</div></div>
+          <div class="item"><span class="verb apply">APPLY</span><div class="body">Don't rush Case 001's context. The cruiser policy, the front-seat placement, why the cuff-slip matters · that's all setup. Most beginner creators front-load drama. Don't.</div></div>
+          <div class="item"><span class="verb steal">TAKE</span><div class="body">The <b>receipts</b> ethos. Show the source on screen. Court document, news clipping, screenshot · whenever you cite one, show it.</div></div>
+        </div>
+      </div>
+
+      <div class="steal">
+        <div class="ch-name">Midwest Safety<span class="channel-tag">OVERLAYS</span></div>
+        <div class="items">
+          <div class="item"><span class="verb steal">TAKE</span><div class="body">The on-screen overlay style. Annotations, callouts, location pins, timestamps. Signals analytical seriousness.</div></div>
+          <div class="item"><span class="verb apply">APPLY</span><div class="body">In DaVinci Resolve, build a small library of reusable overlay templates: name plate, location plate, timestamp plate, document callout. Reuse every video.</div></div>
+        </div>
+      </div>
+
+      <div class="steal">
+        <div class="ch-name">Coffeehouse Crime<span class="channel-tag">PERSONA</span></div>
+        <div class="items">
+          <div class="item"><span class="verb apply">APPLY</span><div class="body">Adrian is personality-led; you're not. But his approach raises a real question: <b>on-camera host vs voice-only narrator.</b> Decide now, not later. Both are valid · just commit.</div></div>
+        </div>
+      </div>
+
+      <div class="steal">
+        <div class="ch-name">Law and Crime BodyCam<span class="channel-tag">COMMENTARY</span></div>
+        <div class="items">
+          <div class="item"><span class="verb steal">TAKE</span><div class="body">The <b>"host insight" pause</b> · narration briefly steps out of documentary voice to explain what just happened legally. Use sparingly.</div></div>
+          <div class="item"><span class="verb skip">SKIP</span><div class="body">The corporate sheen. Trying to match it without their budget looks worse than embracing your scrappiness.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ·04 -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">04 · Where your daylight actually is</div>
+    <p class="section-desc">Three real positions you can hold. Pick the one that fits and commit.</p>
+    <div class="opp-list">
+      <div class="opp">
+        <div>
+          <h4>The completeness positioning</h4>
+          <p>"Left in the Edit" + your editorial standards + your willingness to include the awkward footage = a real position. EWU is fast and prolific but selective. You're slow and complete. Tell that story from video one.</p>
+        </div>
+      </div>
+      <div class="opp">
+        <div>
+          <h4>Connected two-part cases</h4>
+          <p>Most channels do one-offs. The Angie Frost arc is structurally rare · Part 1 ends with a teaser, Part 2 pays it off. If you can find more cases with this structure, it becomes your signature format.</p>
+        </div>
+      </div>
+      <div class="opp">
+        <div>
+          <h4>Indie credibility</h4>
+          <p>One-person operation with primary-source standards. That contrast · small operator, institutional rigour · is itself a story. Viewers who care about credibility will subscribe just for the editorial approach.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ·05 -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">05 · What none of them do well</div>
+    <p class="section-desc">Gaps in the market you can own.</p>
+    <div class="gap-list">
+      <div class="gap"><b>Most channels don't show their work.</b> They cite "police records" without showing them. You can. Put the affidavit on screen. Highlight the line you're quoting.</div>
+      <div class="gap"><b>No one does case follow-ups.</b> Cases evolve · appeals, new charges, civil suits. There's almost no one doing follow-up content in this lane. The records-request muscle gives you material others won't have.</div>
+      <div class="gap"><b>Community presence is weak across the board.</b> EWU skews Facebook (older audience). JCS has none. There's room for a creator who engages on Reddit, replies in comments, and treats viewers as informed adults.</div>
+      <div class="gap"><b>Few channels handle uncertainty well.</b> Almost all of them present circumstantial evidence as fact. Strong evidence presented as <i>unconfirmed until the affidavit lands</i> is the right model, and rare.</div>
+    </div>
+  </section>
+
+  <!-- ·06 -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">06 · Concrete next moves</div>
+    <p class="section-desc">Seven actions. In order.</p>
+    <div class="next-moves">
+      <div class="move"><div class="body"><b>Watch 5 EWU videos with a notebook.</b> Time the cold open. Time the first context beat. Note when the first evidence appears on screen. Note when narration changes pace. Reverse-engineer the rhythm, not the content.</div></div>
+      <div class="move"><div class="body"><b>Watch 2 JCS videos for the analytical-pause technique.</b> When does JCS speed up footage? When does it pause? Find the rhythm.</div></div>
+      <div class="move"><div class="body"><b>Pick your channel positioning sentence.</b> One line, on the about page, that filters every future decision. Draft three options, sit with them for a week, pick one.</div></div>
+      <div class="move"><div class="body"><b>Build a thumbnail style sheet</b> · colour, font, face position, text length. Produce three sample thumbnails before your first upload.</div></div>
+      <div class="move"><div class="body"><b>Decide on-camera vs voice-only.</b> Now, not later. Reshooting or rebranding is expensive.</div></div>
+      <div class="move"><div class="body"><b>Build a records-request log.</b> Google Sheet: date sent, agency, case, request type, response date, status, file location.</div></div>
+      <div class="move"><div class="body"><b>Watch your competitors' worst videos too.</b> Their lowest-view recent uploads tell you what doesn't work for the audience even when the channel is established.</div></div>
+    </div>
+  </section>
+
+  <!-- ·07 -->
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 14px">07 · Honesty check</div>
+    <div class="honesty">
+      <h3>Four uncomfortable truths to budget for</h3>
+      <ul>
+        <li><b>EWU's scale isn't realistic for a part-time solo creator.</b> Don't measure yourself against their cadence. JCS's ~19 videos over 6+ years is a more realistic ceiling for thoroughness-first creators.</li>
+        <li><b>The narrator voice matters more than people admit.</b> EWU's narrator is a huge part of why the channel works. Your voice will need development time. Weekly test reads at home · even before you record Case 001 properly · are worth doing.</li>
+        <li><b>The records-request advantage compounds slowly.</b> You won't have a moat for a year. Plan accordingly.</li>
+        <li><b>The space is crowded.</b> Your differentiation has to be visible from the thumbnail and first 30 seconds. "We're more thorough" doesn't read on a thumbnail. "We show what others edited out" with a specific moment teased · does.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Competitor Analysis · May 2026</span>
+    <span class="tagline">Every cut, on the record<span class="dot">.</span></span>
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+</div></body>
+</html>

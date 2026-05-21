@@ -1,0 +1,235 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>LITE — Left Rule Variants</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@700&family=JetBrains+Mono:wght@500&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; font-family: 'Inter', sans-serif; color: #f0efe7; padding: 48px 32px 80px; }
+
+    h1  { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; color: #D4A800; margin-bottom: 40px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 1100px;
+    }
+
+    .option {
+      cursor: pointer;
+      border: 2px solid #222;
+      border-radius: 6px;
+      overflow: hidden;
+      transition: border-color 0.15s, transform 0.1s;
+    }
+    .option:hover  { border-color: #D4A800; transform: translateY(-2px); }
+    .option.selected { border-color: #D4A800; }
+
+    .card-preview {
+      aspect-ratio: 16/9;
+      background: #111111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Shared ── */
+    .ch-label { font-family: 'Inter', sans-serif; font-size: 42px; font-weight: 700; color: #F0EFE7; line-height: 1; }
+    .ch-sub   { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #D4A800; }
+    .lite-mark {
+      position: absolute; bottom: 18px; left: 28px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 4px;
+    }
+    .lite-mark .li { color: #F0EFE7; }
+    .lite-mark .te { color: #D4A800; }
+
+    /* ── B1 — Standard ── */
+    .b1-inner { display: flex; align-items: stretch; }
+    .b1-rule  { width: 4px; background: #D4A800; border-radius: 2px; flex-shrink: 0; }
+    .b1-text  { padding: 10px 0 10px 30px; display: flex; flex-direction: column; gap: 18px; justify-content: center; }
+    .b1-text .ch-sub { letter-spacing: 4px; }
+
+    /* ── B2 — Airy ── */
+    .b2-inner { display: flex; align-items: stretch; }
+    .b2-rule  { width: 4px; background: #D4A800; border-radius: 2px; flex-shrink: 0; }
+    .b2-text  { padding: 16px 0 16px 36px; display: flex; flex-direction: column; gap: 28px; justify-content: center; }
+    .b2-text .ch-sub { letter-spacing: 3px; font-size: 12px; opacity: 0.85; }
+
+    /* ── B3 — Reversed ── */
+    .b3-inner { display: flex; align-items: stretch; }
+    .b3-rule  { width: 4px; background: #D4A800; border-radius: 2px; flex-shrink: 0; }
+    .b3-text  { padding: 8px 0 8px 30px; display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+    .b3-text .ch-sub  { letter-spacing: 4px; font-size: 12px; }
+    .b3-text .ch-label { font-size: 46px; }
+
+    /* ── B4 — Bold ── */
+    .b4-inner { display: flex; align-items: stretch; }
+    .b4-rule  { width: 8px; background: #D4A800; border-radius: 2px; flex-shrink: 0; }
+    .b4-text  { padding: 10px 0 10px 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+    .b4-text .ch-sub { letter-spacing: 3px; font-size: 12px; }
+
+    .option-label {
+      background: #141414;
+      border-top: 1px solid #222;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .option-label .name { font-size: 13px; font-weight: 700; letter-spacing: -0.3px; }
+    .option-label .desc { font-size: 11px; color: #666; margin-top: 3px; }
+    .option-label .check {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid #333;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: #D4A800; flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .option.selected .check { background: #D4A800; border-color: #D4A800; color: #000; }
+
+    .action-row { margin-top: 32px; max-width: 1100px; display: flex; align-items: center; gap: 16px; }
+    .btn {
+      padding: 10px 24px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace; font-weight: 600; border: none;
+      border-radius: 3px; cursor: pointer; transition: filter 0.15s;
+    }
+    .btn-amber { background: #D4A800; color: #000; }
+    .btn-amber:hover { filter: brightness(1.12); }
+    .btn-ghost { background: #1a1a1a; color: #666; border: 1px solid #2a2a2a; }
+    .btn-ghost:hover { color: #ccc; }
+    .hint  { font-size: 12px; color: #444; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
+    #result { font-size: 13px; color: #D4A800; font-family: 'JetBrains Mono', monospace; margin-top: 16px; letter-spacing: 1px; display: none; }
+  </style>
+</head>
+<body>
+  <h1>Left Rule — Variant Options</h1>
+  <p class="sub">PICK A VARIANT · THEN HIT APPLY</p>
+
+  <div class="grid">
+
+    <!-- B1: Standard (current) -->
+    <div class="option selected" id="opt-b1" onclick="pick('b1')">
+      <div class="card-preview">
+        <div class="b1-inner">
+          <div class="b1-rule"></div>
+          <div class="b1-text">
+            <div class="ch-label">PART 1</div>
+            <div class="ch-sub">THE CONFRONTATION</div>
+          </div>
+        </div>
+        <div class="lite-mark"><span class="li">LEFT IN </span><span class="te">THE EDIT</span></div>
+      </div>
+      <div class="option-label">
+        <div>
+          <div class="name">B1 — Standard <span style="font-size:10px;color:#555;font-weight:400;letter-spacing:1px;margin-left:8px">CURRENT</span></div>
+          <div class="desc">4px rule · balanced gap · standard tracking</div>
+        </div>
+        <div class="check" id="chk-b1">✓</div>
+      </div>
+    </div>
+
+    <!-- B2: Airy -->
+    <div class="option" id="opt-b2" onclick="pick('b2')">
+      <div class="card-preview">
+        <div class="b2-inner">
+          <div class="b2-rule"></div>
+          <div class="b2-text">
+            <div class="ch-label">PART 1</div>
+            <div class="ch-sub">THE CONFRONTATION</div>
+          </div>
+        </div>
+        <div class="lite-mark"><span class="li">LEFT IN </span><span class="te">THE EDIT</span></div>
+      </div>
+      <div class="option-label">
+        <div>
+          <div class="name">B2 — Airy</div>
+          <div class="desc">4px rule · generous vertical space · quiet sub-label</div>
+        </div>
+        <div class="check" id="chk-b2"></div>
+      </div>
+    </div>
+
+    <!-- B3: Reversed (sub-label above) -->
+    <div class="option" id="opt-b3" onclick="pick('b3')">
+      <div class="card-preview">
+        <div class="b3-inner">
+          <div class="b3-rule"></div>
+          <div class="b3-text">
+            <div class="ch-sub">THE CONFRONTATION</div>
+            <div class="ch-label">PART 1</div>
+          </div>
+        </div>
+        <div class="lite-mark"><span class="li">LEFT IN </span><span class="te">THE EDIT</span></div>
+      </div>
+      <div class="option-label">
+        <div>
+          <div class="name">B3 — Reversed</div>
+          <div class="desc">Context above · chapter label below · cinematic read order</div>
+        </div>
+        <div class="check" id="chk-b3"></div>
+      </div>
+    </div>
+
+    <!-- B4: Bold rule -->
+    <div class="option" id="opt-b4" onclick="pick('b4')">
+      <div class="card-preview">
+        <div class="b4-inner">
+          <div class="b4-rule"></div>
+          <div class="b4-text">
+            <div class="ch-label">PART 1</div>
+            <div class="ch-sub">THE CONFRONTATION</div>
+          </div>
+        </div>
+        <div class="lite-mark"><span class="li">LEFT IN </span><span class="te">THE EDIT</span></div>
+      </div>
+      <div class="option-label">
+        <div>
+          <div class="name">B4 — Bold rule</div>
+          <div class="desc">8px rule · heavier presence · assertive broadcast feel</div>
+        </div>
+        <div class="check" id="chk-b4"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-amber" onclick="applyChoice()">Apply to generator →</button>
+    <button class="btn btn-ghost" onclick="window.location='chapter-card-generator.html'">Back to generator</button>
+    <span class="hint" id="sel-hint">Selected: B1 — Standard</span>
+  </div>
+  <div id="result"></div>
+
+  <script>
+    let chosen = 'b1';
+
+    function pick(id) {
+      ['b1','b2','b3','b4'].forEach(function(x) {
+        document.getElementById('opt-' + x).classList.remove('selected');
+        document.getElementById('chk-' + x).textContent = '';
+      });
+      chosen = id;
+      document.getElementById('opt-' + id).classList.add('selected');
+      document.getElementById('chk-' + id).textContent = '✓';
+      var labels = { b1: 'B1 — Standard', b2: 'B2 — Airy', b3: 'B3 — Reversed', b4: 'B4 — Bold rule' };
+      document.getElementById('sel-hint').textContent = 'Selected: ' + labels[id];
+    }
+
+    function applyChoice() {
+      var names = { b1: 'Standard', b2: 'Airy', b3: 'Reversed', b4: 'Bold rule' };
+      try { localStorage.setItem('lite-chapter-card-style', chosen); } catch(e) {}
+      var r = document.getElementById('result');
+      r.style.display = 'block';
+      r.textContent = '✓ Left rule · ' + names[chosen] + ' — opening generator...';
+      setTimeout(function() { window.location = 'chapter-card-generator.html'; }, 900);
+    }
+  </script>
+</body>
+</html>

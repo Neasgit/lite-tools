@@ -1,36 +1,4 @@
-# Working / draft files
-_versions/
-_template.html
-_*.html
-
-# OS junk
-.DS_Store
-Thumbs.db
-desktop.ini
-$RECYCLE.BIN/
-
-# Editor / IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Backups & temp
+_Backups/
+uploads/
+.design-canvas.state.json
 *.bak
-*.tmp
-*.log
-*.orig
-
-# Local-only data
-**/_run-log.txt
-**/_*-check.txt
-
-# Common big-file types not relevant to the site
-*.psd
-*.ai
-*.sketch
-*.fig
-*.zip
-*.tar.gz
-*.7z

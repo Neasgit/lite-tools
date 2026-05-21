@@ -1,0 +1,244 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE · Channel Banner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="shared/system.css">
+  <script>window.LITE_PAGE = { slug: "channel-banner", label: "Channel Banner" };</script>
+  <style>
+    /* Banner stage · renders at the canonical YouTube banner ratio */
+    .banner-stage {
+      width: 100%; aspect-ratio: 2560 / 1440;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+    }
+    .banner-stage::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 20% 80%, rgba(212,168,0,.06) 0%, transparent 50%),
+        linear-gradient(180deg, #0a0a0a 0%, #060606 100%);
+    }
+    .banner-stage::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(45deg, rgba(255,255,255,.012) 0 8px, transparent 8px 16px);
+    }
+
+    /* Safe zone overlay (TV / desktop / mobile) */
+    .safe-zone {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 60.4%; height: 29.4%;
+      border: 1px dashed var(--amber);
+      opacity: 0;
+      transition: opacity .2s;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .safe-zone .label {
+      position: absolute; top: -22px; left: 0;
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: 2px;
+      color: var(--amber); text-transform: uppercase; font-weight: 600;
+    }
+    .banner-stage.show-safe .safe-zone { opacity: 1; }
+
+    /* All content lives inside the mobile safe zone (60.4% · 29.4%).
+       Stacked vertically so wordmark + tagline + corner accents all fit. */
+    .banner-content {
+      position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 60.4%; height: 29.4%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: clamp(4px, 0.8vw, 10px);
+      z-index: 3;
+    }
+    .banner-bar { width: clamp(28px, 3vw, 48px); height: 2px; background: var(--amber); }
+    .banner-wordmark {
+      font-weight: 700; letter-spacing: clamp(2px, 0.3vw, 5px);
+      font-size: clamp(16px, 2.8vw, 42px);
+      line-height: 1; color: #f4f3eb; white-space: nowrap;
+      text-align: center;
+    }
+    .banner-wordmark .te { color: var(--amber); }
+    .banner-tagline {
+      font-family: var(--font-mono);
+      font-size: clamp(8px, 0.9vw, 13px);
+      letter-spacing: clamp(1.5px, 0.25vw, 4px);
+      color: rgba(244, 243, 235, 0.65); text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .banner-tagline .dot { color: var(--amber); }
+
+    /* Bottom row inside the safe zone */
+    .banner-row {
+      width: 100%;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: clamp(6px, 1vw, 14px);
+    }
+    .banner-lite {
+      font-family: var(--font-mono);
+      font-size: clamp(9px, 1vw, 14px);
+      letter-spacing: clamp(1.5px, 0.3vw, 4px);
+      font-weight: 700; white-space: nowrap;
+    }
+    .banner-lite .li { color: #f4f3eb; }
+    .banner-lite .te { color: var(--amber); }
+    .banner-stamp {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: clamp(3px, 0.4vw, 6px) clamp(6px, 0.8vw, 10px);
+      background: rgba(0,0,0,.5);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 2px;
+      font-family: var(--font-mono);
+      font-size: clamp(8px, 0.85vw, 12px);
+      letter-spacing: 1px;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .banner-stamp .dot {
+      width: clamp(4px, 0.5vw, 7px); height: clamp(4px, 0.5vw, 7px);
+      border-radius: 50%; background: var(--amber);
+      box-shadow: 0 0 6px var(--amber);
+    }
+
+    .banner-controls {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; align-items: center;
+    }
+    .banner-info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+    @media (max-width: 700px) { .banner-info { grid-template-columns: 1fr; } }
+    .info-card {
+      padding: 18px 20px;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .info-card .k {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 2px; color: var(--text-dimmer);
+      text-transform: uppercase; font-weight: 600; margin-bottom: 6px;
+    }
+    .info-card .v { font-family: var(--font-mono); color: var(--amber); font-size: 14px; font-weight: 500; }
+    .info-card .desc { font-size: 11px; color: var(--text-dim); margin-top: 8px; line-height: 1.55; }
+  </style>
+</head>
+<body class="lite-ready"><div class="app-shell"><aside class="lite-sidebar" id="lite-sidebar"><a class="sb-brand" href="index.html" style="text-decoration:none"><span class="li">LI</span><span class="te">TE</span><span class="ver">overhaul·v1</span></a><div class="sb-group"><div class="sb-group-label">01 — Brand</div><a class="sb-item" href="brand-reference.html"><span class="num">01</span><span>Brand Reference</span><span class="new-flag">v2</span></a><a class="sb-item active" href="#"><span class="num">02</span><span>Channel Banner</span></a></div><div class="sb-group"><div class="sb-group-label">02 — Editorial</div><a class="sb-item" href="editorial-standards.html"><span class="num">01</span><span>Editorial Standards</span></a><a class="sb-item" href="redaction-reveal.html"><span class="num">02</span><span>Redaction / Reveal</span></a><a class="sb-item" href="title-thumbnail-system.html"><span class="num">03</span><span>Title &amp; Thumbnail</span></a></div><div class="sb-group"><div class="sb-group-label">03 — Production</div><a class="sb-item" href="production-pipeline.html"><span class="num">01</span><span>Production Pipeline</span></a><a class="sb-item" href="skill-workflow.html"><span class="num">02</span><span>Skill Workflow</span></a><a class="sb-item" href="social-media-workflow.html"><span class="num">03</span><span>Social Media Workflow</span></a><a class="sb-item" href="chapter-card-generator.html"><span class="num">04</span><span>Chapter Card Generator</span></a><a class="sb-item" href="lower-third-generator.html"><span class="num">05</span><span>Lower Third Generator</span></a><a class="sb-item" href="corner-tag-generator.html"><span class="num">06</span><span>Corner Tag Generator</span><span class="new-flag">new</span></a></div><div class="sb-group"><div class="sb-group-label">04 — Archive</div><a class="sb-item" href="thumbnail-generator.html"><span class="num">01</span><span>Thumbnail Generator</span></a><a class="sb-item" href="thumbnail-research.html"><span class="num">02</span><span>Thumbnail Research</span></a><a class="sb-item" href="logo-sketches.html"><span class="num">03</span><span>Logo Concepts</span></a><a class="sb-item" href="icon-concepts.html"><span class="num">04</span><span>Icon Concepts</span></a><a class="sb-item" href="competitor-analysis.html"><span class="num">05</span><span>Competitor Analysis</span></a><a class="sb-item" href="claude-skills-cheatsheet.html"><span class="num">06</span><span>Claude Cheatsheet</span></a><a class="sb-item" href="colour-comparison.html"><span class="num">07</span><span>Colour Comparison</span></a><a class="sb-item" href="expenses.html"><span class="num">08</span><span>Expenses</span></a><a class="sb-item" href="landing-page.html"><span class="num">09</span><span>Landing Page</span></a></div></aside>
+<main class="lite-main">
+
+  <header class="lite-page-head">
+    <div class="eyebrow">01 — Brand · Export-ready</div>
+    <h1>Channel <span class="accent">Banner.</span></h1>
+    <p class="lede">
+      YouTube banner rendered at canonical 2560·1440. Every element lives inside the mobile
+      safe zone (1546·423) so the whole composition survives every platform crop. Toggle the
+      overlay to verify.
+    </p>
+    <div class="meta">
+      <span><b>Size</b> 2560 · 1440</span>
+      <span><b>Safe</b> 1546 · 423</span>
+      <span><b>Format</b> PNG / JPG</span>
+    </div>
+  </header>
+
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">01 · Preview</div>
+    <p class="section-desc">Every element lives inside the mobile safe zone · wordmark + tagline stacked, LITE mark and timestamp glyph anchoring the bottom row. The whole composition survives every platform crop.</p>
+
+    <div class="banner-stage" id="stage">
+      <div class="banner-content">
+        <div class="banner-bar"></div>
+        <div class="banner-wordmark"><span>LEFT IN </span><span class="te">THE EDIT</span></div>
+        <div class="banner-tagline">Every cut, on the record<span class="dot">.</span></div>
+        <div class="banner-row">
+          <div class="banner-lite"><span class="li">LI</span><span class="te">TE</span></div>
+          <div class="banner-stamp"><span class="dot"></span>23:51:08</div>
+        </div>
+      </div>
+      <div class="safe-zone"><span class="label">MOBILE SAFE ZONE · 1546 · 423</span></div>
+    </div>
+
+    <div class="banner-controls">
+      <button class="lite-btn" onclick="document.getElementById('stage').classList.toggle('show-safe')">Toggle Safe Zone</button>
+      <button class="lite-btn ghost" onclick="copyExportNote()">Copy Export Settings</button>
+    </div>
+  </section>
+
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">02 · Export specifications</div>
+    <p class="section-desc">YouTube renders the banner at three different crops. Everything inside the mobile safe zone shows on all three.</p>
+    <div class="banner-info">
+      <div class="info-card">
+        <div class="k">Master</div>
+        <div class="v">2560 · 1440</div>
+        <div class="desc">Full upload size. Shown on TV and desktop wide layouts.</div>
+      </div>
+      <div class="info-card">
+        <div class="k">Desktop crop</div>
+        <div class="v">2560 · 423</div>
+        <div class="desc">What desktop viewers actually see. Top + bottom get trimmed.</div>
+      </div>
+      <div class="info-card">
+        <div class="k">Mobile / safe zone</div>
+        <div class="v">1546 · 423</div>
+        <div class="desc">The only zone guaranteed across all devices. Keep the wordmark + tagline here.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="lite-section">
+    <div class="lite-label" style="margin-bottom: 4px">03 · Layout rationale</div>
+    <p class="section-desc">Why every element sits where it sits.</p>
+    <div class="banner-info" style="grid-template-columns: 1fr 1fr;">
+      <div class="info-card">
+        <div class="k">Wordmark · top of safe zone</div>
+        <div class="desc" style="margin-top: 2px">Amber bar above pulls the eye up first · same as on every thumbnail. Recognition compounds.</div>
+      </div>
+      <div class="info-card">
+        <div class="k">Tagline · mono · small caps</div>
+        <div class="desc" style="margin-top: 2px">"Every cut, on the record." in the mono evidence register. Lowercase + period preserved. Sits directly below the wordmark.</div>
+      </div>
+      <div class="info-card">
+        <div class="k">LITE mark · bottom-left of safe zone</div>
+        <div class="desc" style="margin-top: 2px">Mono register, locked position. Same mark as the in-video watermark. Anchors the bottom-left of the safe-zone band.</div>
+      </div>
+      <div class="info-card">
+        <div class="k">Timestamp glyph · bottom-right of safe zone</div>
+        <div class="desc" style="margin-top: 2px">The v2 secondary recognition element with pulsing amber dot. Pinned to the bottom-right of the safe zone so it survives every platform crop, not just desktop.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="lite-footer">
+    <span>Left in the Edit · Channel Banner · v1.0</span>
+    
+  </footer>
+
+</main>
+
+<script src="shared/sidebar.js"></script>
+<script>
+  function copyExportNote() {
+    const txt = "LITE channel banner export · 2560·1440 PNG. Safe zone 1546·423 (centered). Wordmark inside safe zone; timestamp glyph + LITE mark in desktop band only.";
+    navigator.clipboard?.writeText(txt);
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = "COPIED ?";
+    setTimeout(() => { btn.textContent = orig; }, 1500);
+  }
+</script>
+</div></body>
+</html>
