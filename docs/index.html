@@ -1,20 +1,20 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/svg+xml" href="site/shared/favicon.svg">
-  <title>LITE — Brand Reference</title>
+  <link rel="icon" type="image/svg+xml" href="shared/favicon.svg">
+  <title>LITE â€” Brand Reference</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@600&family=Creepster&display=swap">
 
   <style>
-    /* ────────────────────────────────────────────────────────────
-       LITE — Brand Reference v2 (inlined from brand-reference/styles.css)
+    /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+       LITE â€” Brand Reference v2 (inlined from brand-reference/styles.css)
        This file is self-contained so it works from file:// without a server.
-       ──────────────────────────────────────────────────────────── */
+       â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
     :root {
       --amber: #D4A800;
@@ -102,7 +102,7 @@
       display: flex; align-items: center; padding-right: 4px;
     }
     .sb-group-label::after {
-      content: "›";
+      content: "â€º";
       margin-left: auto;
       font-size: 13px; font-weight: 400; letter-spacing: 0;
       color: var(--text-dimmer);
@@ -737,9 +737,9 @@
 <body>
   <div id="root"></div>
 
-  <!-- ════════════════════════════════════════════════════════════════
-       BATCH 1 OF 5 — Tweaks panel (host protocol + form controls)
-       ════════════════════════════════════════════════════════════════ -->
+  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       BATCH 1 OF 5 â€” Tweaks panel (host protocol + form controls)
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <script type="text/babel" data-presets="react">
     const __TWEAKS_STYLE = `
       .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
@@ -836,7 +836,7 @@
               <b>{title}</b>
               <button className="twk-x" aria-label="Close tweaks"
                       onMouseDown={(e) => e.stopPropagation()}
-                      onClick={dismiss}>✕</button>
+                      onClick={dismiss}>âœ•</button>
             </div>
             <div className="twk-body">{children}</div>
           </div>
@@ -893,26 +893,26 @@
     Object.assign(window, { useTweaks, TweaksPanel, TweakSection, TweakRow, TweakRadio });
   </script>
 
-  <!-- ════════════════════════════════════════════════════════════════
-       BATCH 2 OF 5 — data + sections A (palette, recognition, redaction)
-       ════════════════════════════════════════════════════════════════ -->
+  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       BATCH 2 OF 5 â€” data + sections A (palette, recognition, redaction)
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <script type="text/babel" data-presets="react">
     const NAV_V2 = [
-      { group: "01 — Brand", items: [
+      { group: "01 â€” Brand", items: [
         { id: "brand-reference", label: "Brand Reference", active: true, version: "v2" },
         { id: "channel-banner", label: "Channel Banner", href: "site/channel-banner.html" },
       ]},
-      { group: "02 — Editorial", items: [
+      { group: "02 â€” Editorial", items: [
         { id: "editorial", label: "Editorial Standards", href: "site/editorial-standards.html" },
         { id: "redaction-reveal", label: "Redaction / Reveal", href: "site/redaction-reveal.html" },
         { id: "title-thumb", label: "Title & Thumbnail", href: "site/title-thumbnail-system.html" },
       ]},
-      { group: "03 — Production", items: [
+      { group: "03 â€” Production", items: [
         { id: "pipeline", label: "Production Pipeline", href: "site/production-pipeline.html" },
         { id: "skill", label: "Skill Workflow", href: "site/skill-workflow.html" },
         { id: "social", label: "Social Media Workflow", href: "site/social-media-workflow.html" },
       ]},
-      { group: "04 — Archive", items: [
+      { group: "04 â€” Archive", items: [
         { id: "thumb-gen", label: "Thumbnail Generator", href: "site/thumbnail-generator.html" },
         { id: "thumb-research", label: "Thumbnail Research", href: "site/thumbnail-research.html" },
         { id: "logo-concepts", label: "Logo Concepts", href: "site/logo-sketches.html" },
@@ -927,17 +927,17 @@
 
     const SECTIONS_V2 = [
       { num: "01", id: "palette",       title: "Colour Palette",                desc: "Documentary Amber held from v1. The other additions carry the recognition load." },
-      { num: "02", id: "recog-primary", title: "Primary Recognition — Amber Bar", desc: "One amber bar · Same position · Every asset · Every time." },
-      { num: "03", id: "recog-secondary", title: "Secondary Recognition — Timestamp Glyph", desc: "A second locked element. Bodycam-native [HH:MM:SS] with pulsing amber dot, top-right." },
+      { num: "02", id: "recog-primary", title: "Primary Recognition â€” Amber Bar", desc: "One amber bar Â· Same position Â· Every asset Â· Every time." },
+      { num: "03", id: "recog-secondary", title: "Secondary Recognition â€” Timestamp Glyph", desc: "A second locked element. Bodycam-native [HH:MM:SS] with pulsing amber dot, top-right." },
       { num: "04", id: "redaction",     title: "Redaction & The Cut Log", desc: "Two transparency primitives. The first hides. The second discloses what was trimmed." },
-      { num: "05", id: "type",          title: "Typography",                    desc: "Inter Bold (editorial) + JetBrains Mono (evidence). The mono is new — it codifies the timestamp register." },
-      { num: "06", id: "mark",          title: "The Mark — LITE Canonical",     desc: "LITE everywhere. The full wordmark is demoted to channel-page and About-section use only." },
-      { num: "07", id: "tagline",       title: "Tagline", desc: '“Every cut, on the record.” — replaces “Nothing left out.”' },
+      { num: "05", id: "type",          title: "Typography",                    desc: "Inter Bold (editorial) + JetBrains Mono (evidence). The mono is new â€” it codifies the timestamp register." },
+      { num: "06", id: "mark",          title: "The Mark â€” LITE Canonical",     desc: "LITE everywhere. The full wordmark is demoted to channel-page and About-section use only." },
+      { num: "07", id: "tagline",       title: "Tagline", desc: 'â€œEvery cut, on the record.â€ â€” replaces â€œNothing left out.â€' },
       { num: "08", id: "voice",         title: "Brand Voice & POV", desc: "Documentary register, with a stated stance. Skeptical of every party. Loyal only to footage." },
-      { num: "09", id: "anatomy",       title: "Thumbnail Anatomy · 16:9 + 9:16", desc: "The constants for both landscape and vertical. Shorts/TikTok formula spec'd, not improvised." },
-      { num: "10", id: "variants",      title: "Thumbnail Variants",            desc: "Six variants on the anatomy — Dark Standard is default; the timestamp glyph is on every one." },
+      { num: "09", id: "anatomy",       title: "Thumbnail Anatomy Â· 16:9 + 9:16", desc: "The constants for both landscape and vertical. Shorts/TikTok formula spec'd, not improvised." },
+      { num: "10", id: "variants",      title: "Thumbnail Variants",            desc: "Six variants on the anatomy â€” Dark Standard is default; the timestamp glyph is on every one." },
       { num: "11", id: "lower-thirds",  title: "Lower Thirds", desc: "Amber/white rule retained. First appearance amber, repeat white. Export via the Lower Third Generator." },
-      { num: "12", id: "captions",      title: "Caption & Subtitle Styling",    desc: "Speaker label amber · narration white · semi-transparent pill on every line." },
+      { num: "12", id: "captions",      title: "Caption & Subtitle Styling",    desc: "Speaker label amber Â· narration white Â· semi-transparent pill on every line." },
       { num: "13", id: "hierarchy",     title: "Graphics Overlay Hierarchy",    desc: "Five layers, top to bottom. Corner tag now sits above the timestamp glyph." },
       { num: "14", id: "motion-audio",  title: "Motion & Audio", desc: "Title-card pacing, narration cadence, score (silence by default), reveal stings." },
       { num: "15", id: "footage",       title: "Footage Treatment",             desc: "Clinical grade, same node stack across every clip. Unchanged from v1." },
@@ -946,7 +946,7 @@
     function Hero() {
       return (
         <header className="hero">
-          <div className="eyebrow">01 — Brand · Left in the Edit</div>
+          <div className="eyebrow">01 â€” Brand Â· Left in the Edit</div>
           <h1>Brand <span className="te">Reference.</span></h1>
           <p className="lede">
             Second pass on the brand system. The system around it changed. A second recognition element was added.
@@ -956,7 +956,7 @@
           <div className="hero-foot">
             <span className="v2-pill">v2</span>
             <span style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: "var(--text-dim)" }}>
-              Self-contained · works from file://
+              Self-contained Â· works from file://
             </span>
           </div>
         </header>
@@ -976,11 +976,11 @@
     }
 
     const PALETTE_V2 = [
-      { name: "Documentary Amber", hex: "#D4A800", desc: "Recognition colour. Held from v1 — the rest of the system did the heavy lifting in v2.", contrast: "8.2:1 on #111", tag: "Primary" },
-      { name: "Deep Charcoal", hex: "#111111", desc: "Primary background. Warmer than pure black — more cinematic.", contrast: "Baseline", tag: "Background" },
-      { name: "Thumbnail Charcoal", hex: "#141414", desc: "For thumbnails. Slightly lighter than body bg — stops it looking like a flat square in feed.", contrast: "~16:1 with text", tag: "Thumbnail BG" },
-      { name: "Deep Crimson", hex: "#C8102E", desc: "One element per thumbnail maximum. Never dominant. Case-specific — only when it earns it.", contrast: "4.9:1 on #111", tag: "Accent only" },
-      { name: "Off-White", hex: "#F0EFE7", desc: "Body text and headings. Slightly warm — less harsh than pure white. Bumped from #E8E8E0 for AA at small sizes.", contrast: "17:1 on #111", tag: "Text" },
+      { name: "Documentary Amber", hex: "#D4A800", desc: "Recognition colour. Held from v1 â€” the rest of the system did the heavy lifting in v2.", contrast: "8.2:1 on #111", tag: "Primary" },
+      { name: "Deep Charcoal", hex: "#111111", desc: "Primary background. Warmer than pure black â€” more cinematic.", contrast: "Baseline", tag: "Background" },
+      { name: "Thumbnail Charcoal", hex: "#141414", desc: "For thumbnails. Slightly lighter than body bg â€” stops it looking like a flat square in feed.", contrast: "~16:1 with text", tag: "Thumbnail BG" },
+      { name: "Deep Crimson", hex: "#C8102E", desc: "One element per thumbnail maximum. Never dominant. Case-specific â€” only when it earns it.", contrast: "4.9:1 on #111", tag: "Accent only" },
+      { name: "Off-White", hex: "#F0EFE7", desc: "Body text and headings. Slightly warm â€” less harsh than pure white. Bumped from #E8E8E0 for AA at small sizes.", contrast: "17:1 on #111", tag: "Text" },
     ];
 
     function Swatch({ s }) {
@@ -1009,15 +1009,15 @@
     function SectionPalette() {
       return (
         <section className="section" id="palette">
-          <SectionHead num="01" title="Colour Palette" desc="Documentary Amber held from v1 — the additions in v2 carry the recognition load instead." />
+          <SectionHead num="01" title="Colour Palette" desc="Documentary Amber held from v1 â€” the additions in v2 carry the recognition load instead." />
           <div className="palette">
             {PALETTE_V2.map((s) => <Swatch key={s.hex} s={s} />)}
           </div>
 
           <p style={{ fontSize: 13, color: "var(--text-dim)", marginTop: 18, lineHeight: 1.6, maxWidth: 720 }}>
             v2 holds the v1 amber. The risk of confusion with police-tape yellow is real, but it's mitigated
-            by the second recognition element (§03 timestamp glyph), the locked LITE mark position, and
-            the editorial transparency primitives — not by changing the colour.
+            by the second recognition element (Â§03 timestamp glyph), the locked LITE mark position, and
+            the editorial transparency primitives â€” not by changing the colour.
           </p>
 
           <div style={{ marginTop: 36 }}>
@@ -1025,9 +1025,9 @@
             <div className="never-use">
               {[
                 ["#1B5FA8", "#1B5FA8 Police Blue", "Blends into YouTube's grey interface"],
-                ["#FF0000", "#FF0000 YouTube Red", "Clashes with YouTube UI — creates visual noise"],
-                ["#FFDD00", "#FFDD00 Police-Tape Yellow", "Generic — signals the subgenre, not your channel"],
-                ["#000000", "#000000 Pure Black", "Too flat for thumbnails — use #141414 instead"],
+                ["#FF0000", "#FF0000 YouTube Red", "Clashes with YouTube UI â€” creates visual noise"],
+                ["#FFDD00", "#FFDD00 Police-Tape Yellow", "Generic â€” signals the subgenre, not your channel"],
+                ["#000000", "#000000 Pure Black", "Too flat for thumbnails â€” use #141414 instead"],
               ].map(([hex, n, why]) => (
                 <div key={hex} className="card">
                   <div className="chip" style={{ background: hex }}></div>
@@ -1043,37 +1043,37 @@
     function SectionPrimaryRecog() {
       return (
         <section className="section" id="recog-primary">
-          <SectionHead num="02" title="Primary Recognition — Amber Bar" desc="One amber bar · Same position · Every asset · Every time." />
+          <SectionHead num="02" title="Primary Recognition â€” Amber Bar" desc="One amber bar Â· Same position Â· Every asset Â· Every time." />
           <p style={{ color: "var(--text-dim)", maxWidth: 720, margin: "0 0 28px", fontSize: 14, lineHeight: 1.6 }}>
-            Unchanged from v1. The amber bar is the first locked element — viewers pattern-match it within
+            Unchanged from v1. The amber bar is the first locked element â€” viewers pattern-match it within
             a few videos and click on recognition alone. This element alone is not enough, which is why
-            §03 introduces a second.
+            Â§03 introduces a second.
           </p>
           <div className="accent-grid">
             <div className="accent-demo">
-              <div className="label">Horizontal bar · thumbnails · hero</div>
+              <div className="label">Horizontal bar Â· thumbnails Â· hero</div>
               <div>
                 <div className="bar-h"></div>
                 <h4>Case Title Here</h4>
-                <p>48px wide · 3px tall · above the headline</p>
+                <p>48px wide Â· 3px tall Â· above the headline</p>
               </div>
             </div>
             <div className="accent-demo">
-              <div className="label">Vertical rule · web · doc dividers</div>
+              <div className="label">Vertical rule Â· web Â· doc dividers</div>
               <div>
                 <h4><span className="bar-v"></span>Section Heading</h4>
                 <p>Used to mark key sections</p>
               </div>
             </div>
             <div className="accent-demo">
-              <div className="label">Text highlight · labels · pull quotes</div>
+              <div className="label">Text highlight Â· labels Â· pull quotes</div>
               <div>
                 <h4>LEFT IN <span className="hl-text">THE EDIT</span></h4>
-                <p>Amber on key phrase only — not the entire text</p>
+                <p>Amber on key phrase only â€” not the entire text</p>
               </div>
             </div>
             <div className="accent-demo">
-              <div className="label">Bottom border · cards · thumbnails</div>
+              <div className="label">Bottom border Â· cards Â· thumbnails</div>
               <div>
                 <h4>Card or thumbnail element</h4>
                 <p>3px amber bottom border</p>
@@ -1085,12 +1085,12 @@
       );
     }
 
-    function TimestampGlyph({ time = "23:51:08", label = "POV · OFFICER MARTINEZ" }) {
+    function TimestampGlyph({ time = "23:51:08", label = "POV Â· OFFICER MARTINEZ" }) {
       return (
         <div className="timestamp-glyph">
           <span className="dot"></span>
           <span>{time}</span>
-          {label && <span className="label">· {label}</span>}
+          {label && <span className="label">Â· {label}</span>}
         </div>
       );
     }
@@ -1113,17 +1113,17 @@
 
       return (
         <section className="section" id="recog-secondary">
-          <SectionHead num="03" title="Secondary Recognition — Timestamp Glyph" desc="A second locked element. Bodycam-native [HH:MM:SS] with pulsing amber dot." isNew />
+          <SectionHead num="03" title="Secondary Recognition â€” Timestamp Glyph" desc="A second locked element. Bodycam-native [HH:MM:SS] with pulsing amber dot." isNew />
           <p style={{ color: "var(--text-dim)", maxWidth: 720, margin: "0 0 28px", fontSize: 14, lineHeight: 1.6 }}>
-            The amber bar alone is a single point of failure — the first competitor with a design budget copies it. The
+            The amber bar alone is a single point of failure â€” the first competitor with a design budget copies it. The
             timestamp glyph adds a second ownable element. It looks like evidence (bodycam-native overlay), it can't be
-            confused with a generic UI badge, and the pulsing dot reads as <i>live</i> — even on a still thumbnail. Together,
+            confused with a generic UI badge, and the pulsing dot reads as <i>live</i> â€” even on a still thumbnail. Together,
             they form the brand's recognition pair: one geometric, one informational.
           </p>
 
           <div className="tstamp-frame">
             <div className="footage-grain"></div>
-            <TimestampGlyph time={time} label="POV · OFFICER MARTINEZ" />
+            <TimestampGlyph time={time} label="POV Â· OFFICER MARTINEZ" />
             <div className="amber-bar"></div>
             <div className="title">She Called 911.<br/>90 Minutes Later.</div>
             <div className="wm"><span className="li">LEFT IN </span><span className="te">THE EDIT</span></div>
@@ -1131,20 +1131,20 @@
 
           <div className="recog-pair" style={{ marginTop: 28 }}>
             <div className="card recog-card">
-              <span className="role">Spec — anatomy</span>
-              <h4 className="name">[HH:MM:SS] · pulsing dot · case identifier</h4>
+              <span className="role">Spec â€” anatomy</span>
+              <h4 className="name">[HH:MM:SS] Â· pulsing dot Â· case identifier</h4>
               <p className="desc">
                 Mono font (JetBrains). 12px on thumbnails, 14px on lower-thirds in-video. Background <span className="mono">rgba(0,0,0,.6)</span>,
                 1px border <span className="mono">rgba(255,255,255,.12)</span>, 6px pad, 2px radius. Always top-right corner.
-                6px amber dot, 2s pulse cycle. Optional second segment <span className="mono">· POV · NAME</span> in 9px amber.
+                6px amber dot, 2s pulse cycle. Optional second segment <span className="mono">Â· POV Â· NAME</span> in 9px amber.
               </p>
             </div>
             <div className="card recog-card">
-              <span className="role">Spec — behaviour</span>
-              <h4 className="name">Pull the timestamp from the source clip — never invent</h4>
+              <span className="role">Spec â€” behaviour</span>
+              <h4 className="name">Pull the timestamp from the source clip â€” never invent</h4>
               <p className="desc">
                 On thumbnails: lift the timestamp from the moment of the hook ("the 90 minutes" frame, "the contradiction" frame).
-                In-video: re-sync to actual bodycam playback time on every cut. The promise is <i>this is the moment</i> —
+                In-video: re-sync to actual bodycam playback time on every cut. The promise is <i>this is the moment</i> â€”
                 making one up breaks it.
               </p>
             </div>
@@ -1163,8 +1163,8 @@
           letterSpacing: 0.5, display: "flex", flexDirection: "column", gap: 4, zIndex: 3,
         }}>
           <div style={{ fontSize: 9, letterSpacing: 2, color: "var(--amber)", fontWeight: 600 }}>CUT LOG</div>
-          <div>[00:42 – 14:00]</div>
-          <div style={{ color: "rgba(255,255,255,.7)", fontSize: 11 }}>parked-car standoff · no activity</div>
+          <div>[00:42 â€“ 14:00]</div>
+          <div style={{ color: "rgba(255,255,255,.7)", fontSize: 11 }}>parked-car standoff Â· no activity</div>
         </div>
       );
     }
@@ -1174,11 +1174,11 @@
       return (
         <div className={"redact-stage " + (revealed ? "revealed" : "")} onClick={() => setRevealed(!revealed)}>
           <div className="doc-line">
-            OFFICER STATEMENT — Subject became <span className="redact">non-compliant</span> at approximately <span className="redact">04:12</span>
+            OFFICER STATEMENT â€” Subject became <span className="redact">non-compliant</span> at approximately <span className="redact">04:12</span>
             <br/>following verbal commands. Body-worn camera was <span className="redact">deactivated</span>
             <br/>for <span className="redact">3 minutes 14 seconds</span> during the encounter.
           </div>
-          <div className="hint">{revealed ? "↺ HIDE — REDACTED VERSION" : "▶ CLICK TO REVEAL"}</div>
+          <div className="hint">{revealed ? "â†º HIDE â€” REDACTED VERSION" : "â–¶ CLICK TO REVEAL"}</div>
         </div>
       );
     }
@@ -1193,43 +1193,43 @@
             for time or relevance (not for cover), the omission is named on screen.
           </p>
 
-          <div className="label" style={{ marginBottom: 10 }}>Redaction — interactive demo · click to reveal</div>
+          <div className="label" style={{ marginBottom: 10 }}>Redaction â€” interactive demo Â· click to reveal</div>
           <RedactionDemo />
 
           <div className="redact-spec">
             <div className="cell"><div className="k">Bar fill</div><div className="v">#060606</div></div>
             <div className="cell"><div className="k">Texture</div><div className="v">2px horiz stripes 4% white</div></div>
-            <div className="cell"><div className="k">Reveal duration</div><div className="v">4 frames lift · 8 frames hold</div></div>
-            <div className="cell"><div className="k">Audio sting</div><div className="v">Sub-bass drop · 1.5s · −18 LUFS</div></div>
+            <div className="cell"><div className="k">Reveal duration</div><div className="v">4 frames lift Â· 8 frames hold</div></div>
+            <div className="cell"><div className="k">Audio sting</div><div className="v">Sub-bass drop Â· 1.5s Â· âˆ’18 LUFS</div></div>
             <div className="cell"><div className="k">Revealed colour</div><div className="v">Sodium Amber + glow</div></div>
             <div className="cell"><div className="k">Cadence</div><div className="v">Max 1 reveal / 90s footage</div></div>
-            <div className="cell"><div className="k">Type</div><div className="v">JetBrains Mono · letter-spacing 0.5px</div></div>
+            <div className="cell"><div className="k">Type</div><div className="v">JetBrains Mono Â· letter-spacing 0.5px</div></div>
             <div className="cell"><div className="k">When to use</div><div className="v">Only on terms in the public record</div></div>
           </div>
 
           <div style={{ marginTop: 56, paddingTop: 36, borderTop: "1px solid var(--border)" }}>
-            <div className="label" style={{ marginBottom: 10 }}>The Cut Log — companion primitive</div>
+            <div className="label" style={{ marginBottom: 10 }}>The Cut Log â€” companion primitive</div>
             <h3 style={{ fontSize: 28, fontWeight: 700, letterSpacing: "-.6px", margin: "0 0 14px", lineHeight: 1.15 }}>
               Every editorial cut is <span style={{ color: "var(--amber)" }}>named on screen</span>.
             </h3>
             <p style={{ color: "var(--text-dim)", maxWidth: 720, fontSize: 14, lineHeight: 1.65, margin: "0 0 24px" }}>
               When raw footage is trimmed for time (parked-car standoffs, dead air, radio chatter unrelated to the case),
               a small log entry appears for ~2 seconds noting what was omitted and why. The promise isn't <i>every frame</i>
-              — it's <i>every cut, on the record</i>.
+              â€” it's <i>every cut, on the record</i>.
             </p>
 
             <div className="tstamp-frame" style={{ aspectRatio: "16/7" }}>
               <div className="footage-grain"></div>
-              <TimestampGlyph time="14:23:47" label="POV · DASHCAM" />
+              <TimestampGlyph time="14:23:47" label="POV Â· DASHCAM" />
               <CutLogChip />
               <div className="wm"><span className="li">LEFT IN </span><span className="te">THE EDIT</span></div>
             </div>
 
             <div className="redact-spec" style={{ marginTop: 18 }}>
-              <div className="cell"><div className="k">Format</div><div className="v">[start–end] · reason</div></div>
-              <div className="cell"><div className="k">On screen</div><div className="v">2.0–2.5 seconds</div></div>
-              <div className="cell"><div className="k">Position</div><div className="v">Bottom-left · above lower-third</div></div>
-              <div className="cell"><div className="k">Background</div><div className="v">rgba(0,0,0,.7) · 4px radius</div></div>
+              <div className="cell"><div className="k">Format</div><div className="v">[startâ€“end] Â· reason</div></div>
+              <div className="cell"><div className="k">On screen</div><div className="v">2.0â€“2.5 seconds</div></div>
+              <div className="cell"><div className="k">Position</div><div className="v">Bottom-left Â· above lower-third</div></div>
+              <div className="cell"><div className="k">Background</div><div className="v">rgba(0,0,0,.7) Â· 4px radius</div></div>
             </div>
           </div>
         </section>
@@ -1243,17 +1243,17 @@
     });
   </script>
 
-  <!-- ════════════════════════════════════════════════════════════════
-       BATCH 3 OF 5 — sections B (typography, mark, tagline, voice)
-       ════════════════════════════════════════════════════════════════ -->
+  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       BATCH 3 OF 5 â€” sections B (typography, mark, tagline, voice)
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <script type="text/babel" data-presets="react">
     const TYPE_ROWS_V2 = [
-      { tier: "Channel Title / Hero", spec: "Inter Bold · 80–112px · -2px tracking", desc: "Page hero, large callouts", sample: "Left in the Edit", cls: "hero-sample" },
-      { tier: "Thumbnail Text", spec: "Inter Bold · 28–40px · -0.5px tracking · 3–5 words", desc: "Thumbnail headlines only.", sample: "Case Name Here", cls: "thumb-sample" },
-      { tier: "Section Heading", spec: "Inter Bold · 20–28px · -0.3px tracking", desc: "Document and web headings", sample: "The Evidence", cls: "section-sample" },
-      { tier: "Eyebrow / Label", spec: "Inter Medium · 10–11px · 4–5px tracking · ALL CAPS · Amber", desc: "Section labels, categories", sample: "TRUE CRIME · BODYCAM FOOTAGE", cls: "eyebrow-sample" },
-      { tier: "Evidence / Mono · NEW", spec: "JetBrains Mono · 11–14px · 1.5px tracking · Amber", desc: "Timestamps, cut logs, evidence metadata.", sample: "[23:51:08] · POV · OFFICER MARTINEZ", cls: "mono-sample" },
-      { tier: "Body Copy", spec: "Inter Regular · 14–16px · 1.7 line-height", desc: "Descriptions, captions, body text", sample: "The footage tells the story. Documentary breakdowns — not a reaction, not a recap.", cls: "body-sample" },
+      { tier: "Channel Title / Hero", spec: "Inter Bold Â· 80â€“112px Â· -2px tracking", desc: "Page hero, large callouts", sample: "Left in the Edit", cls: "hero-sample" },
+      { tier: "Thumbnail Text", spec: "Inter Bold Â· 28â€“40px Â· -0.5px tracking Â· 3â€“5 words", desc: "Thumbnail headlines only.", sample: "Case Name Here", cls: "thumb-sample" },
+      { tier: "Section Heading", spec: "Inter Bold Â· 20â€“28px Â· -0.3px tracking", desc: "Document and web headings", sample: "The Evidence", cls: "section-sample" },
+      { tier: "Eyebrow / Label", spec: "Inter Medium Â· 10â€“11px Â· 4â€“5px tracking Â· ALL CAPS Â· Amber", desc: "Section labels, categories", sample: "TRUE CRIME Â· BODYCAM FOOTAGE", cls: "eyebrow-sample" },
+      { tier: "Evidence / Mono Â· NEW", spec: "JetBrains Mono Â· 11â€“14px Â· 1.5px tracking Â· Amber", desc: "Timestamps, cut logs, evidence metadata.", sample: "[23:51:08] Â· POV Â· OFFICER MARTINEZ", cls: "mono-sample" },
+      { tier: "Body Copy", spec: "Inter Regular Â· 14â€“16px Â· 1.7 line-height", desc: "Descriptions, captions, body text", sample: "The footage tells the story. Documentary breakdowns â€” not a reaction, not a recap.", cls: "body-sample" },
     ];
 
     function SectionType() {
@@ -1275,17 +1275,17 @@
 
           <div className="font-grid">
             <div className="font-card">
-              <div className="tag" style={{ color: "var(--amber)" }}>USE — PRIMARY</div>
+              <div className="tag" style={{ color: "var(--amber)" }}>USE â€” PRIMARY</div>
               <div className="big">Inter Bold</div>
               <div className="desc">Editorial, authoritative. The default for everything.</div>
             </div>
             <div className="font-card">
-              <div className="tag" style={{ color: "var(--amber)" }}>USE — EVIDENCE</div>
+              <div className="tag" style={{ color: "var(--amber)" }}>USE â€” EVIDENCE</div>
               <div className="big mono">JetBrains Mono</div>
               <div className="desc">Timestamps, cut logs, redaction reveals. The "bodycam-overlay" register.</div>
             </div>
             <div className="font-card">
-              <div className="tag">USE — ALTERNATE</div>
+              <div className="tag">USE â€” ALTERNATE</div>
               <div className="big" style={{ fontFamily: "'Oswald', sans-serif", letterSpacing: 0 }}>Oswald SemiBold</div>
               <div className="desc">Strong, journalistic. Available as fallback for poster-style assets.</div>
             </div>
@@ -1297,7 +1297,7 @@
             <div className="font-card dont">
               <div className="tag" style={{ color: "var(--crimson)" }}>NEVER</div>
               <div className="big" style={{ fontFamily: "'Bebas Neue', sans-serif" }}>Bebas Neue</div>
-              <div className="desc">True-crime channel default — invisible.</div>
+              <div className="desc">True-crime channel default â€” invisible.</div>
             </div>
             <div className="font-card dont">
               <div className="tag" style={{ color: "var(--crimson)" }}>NEVER</div>
@@ -1312,32 +1312,32 @@
     function SectionMark() {
       return (
         <section className="section" id="mark">
-          <SectionHead num="06" title="The Mark — LITE Canonical" desc="LITE everywhere. Two marks were one too many — pick one and commit." isNew />
+          <SectionHead num="06" title="The Mark â€” LITE Canonical" desc="LITE everywhere. Two marks were one too many â€” pick one and commit." isNew />
           <p style={{ color: "var(--text-dim)", maxWidth: 720, margin: "0 0 28px", fontSize: 14, lineHeight: 1.6 }}>
             In v1, the channel carried two marks: the full wordmark and the LITE abbreviation. Viewers had to learn both.
-            v2 promotes LITE to canonical — used on the channel page, in-video watermarks, social profiles, merch, and the
+            v2 promotes LITE to canonical â€” used on the channel page, in-video watermarks, social profiles, merch, and the
             favicon. The full wordmark is now reserved for the YouTube About section and the channel banner only.
           </p>
           <div className="lite-grid">
             <div className="lite-mark dark">
               <span className="li">LI</span><span className="te">TE</span>
-              <span className="ctx">On dark · primary use</span>
+              <span className="ctx">On dark Â· primary use</span>
             </div>
             <div className="lite-mark amber">
               <span>LITE</span>
-              <span className="ctx" style={{ color: "rgba(0,0,0,.7)" }}>On amber · merch · stings</span>
+              <span className="ctx" style={{ color: "rgba(0,0,0,.7)" }}>On amber Â· merch Â· stings</span>
             </div>
             <div className="lite-mark outline">
               <span className="li">LI</span><span className="te">TE</span>
-              <span className="ctx">Outline · light backgrounds</span>
+              <span className="ctx">Outline Â· light backgrounds</span>
             </div>
           </div>
 
           <div className="wordmark-demoted">
             <div className="mark"><span>LEFT IN </span><span className="te">THE EDIT</span></div>
             <div className="note">
-              <b>Wordmark — demoted use only</b>
-              Channel page · YouTube About · channel banner · email signatures. Anywhere the viewer has paused
+              <b>Wordmark â€” demoted use only</b>
+              Channel page Â· YouTube About Â· channel banner Â· email signatures. Anywhere the viewer has paused
               and is reading detail. Never use the wordmark inside a video, on a thumbnail, or as a profile picture.
             </div>
           </div>
@@ -1348,37 +1348,37 @@
     function SectionTagline() {
       return (
         <section className="section" id="tagline">
-          <SectionHead num="07" title="Tagline" desc={'"Every cut, on the record." — replaces "Nothing left out."'} isNew />
+          <SectionHead num="07" title="Tagline" desc={'"Every cut, on the record." â€” replaces "Nothing left out."'} isNew />
 
           <div className="tagline-hero">
             <p className="big">Every cut, on the record<span className="dot">.</span></p>
-            <div className="sub">LOWERCASE · COMMA · PERIOD · NO EXCEPTIONS</div>
+            <div className="sub">LOWERCASE Â· COMMA Â· PERIOD Â· NO EXCEPTIONS</div>
           </div>
 
           <p style={{ color: "var(--text-dim)", maxWidth: 760, margin: "0 0 16px", fontSize: 14, lineHeight: 1.65 }}>
-            The v1 tagline — <i>Nothing left out.</i> — made an editorial promise the channel can't honour.
+            The v1 tagline â€” <i>Nothing left out.</i> â€” made an editorial promise the channel can't honour.
             Not every minute of dashcam belongs in a video; a parked car under sirens is not evidence, it's filler.
             v2 reframes the promise from <b style={{ color: "var(--text)" }}>completeness</b> to <b style={{ color: "var(--amber)" }}>transparency</b>.
-            Every cut you make is named — timestamp and reason — on screen and in the description. The audit
+            Every cut you make is named â€” timestamp and reason â€” on screen and in the description. The audit
             trail is the moat. Mid-tier channels won't bother to maintain it.
           </p>
 
           <div className="tagline-old">
-            <span className="label-killed">v1 · RETIRED</span>
+            <span className="label-killed">v1 Â· RETIRED</span>
             <span className="old-line">Nothing left out.</span>
             <span className="why">Promised quantity. Couldn't keep the promise the first time we trimmed parked-car footage.</span>
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 24 }}>
             <div className="card">
-              <div className="head" style={{ color: "var(--amber)", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600 }}>✓ DO</div>
+              <div className="head" style={{ color: "var(--amber)", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600 }}>âœ“ DO</div>
               <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
                 <div style={{ fontWeight: 700, fontSize: 16 }}>Every cut, on the record.</div>
                 <div style={{ fontWeight: 700, fontSize: 12, letterSpacing: 3, textTransform: "uppercase" }}>EVERY CUT, ON THE RECORD</div>
               </div>
             </div>
             <div className="card">
-              <div className="head" style={{ color: "var(--crimson)", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600 }}>✗ DON'T</div>
+              <div className="head" style={{ color: "var(--crimson)", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600 }}>âœ— DON'T</div>
               <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
                 <div style={{ fontWeight: 700, fontSize: 16, textDecoration: "line-through", textDecorationColor: "var(--crimson)", color: "var(--text-dim)" }}>Every Cut, On The Record.</div>
                 <div style={{ fontWeight: 700, fontSize: 16, textDecoration: "line-through", textDecorationColor: "var(--crimson)", color: "var(--text-dim)" }}>every cut, on the record</div>
@@ -1389,7 +1389,7 @@
 
           <div style={{ marginTop: 24, padding: "20px 24px", background: "var(--bg-elev)", border: "1px solid var(--border)", borderRadius: 4, fontSize: 13, color: "var(--text-dim)", lineHeight: 1.6 }}>
             <span className="label" style={{ marginBottom: 8, display: "block" }}>Implementation</span>
-            The tagline is a system, not a sentence. It commits the channel to: (a) an on-screen <b style={{ color: "var(--text)" }}>cut log</b> for every editorial omission (see §04), (b) a mirror of that log in the video description, (c) a pinned comment on multi-part series cross-referencing what was cut across episodes.
+            The tagline is a system, not a sentence. It commits the channel to: (a) an on-screen <b style={{ color: "var(--text)" }}>cut log</b> for every editorial omission (see Â§04), (b) a mirror of that log in the video description, (c) a pinned comment on multi-part series cross-referencing what was cut across episodes.
           </div>
         </section>
       );
@@ -1398,15 +1398,15 @@
     function SectionVoice() {
       return (
         <section className="section" id="voice">
-          <SectionHead num="08" title="Brand Voice & POV" desc="Documentary register, with a stated stance — skeptical of every party. Loyal only to footage." isNew />
+          <SectionHead num="08" title="Brand Voice & POV" desc="Documentary register, with a stated stance â€” skeptical of every party. Loyal only to footage." isNew />
 
           <div className="pov-stance">
-            <span className="label">POV STANCE · v2 — NEW</span>
+            <span className="label">POV STANCE Â· v2 â€” NEW</span>
             <h3>Skeptical of every party. <span className="accent">Loyal only to footage.</span></h3>
             <p>
               The channel takes no side. Not the officer's. Not the suspect's. Not the prosecutor's, the defence attorney's,
               the family's, or the department's PR office. Every party in the case is given the same scrutiny against the
-              same evidence — the footage, the transcripts, the public record. When sources contradict each other, the
+              same evidence â€” the footage, the transcripts, the public record. When sources contradict each other, the
               footage wins. When the footage is incomplete, the channel says so on screen.
             </p>
           </div>
@@ -1415,7 +1415,7 @@
             <div className="card voice-card">
               <div className="label">Tone</div>
               <h4>Measured. Authoritative. Cold.</h4>
-              <p>The footage speaks — you provide context, not hype. Treat every case like a documentary, not a reaction video.</p>
+              <p>The footage speaks â€” you provide context, not hype. Treat every case like a documentary, not a reaction video.</p>
               <div className="quote">"The bodycam shows what happened. Here's what it means."</div>
             </div>
             <div className="card voice-card">
@@ -1440,14 +1440,14 @@
     Object.assign(window, { SectionType, SectionMark, SectionTagline, SectionVoice });
   </script>
 
-  <!-- ════════════════════════════════════════════════════════════════
-       BATCH 4 OF 5 — sections C (anatomy, variants, lower-thirds)
-       ════════════════════════════════════════════════════════════════ -->
+  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       BATCH 4 OF 5 â€” sections C (anatomy, variants, lower-thirds)
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <script type="text/babel" data-presets="react">
     function ThumbStandard({ headline, subtitle, withTimestamp = true }) {
       return (
         <div className="thumb-frame">
-          {withTimestamp && <TimestampGlyph time="23:51:08" label="POV · OFFICER 1" />}
+          {withTimestamp && <TimestampGlyph time="23:51:08" label="POV Â· OFFICER 1" />}
           <div className="amber-bar"></div>
           <div className="title">{headline || "Case Title Here"}</div>
           {subtitle && <div className="sub">{subtitle}</div>}
@@ -1458,7 +1458,7 @@
     function ThumbInverted({ headline, subtitle }) {
       return (
         <div className="thumb-frame amber-inv">
-          <TimestampGlyph time="04:12:33" label="POV · DASHCAM" />
+          <TimestampGlyph time="04:12:33" label="POV Â· DASHCAM" />
           <div className="amber-bar"></div>
           <div className="title">{headline || "Case Title Here"}</div>
           {subtitle && <div className="sub">{subtitle}</div>}
@@ -1471,7 +1471,7 @@
         <div className="thumb-frame photo">
           <div className="photo-bg"></div>
           <div className="photo-label">BODYCAM STILL</div>
-          <TimestampGlyph time="01:24:09" label="POV · OFFICER HAYES" />
+          <TimestampGlyph time="01:24:09" label="POV Â· OFFICER HAYES" />
           <div className="eyebrow">{eyebrow || "BODYCAM FOOTAGE"}</div>
           <div className="amber-bar"></div>
           <div className="title">{headline || "She Called 911."}</div>
@@ -1483,7 +1483,7 @@
     function ThumbStat({ headline, subtitle }) {
       return (
         <div className="thumb-frame stat">
-          <TimestampGlyph time="00:00:30" label="POV · BODYCAM" />
+          <TimestampGlyph time="00:00:30" label="POV Â· BODYCAM" />
           <div className="eyebrow">{headline ? headline.toUpperCase() : "BODYCAM SHOWS"}</div>
           <div className="stat-num">30</div>
           <div className="stat-unit">SECONDS</div>
@@ -1507,7 +1507,7 @@
     function ThumbLeftBar({ headline, subtitle, eyebrow }) {
       return (
         <div className="thumb-frame">
-          <TimestampGlyph time="11:42:17" label="POV · INTERVIEW" />
+          <TimestampGlyph time="11:42:17" label="POV Â· INTERVIEW" />
           <div style={{ position: "absolute", left: 0, top: 28, bottom: 28, width: 3, background: "var(--amber)" }}></div>
           <div style={{ paddingLeft: 14 }}>
             <div className="eyebrow">{eyebrow || "WHAT THEY CUT"}</div>
@@ -1534,30 +1534,30 @@
     function SectionAnatomy() {
       return (
         <section className="section" id="anatomy">
-          <SectionHead num="09" title="Thumbnail Anatomy · 16:9 + 9:16" desc="The constants for both landscape and vertical. Shorts/TikTok formula spec'd, not improvised." isNew />
+          <SectionHead num="09" title="Thumbnail Anatomy Â· 16:9 + 9:16" desc="The constants for both landscape and vertical. Shorts/TikTok formula spec'd, not improvised." isNew />
 
           <div className="anatomy-row">
-            <ThumbStandard headline={"3–5 Word\nCase Title"} subtitle={null} />
+            <ThumbStandard headline={"3â€“5 Word\nCase Title"} subtitle={null} />
             <div>
-              <div className="label dim" style={{ marginBottom: 10 }}>16:9 · YouTube</div>
+              <div className="label dim" style={{ marginBottom: 10 }}>16:9 Â· YouTube</div>
               <div className="anatomy-list">
-                <div className="item"><span className="n">1</span><div><h5>Background #141414</h5><p>Deep charcoal — not pure black. Stops the thumb looking like a flat square.</p></div></div>
-                <div className="item"><span className="n">2</span><div><h5>Amber bar · 48 × 3 px</h5><p>Above the headline. Same position, every video. Primary recognition.</p></div></div>
-                <div className="item"><span className="n">3</span><div><h5>Timestamp glyph · top-right</h5><p>Real timestamp from the moment of the hook. Secondary recognition. <i>New in v2.</i></p></div></div>
-                <div className="item"><span className="n">4</span><div><h5>Headline · Inter Bold</h5><p>3–5 words max. White. 4.5:1 minimum contrast.</p></div></div>
-                <div className="item"><span className="n">5</span><div><h5>LITE mark · bottom-left</h5><p>Mono, 11px, 4px tracking. Replaces the full wordmark in v2.</p></div></div>
+                <div className="item"><span className="n">1</span><div><h5>Background #141414</h5><p>Deep charcoal â€” not pure black. Stops the thumb looking like a flat square.</p></div></div>
+                <div className="item"><span className="n">2</span><div><h5>Amber bar Â· 48 Ã— 3 px</h5><p>Above the headline. Same position, every video. Primary recognition.</p></div></div>
+                <div className="item"><span className="n">3</span><div><h5>Timestamp glyph Â· top-right</h5><p>Real timestamp from the moment of the hook. Secondary recognition. <i>New in v2.</i></p></div></div>
+                <div className="item"><span className="n">4</span><div><h5>Headline Â· Inter Bold</h5><p>3â€“5 words max. White. 4.5:1 minimum contrast.</p></div></div>
+                <div className="item"><span className="n">5</span><div><h5>LITE mark Â· bottom-left</h5><p>Mono, 11px, 4px tracking. Replaces the full wordmark in v2.</p></div></div>
                 <div className="item"><span className="n">6</span><div><h5>Image treatment</h5><p>Desaturated, slightly graded. Never raw screenshots.</p></div></div>
               </div>
             </div>
           </div>
 
           <div style={{ marginTop: 56, paddingTop: 36, borderTop: "1px solid var(--border)" }}>
-            <div className="label" style={{ marginBottom: 10 }}>Vertical · Shorts · TikTok · 9:16 — NEW</div>
+            <div className="label" style={{ marginBottom: 10 }}>Vertical Â· Shorts Â· TikTok Â· 9:16 â€” NEW</div>
             <h3 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-.5px", margin: "0 0 14px" }}>
               The amber bar pivots from <span style={{ color: "var(--amber)" }}>horizontal top</span> to <span style={{ color: "var(--amber)" }}>vertical left</span>.
             </h3>
             <p style={{ color: "var(--text-dim)", maxWidth: 720, fontSize: 14, lineHeight: 1.65, margin: "0 0 24px" }}>
-              A 48×3 horizontal bar in 9:16 becomes a smudge. The vertical formula rotates the recognition
+              A 48Ã—3 horizontal bar in 9:16 becomes a smudge. The vertical formula rotates the recognition
               element: 3-wide amber strip down the left edge (spans 64% of frame height), LITE mark anchored
               top-left, timestamp glyph stays top-right, headline lives in the bottom third.
             </p>
@@ -1567,7 +1567,7 @@
                 <div className="label dim" style={{ marginBottom: 10 }}>16:9 source</div>
                 <ThumbStandard headline="She Called 911. 90 Minutes Later." />
               </div>
-              <div className="arrow-col">→</div>
+              <div className="arrow-col">â†’</div>
               <div>
                 <div className="label dim" style={{ marginBottom: 10, textAlign: "center" }}>9:16 derived</div>
                 <ThumbVertical headline={"She Called\n911"} sub="90 minutes later." />
@@ -1575,13 +1575,13 @@
             </div>
 
             <div className="vert-spec" style={{ marginTop: 28 }}>
-              <div className="label" style={{ marginBottom: 10 }}>Spec — 9:16 (1080 × 1920)</div>
+              <div className="label" style={{ marginBottom: 10 }}>Spec â€” 9:16 (1080 Ã— 1920)</div>
               <ul>
-                <li><b>Amber bar</b>3px wide × 64% height · left edge · vertically centred</li>
-                <li><b>LITE mark</b>top-left · 24px from edges · mono 14px · 4px tracking</li>
-                <li><b>Timestamp</b>top-right · 24px from edges · pulsing dot retained</li>
-                <li><b>Headline</b>bottom third · max 2 lines · max 4 words per line · Inter Bold 56–72px</li>
-                <li><b>Sub-line</b>directly under headline · mono · amber · 14px · single line</li>
+                <li><b>Amber bar</b>3px wide Ã— 64% height Â· left edge Â· vertically centred</li>
+                <li><b>LITE mark</b>top-left Â· 24px from edges Â· mono 14px Â· 4px tracking</li>
+                <li><b>Timestamp</b>top-right Â· 24px from edges Â· pulsing dot retained</li>
+                <li><b>Headline</b>bottom third Â· max 2 lines Â· max 4 words per line Â· Inter Bold 56â€“72px</li>
+                <li><b>Sub-line</b>directly under headline Â· mono Â· amber Â· 14px Â· single line</li>
                 <li><b>Safe zone</b>top 15% and bottom 15% reserved for platform UI (Shorts caption, TikTok)</li>
               </ul>
             </div>
@@ -1589,21 +1589,21 @@
 
           <div className="section-foot-do-dont" style={{ marginTop: 32 }}>
             <div className="card do">
-              <div className="head" style={{ color: "var(--amber)" }}>✓ DO</div>
+              <div className="head" style={{ color: "var(--amber)" }}>âœ“ DO</div>
               <ul>
-                <li style={{ color: "var(--text-dim)" }}>Amber + timestamp + LITE mark — same positions, every thumbnail</li>
+                <li style={{ color: "var(--text-dim)" }}>Amber + timestamp + LITE mark â€” same positions, every thumbnail</li>
                 <li style={{ color: "var(--text-dim)" }}>Derive 9:16 by rotating the amber bar, not just cropping</li>
                 <li style={{ color: "var(--text-dim)" }}>Real timestamps lifted from the source clip</li>
                 <li style={{ color: "var(--text-dim)" }}>4.5:1 minimum contrast on all text</li>
               </ul>
             </div>
             <div className="card dont">
-              <div className="head" style={{ color: "var(--crimson)" }}>✗ DON'T</div>
+              <div className="head" style={{ color: "var(--crimson)" }}>âœ— DON'T</div>
               <ul>
-                <li style={{ color: "var(--text-dim)" }}>Crop the 16:9 thumb into 9:16 — it always loses the amber</li>
+                <li style={{ color: "var(--text-dim)" }}>Crop the 16:9 thumb into 9:16 â€” it always loses the amber</li>
                 <li style={{ color: "var(--text-dim)" }}>Invent timestamps to look "evidence-y"</li>
                 <li style={{ color: "var(--text-dim)" }}>Use Impact, Bebas, or condensed-heavy faces</li>
-                <li style={{ color: "var(--text-dim)" }}>Pure #FF0000 — use #C8102E crimson only</li>
+                <li style={{ color: "var(--text-dim)" }}>Pure #FF0000 â€” use #C8102E crimson only</li>
               </ul>
             </div>
           </div>
@@ -1631,7 +1631,7 @@
       return (
         <div className="thumb-lab">
           <div>
-            <div className="label dim" style={{ marginBottom: 10 }}>Live preview · 16:9 · with timestamp glyph</div>
+            <div className="label dim" style={{ marginBottom: 10 }}>Live preview Â· 16:9 Â· with timestamp glyph</div>
             <Comp {...props} />
             <p className="mono" style={{ fontSize: 10, color: "var(--text-dimmer)", marginTop: 10, letterSpacing: 1 }}>{V.file}</p>
           </div>
@@ -1678,7 +1678,7 @@
             })}
           </div>
           <div style={{ marginTop: 36 }}>
-            <div className="label" style={{ marginBottom: 8 }}>Try it · live preview</div>
+            <div className="label" style={{ marginBottom: 8 }}>Try it Â· live preview</div>
             <ThumbnailLab />
           </div>
         </section>
@@ -1694,10 +1694,10 @@
       return (
         <div className="lt-playground">
           <div className="lt-stage">
-            <div className="footage-label">BODYCAM 4K · 23:51:08</div>
+            <div className="footage-label">BODYCAM 4K Â· 23:51:08</div>
             {showCorner && (
               <div className="corner-tag">
-                <span>POV · {name.split(" ")[0]} {name.split(" ").slice(1).join(" ")}</span>
+                <span>POV Â· {name.split(" ")[0]} {name.split(" ").slice(1).join(" ")}</span>
               </div>
             )}
             {showStamp && <TimestampGlyph time="23:51:08" label={null} />}
@@ -1713,8 +1713,8 @@
             <div className="group">
               <span className="label dim">APPEARANCE</span>
               <div className="seg">
-                <button className={appearance === "first" ? "on" : ""} onClick={() => setAppearance("first")}>First — Amber</button>
-                <button className={appearance === "repeat" ? "on" : ""} onClick={() => setAppearance("repeat")}>Repeat — White</button>
+                <button className={appearance === "first" ? "on" : ""} onClick={() => setAppearance("first")}>First â€” Amber</button>
+                <button className={appearance === "repeat" ? "on" : ""} onClick={() => setAppearance("repeat")}>Repeat â€” White</button>
               </div>
             </div>
             <label className="check"><input type="checkbox" checked={showCorner} onChange={(e) => setShowCorner(e.target.checked)} /> Corner tag</label>
@@ -1737,14 +1737,14 @@
     Object.assign(window, { SectionAnatomy, SectionVariants, SectionLowerThirds });
   </script>
 
-  <!-- ════════════════════════════════════════════════════════════════
-       BATCH 5 OF 5 — sections D (captions, hierarchy, motion, footage) + App shell
-       ════════════════════════════════════════════════════════════════ -->
+  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+       BATCH 5 OF 5 â€” sections D (captions, hierarchy, motion, footage) + App shell
+       â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
   <script type="text/babel" data-presets="react">
     function SectionCaptions() {
       return (
         <section className="section" id="captions">
-          <SectionHead num="12" title="Caption & Subtitle Styling" desc="Speaker label amber · narration white · semi-transparent pill on every line." />
+          <SectionHead num="12" title="Caption & Subtitle Styling" desc="Speaker label amber Â· narration white Â· semi-transparent pill on every line." />
           <div className="caption-demos">
             <div className="caption-demo">
               <div className="caption-label">Narration</div>
@@ -1763,31 +1763,31 @@
 
           <div className="redact-spec" style={{ marginTop: 18 }}>
             <div className="cell"><div className="k">Font</div><div className="v">Inter Bold</div></div>
-            <div className="cell"><div className="k">Size · 1080p</div><div className="v">52–60px</div></div>
+            <div className="cell"><div className="k">Size Â· 1080p</div><div className="v">52â€“60px</div></div>
             <div className="cell"><div className="k">Narration</div><div className="v">#FFFFFF</div></div>
-            <div className="cell"><div className="k">Speaker label</div><div className="v">#D4A800 · MONO · CAPS</div></div>
+            <div className="cell"><div className="k">Speaker label</div><div className="v">#D4A800 Â· MONO Â· CAPS</div></div>
             <div className="cell"><div className="k">Background</div><div className="v">rgba(0,0,0,0.65)</div></div>
             <div className="cell"><div className="k">Position</div><div className="v">10% from bottom</div></div>
-            <div className="cell"><div className="k">Max line</div><div className="v">42 chars · 2 lines</div></div>
+            <div className="cell"><div className="k">Max line</div><div className="v">42 chars Â· 2 lines</div></div>
             <div className="cell"><div className="k">Cadence switch</div><div className="v">Amber on speaker change</div></div>
           </div>
 
           <div style={{ marginTop: 18, padding: "16px 18px", background: "var(--bg-elev)", border: "1px solid var(--border)", borderLeft: "3px solid var(--amber)", borderRadius: 4, fontSize: 13, color: "var(--text-dim)", lineHeight: 1.6 }}>
             <span className="label" style={{ marginBottom: 8, display: "block" }}>Workflow</span>
-            Captions are generated in <b style={{ color: "var(--text)" }}>CapCut Desktop</b> — rough edit in Premiere Pro, export to CapCut for caption burn-in, then back to Premiere for the finish. Yellow accent words at <code style={{ fontFamily: "var(--mono)", fontSize: 11 }}>[CAP: ...]</code> markers in the script. Speaker labels are added manually; CapCut auto-captions are a starting point only — always review before exporting.
+            Captions are generated in <b style={{ color: "var(--text)" }}>CapCut Desktop</b> â€” rough edit in Premiere Pro, export to CapCut for caption burn-in, then back to Premiere for the finish. Yellow accent words at <code style={{ fontFamily: "var(--mono)", fontSize: 11 }}>[CAP: ...]</code> markers in the script. Speaker labels are added manually; CapCut auto-captions are a starting point only â€” always review before exporting.
           </div>
 
           <div className="section-foot-do-dont">
             <div className="card do">
-              <div className="head" style={{ color: "var(--amber)" }}>✓ DO</div>
+              <div className="head" style={{ color: "var(--amber)" }}>âœ“ DO</div>
               <ul>
-                <li style={{ color: "var(--text-dim)" }}>Amber + MONO + CAPS for speaker labels — scannable at speed</li>
+                <li style={{ color: "var(--text-dim)" }}>Amber + MONO + CAPS for speaker labels â€” scannable at speed</li>
                 <li style={{ color: "var(--text-dim)" }}>Semi-transparent pill on every caption line</li>
                 <li style={{ color: "var(--text-dim)" }}>Position above lower-third if both on screen</li>
               </ul>
             </div>
             <div className="card dont">
-              <div className="head" style={{ color: "var(--crimson)" }}>✗ DON'T</div>
+              <div className="head" style={{ color: "var(--crimson)" }}>âœ— DON'T</div>
               <ul>
                 <li style={{ color: "var(--text-dim)" }}>YouTube auto-caption style for burn-ins</li>
                 <li style={{ color: "var(--text-dim)" }}>More than 2 lines on screen at once</li>
@@ -1803,18 +1803,18 @@
       { n: 1, name: "Corner Tag",          d: "Top layer. Persistent ID with role glyph.",                                v: "V5" },
       { n: 2, name: "Timestamp Glyph",     d: "Secondary recognition. Always top-right. NEW in v2.",                       v: "V4" },
       { n: 3, name: "Caption / Cut Log",   d: "Captions or cut-log entries. Both use the pill background.",                v: "V3" },
-      { n: 4, name: "Lower Third",         d: "Speaker ID with role glyph. On for 2–3s, then fades.",                      v: "V2" },
+      { n: 4, name: "Lower Third",         d: "Speaker ID with role glyph. On for 2â€“3s, then fades.",                      v: "V2" },
       { n: 5, name: "Footage",             d: "Base layer. All graphics sit on top.",                                       v: "V1" },
     ];
     const TIMING_V2 = [
-      ["Lower third — fade in", "4–6 frames"],
-      ["Lower third — on screen", "2–3 seconds"],
-      ["Lower third — fade out", "4–6 frames"],
-      ["Cut log — on screen", "2.0–2.5 seconds"],
-      ["Redaction reveal — lift", "4 frames"],
-      ["Full card — on screen", "1.5–2.5 seconds"],
-      ["Corner tag — on screen", "Full clip"],
-      ["Timestamp glyph — on screen", "Full clip"],
+      ["Lower third â€” fade in", "4â€“6 frames"],
+      ["Lower third â€” on screen", "2â€“3 seconds"],
+      ["Lower third â€” fade out", "4â€“6 frames"],
+      ["Cut log â€” on screen", "2.0â€“2.5 seconds"],
+      ["Redaction reveal â€” lift", "4 frames"],
+      ["Full card â€” on screen", "1.5â€“2.5 seconds"],
+      ["Corner tag â€” on screen", "Full clip"],
+      ["Timestamp glyph â€” on screen", "Full clip"],
     ];
 
     function SectionHierarchy() {
@@ -1836,11 +1836,11 @@
             <div className="card">
               <div className="label" style={{ marginBottom: 12 }}>Rules</div>
               <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10, fontSize: 13, color: "var(--text-dim)", lineHeight: 1.55 }}>
-                <li>· Corner tag + timestamp glyph are always-on. They define the channel.</li>
-                <li>· Cut log and lower third never overlap — one or the other in the bottom band.</li>
-                <li>· Redaction reveals get the audio sting (§04). Cut logs do not.</li>
-                <li>· Full cards replace the footage — never overlaid on top.</li>
-                <li>· Max 3 overlay types on screen at once.</li>
+                <li>Â· Corner tag + timestamp glyph are always-on. They define the channel.</li>
+                <li>Â· Cut log and lower third never overlap â€” one or the other in the bottom band.</li>
+                <li>Â· Redaction reveals get the audio sting (Â§04). Cut logs do not.</li>
+                <li>Â· Full cards replace the footage â€” never overlaid on top.</li>
+                <li>Â· Max 3 overlay types on screen at once.</li>
               </ul>
             </div>
             <div>
@@ -1858,20 +1858,20 @@
           <div style={{ marginTop: 40, paddingTop: 32, borderTop: "1px solid var(--border)" }}>
             <div className="label" style={{ marginBottom: 10 }}>Chapter Cards</div>
             <h3 style={{ fontSize: 22, fontWeight: 700, letterSpacing: "-.4px", margin: "0 0 14px", lineHeight: 1.2 }}>
-              Full-frame title cards. Footage pauses — <span style={{ color: "var(--amber)" }}>the card plays</span>.
+              Full-frame title cards. Footage pauses â€” <span style={{ color: "var(--amber)" }}>the card plays</span>.
             </h3>
             <p style={{ color: "var(--text-dim)", maxWidth: 720, fontSize: 14, lineHeight: 1.65, margin: "0 0 18px" }}>
-              Chapter cards mark structural breaks (Part 1 → Part 2, scene change, time jump). They replace the footage entirely — never overlaid. Yellow marker in the Premiere timeline. Hold for 1.5–2.5 seconds.
+              Chapter cards mark structural breaks (Part 1 â†’ Part 2, scene change, time jump). They replace the footage entirely â€” never overlaid. Yellow marker in the Premiere timeline. Hold for 1.5â€“2.5 seconds.
             </p>
             <div className="redact-spec">
               <div className="cell"><div className="k">Background</div><div className="v">#111111</div></div>
-              <div className="cell"><div className="k">Amber bar</div><div className="v">48 × 3px · above text</div></div>
-              <div className="cell"><div className="k">Chapter label</div><div className="v">Inter Bold · 36–48px · white</div></div>
-              <div className="cell"><div className="k">Sub-label</div><div className="v">Mono · 11px · amber · CAPS · 3px tracking</div></div>
-              <div className="cell"><div className="k">LITE mark</div><div className="v">Bottom-left · 11px · 4px tracking</div></div>
-              <div className="cell"><div className="k">Duration</div><div className="v">1.5–2.5 seconds</div></div>
+              <div className="cell"><div className="k">Amber bar</div><div className="v">48 Ã— 3px Â· above text</div></div>
+              <div className="cell"><div className="k">Chapter label</div><div className="v">Inter Bold Â· 36â€“48px Â· white</div></div>
+              <div className="cell"><div className="k">Sub-label</div><div className="v">Mono Â· 11px Â· amber Â· CAPS Â· 3px tracking</div></div>
+              <div className="cell"><div className="k">LITE mark</div><div className="v">Bottom-left Â· 11px Â· 4px tracking</div></div>
+              <div className="cell"><div className="k">Duration</div><div className="v">1.5â€“2.5 seconds</div></div>
               <div className="cell"><div className="k">Timeline marker</div><div className="v">Yellow in Premiere Pro</div></div>
-              <div className="cell"><div className="k">Audio</div><div className="v">Music sting or silence — never footage audio</div></div>
+              <div className="cell"><div className="k">Audio</div><div className="v">Music sting or silence â€” never footage audio</div></div>
             </div>
           </div>
 
@@ -1882,15 +1882,15 @@
               Every quote cited. <span style={{ color: "var(--amber)" }}>On screen, not just in the description.</span>
             </h3>
             <p style={{ color: "var(--text-dim)", maxWidth: 720, fontSize: 14, lineHeight: 1.65, margin: "0 0 18px" }}>
-              When a document, statement, or report is referenced on screen, a source label appears. Sits in the bottom-left corner above the lower-third (if present). Appears for 2–3 seconds. Never obscures the footage's key action.
+              When a document, statement, or report is referenced on screen, a source label appears. Sits in the bottom-left corner above the lower-third (if present). Appears for 2â€“3 seconds. Never obscures the footage's key action.
             </p>
             <div className="redact-spec">
               <div className="cell"><div className="k">Format</div><div className="v">SOURCE: [document name]</div></div>
-              <div className="cell"><div className="k">Font</div><div className="v">JetBrains Mono · 11px · amber</div></div>
-              <div className="cell"><div className="k">Background</div><div className="v">rgba(0,0,0,0.7) · 4px radius</div></div>
-              <div className="cell"><div className="k">Position</div><div className="v">Bottom-left · above lower-third</div></div>
-              <div className="cell"><div className="k">Duration</div><div className="v">2–3 seconds</div></div>
-              <div className="cell"><div className="k">Border</div><div className="v">2px left · var(--amber)</div></div>
+              <div className="cell"><div className="k">Font</div><div className="v">JetBrains Mono Â· 11px Â· amber</div></div>
+              <div className="cell"><div className="k">Background</div><div className="v">rgba(0,0,0,0.7) Â· 4px radius</div></div>
+              <div className="cell"><div className="k">Position</div><div className="v">Bottom-left Â· above lower-third</div></div>
+              <div className="cell"><div className="k">Duration</div><div className="v">2â€“3 seconds</div></div>
+              <div className="cell"><div className="k">Border</div><div className="v">2px left Â· var(--amber)</div></div>
               <div className="cell"><div className="k">Mirror</div><div className="v">Also listed in video description</div></div>
               <div className="cell"><div className="k">When to use</div><div className="v">Every direct quote or document reference</div></div>
             </div>
@@ -1903,7 +1903,7 @@
       return (
         <div className="timeline">
           <div className="timeline-row">
-            <div className="nm">Cut Rhythm · 60s sample</div>
+            <div className="nm">Cut Rhythm Â· 60s sample</div>
             <div className="timeline-track">
               {[[0, 14], [14, 22], [22, 26], [26, 38], [38, 42], [42, 58], [58, 100]].map(([a, b], i) => (
                 <div key={i} className="clip" style={{
@@ -1919,7 +1919,7 @@
           </div>
 
           <div className="timeline-row">
-            <div className="nm">Narration · words/min</div>
+            <div className="nm">Narration Â· words/min</div>
             <div className="timeline-track" style={{ height: 32 }}>
               {[120, 130, 110, 95, 140, 105, 88, 125].map((w, i) => (
                 <div key={i} style={{
@@ -1944,7 +1944,7 @@
         <section className="section" id="motion-audio">
           <SectionHead num="14" title="Motion & Audio" desc="Title-card pacing, narration cadence, score (silence by default), reveal stings." isNew />
           <p style={{ color: "var(--text-dim)", maxWidth: 760, margin: "0 0 28px", fontSize: 14, lineHeight: 1.65 }}>
-            The v1 brand was entirely visual. But bodycam channels live in playback — half the brand is what
+            The v1 brand was entirely visual. But bodycam channels live in playback â€” half the brand is what
             the viewer <i>hears</i>. v2 spec's the channel's motion language and audio register. The defining
             choice: <b style={{ color: "var(--text)" }}>silence is the default score</b>. Music appears only
             at structural beats (reveals, end card). Talking-head reaction-style narration is forbidden.
@@ -1957,13 +1957,13 @@
               <div className="audio-row">
                 <div className="k">Score</div>
                 <div className="v">Silence by default
-                  <div className="note">Music only at reveals (sub-bass sting, 1.5s, −18 LUFS) and the end card (single sustained tone, 4–6s). No bed music.</div>
+                  <div className="note">Music only at reveals (sub-bass sting, 1.5s, âˆ’18 LUFS) and the end card (single sustained tone, 4â€“6s). No bed music.</div>
                 </div>
               </div>
               <div className="audio-row">
                 <div className="k">Narration</div>
-                <div className="v">Third-person · present tense
-                  <div className="note">88–140 wpm. Short sentences. No hedging. Pauses are intentional — silence carries the case.</div>
+                <div className="v">Third-person Â· present tense
+                  <div className="note">88â€“140 wpm. Short sentences. No hedging. Pauses are intentional â€” silence carries the case.</div>
                 </div>
               </div>
               <div className="audio-row">
@@ -1974,8 +1974,8 @@
               </div>
               <div className="audio-row">
                 <div className="k">Reveal sting</div>
-                <div className="v">Sub-bass drop · 1.5s
-                  <div className="note">Fundamental at 35–45Hz. No melodic content. Pairs with the redaction lift in §04.</div>
+                <div className="v">Sub-bass drop Â· 1.5s
+                  <div className="note">Fundamental at 35â€“45Hz. No melodic content. Pairs with the redaction lift in Â§04.</div>
                 </div>
               </div>
               <div className="audio-row">
@@ -1987,7 +1987,7 @@
               <div className="audio-row">
                 <div className="k">Footage audio</div>
                 <div className="v">Raw, not enhanced
-                  <div className="note">Don't auto-de-noise bodycam audio — the static is the texture. Ducked −6dB under narration only.</div>
+                  <div className="note">Don't auto-de-noise bodycam audio â€” the static is the texture. Ducked âˆ’6dB under narration only.</div>
                 </div>
               </div>
             </div>
@@ -1995,7 +1995,7 @@
 
           <div className="section-foot-do-dont" style={{ marginTop: 28 }}>
             <div className="card do">
-              <div className="head" style={{ color: "var(--amber)" }}>✓ DO</div>
+              <div className="head" style={{ color: "var(--amber)" }}>âœ“ DO</div>
               <ul>
                 <li style={{ color: "var(--text-dim)" }}>Trust silence. The empty seconds are the channel.</li>
                 <li style={{ color: "var(--text-dim)" }}>Pair every redaction reveal with the sting + amber lift</li>
@@ -2003,10 +2003,10 @@
               </ul>
             </div>
             <div className="card dont">
-              <div className="head" style={{ color: "var(--crimson)" }}>✗ DON'T</div>
+              <div className="head" style={{ color: "var(--crimson)" }}>âœ— DON'T</div>
               <ul>
-                <li style={{ color: "var(--text-dim)" }}>Bed music under the whole video — that's reaction-channel grammar</li>
-                <li style={{ color: "var(--text-dim)" }}>Auto-de-noise bodycam audio — keep the texture</li>
+                <li style={{ color: "var(--text-dim)" }}>Bed music under the whole video â€” that's reaction-channel grammar</li>
+                <li style={{ color: "var(--text-dim)" }}>Auto-de-noise bodycam audio â€” keep the texture</li>
                 <li style={{ color: "var(--text-dim)" }}>Cut faster than 1 cut every 6 frames</li>
                 <li style={{ color: "var(--text-dim)" }}>Use stock cinematic "true crime" drone pads</li>
               </ul>
@@ -2031,18 +2031,18 @@
             <div className="grade-divider"></div>
             <div className="badge raw-b">RAW</div>
             <div className="badge graded-b">GRADED</div>
-            <div className="label-mid">BODYCAM STILL · INTERIOR · 04:12</div>
+            <div className="label-mid">BODYCAM STILL Â· INTERIOR Â· 04:12</div>
           </div>
           <div>
             <div className="slider-row">
               <div className="head"><span className="name">Saturation</span><span className="val">{sat > 0 ? "+" : ""}{sat}%</span></div>
               <input type="range" min="-60" max="20" value={sat} onChange={(e) => setSat(+e.target.value)} />
-              <div className="hint">Target: −25 to −40%. Partial desaturation, not B&W.</div>
+              <div className="hint">Target: âˆ’25 to âˆ’40%. Partial desaturation, not B&W.</div>
             </div>
             <div className="slider-row">
               <div className="head"><span className="name">Colour Temp</span><span className="val">{temp}K</span></div>
               <input type="range" min="-400" max="200" value={temp} onChange={(e) => setTemp(+e.target.value)} />
-              <div className="hint">Target: −150 to −200K. Counteracts warm bodycam white-balance.</div>
+              <div className="hint">Target: âˆ’150 to âˆ’200K. Counteracts warm bodycam white-balance.</div>
             </div>
             <div className="slider-row">
               <div className="head"><span className="name">Lift</span><span className="val">+{(lift / 100).toFixed(2)}</span></div>
@@ -2052,7 +2052,7 @@
             <div className="slider-row">
               <div className="head"><span className="name">Gain</span><span className="val">{(gain / 100).toFixed(2)}</span></div>
               <input type="range" min="-20" max="0" value={gain} onChange={(e) => setGain(+e.target.value)} />
-              <div className="hint">Target: −0.05 to −0.10. Rolls off blown highlights.</div>
+              <div className="hint">Target: âˆ’0.05 to âˆ’0.10. Rolls off blown highlights.</div>
             </div>
           </div>
         </div>
@@ -2064,25 +2064,25 @@
         <section className="section" id="footage">
           <SectionHead num="15" title="Footage Treatment" desc="Clinical grade, same node stack across every clip. Unchanged from v1." />
           <p style={{ color: "var(--text-dim)", fontSize: 14, maxWidth: 760, margin: "0 0 28px", lineHeight: 1.6 }}>
-            The grade is the floor that makes raw bodycam variations look like one channel. Slightly desaturated, slightly cool, shadows lifted, highlights rolled off. The edit lives in Premiere Pro — but grade in DaVinci Resolve and save as a power grade. Do not hand-grade clips one by one.
+            The grade is the floor that makes raw bodycam variations look like one channel. Slightly desaturated, slightly cool, shadows lifted, highlights rolled off. The edit lives in Premiere Pro â€” but grade in DaVinci Resolve and save as a power grade. Do not hand-grade clips one by one.
           </p>
           <FootageGradeLab />
 
           <div className="section-foot-do-dont" style={{ marginTop: 32 }}>
             <div className="card do">
-              <div className="head" style={{ color: "var(--amber)" }}>✓ DO</div>
+              <div className="head" style={{ color: "var(--amber)" }}>âœ“ DO</div>
               <ul>
                 <li style={{ color: "var(--text-dim)" }}>Save the node stack as a Resolve power grade</li>
-                <li style={{ color: "var(--text-dim)" }}>Grade thumbnails to match — feed = video</li>
+                <li style={{ color: "var(--text-dim)" }}>Grade thumbnails to match â€” feed = video</li>
                 <li style={{ color: "var(--text-dim)" }}>Lift shadows on night footage to keep body armour visible</li>
               </ul>
             </div>
             <div className="card dont">
-              <div className="head" style={{ color: "var(--crimson)" }}>✗ DON'T</div>
+              <div className="head" style={{ color: "var(--crimson)" }}>âœ— DON'T</div>
               <ul>
-                <li style={{ color: "var(--text-dim)" }}>Orange-teal — the most overused look on the internet</li>
-                <li style={{ color: "var(--text-dim)" }}>Heavy vignette — turns documentary into music video</li>
-                <li style={{ color: "var(--text-dim)" }}>Full B&W — removes the realism that makes bodycam impactful</li>
+                <li style={{ color: "var(--text-dim)" }}>Orange-teal â€” the most overused look on the internet</li>
+                <li style={{ color: "var(--text-dim)" }}>Heavy vignette â€” turns documentary into music video</li>
+                <li style={{ color: "var(--text-dim)" }}>Full B&W â€” removes the realism that makes bodycam impactful</li>
               </ul>
             </div>
           </div>
@@ -2127,7 +2127,7 @@
           <aside className={"sidebar " + (open ? "open" : "")}>
             <a className="sb-brand" href="site/index.html" style={{ textDecoration: "none" }}>
               <span className="li">LI</span><span className="te">TE</span>
-              <span className="ver">brand·v2</span>
+              <span className="ver">brandÂ·v2</span>
             </a>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "16px", flex: 1 }}>
@@ -2179,7 +2179,7 @@
                       onClick={() => onJump(s.id)}
                     >
                       <span className="num">{s.num}</span>
-                      <span style={{ fontSize: 12 }}>{s.title.split(" — ")[0].split(" · ")[0]}</span>
+                      <span style={{ fontSize: 12 }}>{s.title.split(" â€” ")[0].split(" Â· ")[0]}</span>
                       {s.isNew && <span className="new-flag">NEW</span>}
                     </div>
                   ))}
@@ -2188,7 +2188,7 @@
             </div>
 
           <div className="sb-foot">
-            <a className="hub" href="site/index.html">← HUB</a>
+            <a className="hub" href="site/index.html">â† HUB</a>
           </div>
           </aside>
         </>
@@ -2218,7 +2218,7 @@
               {SECTION_COMPS_V2.map((C, i) => <C key={i} />)}
               <footer style={{ paddingTop: 64, color: "var(--text-dimmer)", fontSize: 11, letterSpacing: 2, textTransform: "uppercase" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
-                  <span>Left in the Edit · Brand Reference · v2</span>
+                  <span>Left in the Edit Â· Brand Reference Â· v2</span>
                   <span>Every cut, on the record<span style={{ color: "var(--amber)" }}>.</span></span>
                 </div>
               </footer>
@@ -2234,3 +2234,4 @@
 
 </body>
 </html>
+
